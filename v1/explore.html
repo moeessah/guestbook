@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore stays · guestbook</title>
+<meta name="description" content="127 boutique hotels, surf camps, and retreats. Every one reviewed by hand. 0% commission, always.">
+<meta name="theme-color" content="#1B2547">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2714%27%20fill%3D%27%2362addc%27/%3E%3Ctext%20x%3D%2732%27%20y%3D%2745%27%20font-family%3D%27Instrument%20Sans%2C%20-apple-system%2C%20sans-serif%27%20font-weight%3D%27700%27%20font-size%3D%2734%27%20text-anchor%3D%27middle%27%20fill%3D%27%23ffffff%27%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Roboto+Condensed:ital,wght@0,400;0,500;0,700;1,400&family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --peach:#f3f3f3;--peach-deep:#e8e4da;--card:#FFFDF9;--ink:#1E2340;--ink-soft:#726C60;--ink-faint:#B3A996;
+  --line:rgba(30,35,64,.12);--line-soft:rgba(30,35,64,.07);
+  --coral:#EC4C47;--coral-deep:#ff364e;--navy:#1B2547;--amber:#C08A44;--green:#1F8A4C;
+  --f-display:'Bebas Neue','Oswald','Arial Narrow','Haettenschweiler','Impact',sans-serif;
+  --f-ui:'Roboto Condensed','Barlow Condensed','Inter','Arial Narrow','Helvetica Neue',Arial,sans-serif;
+  --f-note:'Roboto Condensed','Barlow Condensed',sans-serif;
+  --f-mono:'Roboto Condensed','Barlow Condensed','Inter','Arial Narrow','Helvetica Neue',Arial,sans-serif;
+  --shadow-sm:0 1px 2px rgba(30,35,64,.07);
+  --shadow-md:0 16px 32px -14px rgba(30,35,64,.18),0 3px 8px -3px rgba(30,35,64,.09);
+  --shadow-lg:0 30px 60px -20px rgba(30,35,64,.28),0 8px 18px -6px rgba(30,35,64,.12);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--peach);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;width:100%;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button,input,select{font-family:inherit;}
+button{cursor:pointer;border:none;background:none;}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px;}
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px;width:100%;}
+@media(max-width:640px){.wrap{padding:0 20px;}}
+section{position:relative;}
+.section-gap{height:70px;width:100%;}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:10px;}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:32px;}
+.sec-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(1.9rem,3.4vw,2.7rem);line-height:1.05;color:var(--navy);}
+.h2-scrub-word{color:#303f6f;transition:color .3s ease;}
+.h2-scrub-word.is-lit{color:var(--navy);}
+.sec-head p{color:var(--ink-soft);font-size:.92rem;max-width:340px;}
+.ph{position:relative;overflow:hidden;background-color:var(--peach-deep);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B3A996' stroke-width='1.4'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Ccircle cx='9' cy='10' r='2'/%3E%3Cpath d='M21 16l-5-5-4 4-3-3-6 6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:34px;}
+.ph img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1;}
+.ph img.img-err{display:none;}
+
+/* ---------- SEARCH BAND ---------- */
+.search-band{position:relative;padding:124px 0 36px;width:100%;}
+.search-band .wrap{position:relative;display:flex;flex-direction:column;gap:32px;}
+.sb-top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.sb-top h1{font-family:var(--f-display);font-weight:400;font-size:clamp(2.4rem,5.1vw,4.4rem);color:var(--navy);line-height:1;max-width:600px;letter-spacing:.002em;}
+.sb-stats{display:flex;align-items:center;gap:26px;}
+.sb-stat-item{display:flex;flex-direction:column;gap:5px;text-align:right;}
+.sb-stat-item strong{font-family:var(--f-display);font-weight:400;font-size:1.7rem;color:var(--navy);line-height:1;}
+.sb-stat-item span{font-size:.72rem;color:var(--ink-soft);letter-spacing:.01em;max-width:120px;line-height:1.35;}
+.search-bar{position:relative;z-index:90;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px;display:flex;align-items:stretch;box-shadow:var(--shadow-md);}
+.sb-field{flex:1;display:flex;align-items:center;gap:13px;padding:14px 26px;min-width:0;position:relative;border-radius:14px;transition:background .15s ease;}
+.sb-field+.sb-field::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:1px;height:30px;background:var(--line-soft);}
+.sb-field.is-open{background:var(--peach-deep);}
+.sb-field.is-open+.sb-field::before,.sb-field.is-open::before{opacity:0;}
+.sb-field svg{flex-shrink:0;color:var(--ink-faint);transition:color .2s ease;}
+.sb-field.is-open svg,.sb-field:focus-within svg{color:var(--coral);}
+.sb-field-text{display:flex;flex-direction:column;min-width:0;flex:1;}
+.sb-field label{font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:3px;}
+.sb-field input{border:none;background:none;font-size:.92rem;font-weight:500;color:var(--ink);width:100%;font-family:var(--f-ui);}
+.sb-field input::placeholder{color:var(--ink-faint);}
+.sb-field input:focus{outline:none;}
+.sb-trigger{border:none;background:none;font-size:.92rem;font-weight:500;color:var(--ink);width:100%;text-align:left;font-family:var(--f-ui);cursor:pointer;padding:0;}
+.sb-trigger.is-placeholder{color:var(--ink-faint);}
+.sb-go{flex-shrink:0;background:var(--coral);color:#fff;border-radius:15px;padding:0 30px;font-size:.86rem;font-weight:700;letter-spacing:.01em;display:flex;align-items:center;gap:9px;transition:background .2s ease,transform .2s ease;margin:2px;border:none;cursor:pointer;}
+.sb-go:hover{background:var(--coral-deep);transform:translateY(-1px);}
+@media(max-width:760px){.search-bar{flex-direction:column;border-radius:18px;}.sb-field{padding:14px 18px;}.sb-field+.sb-field::before{display:none;}.sb-field+.sb-field{border-top:1px solid var(--line-soft);}.sb-go{margin:8px 2px 2px;padding:14px;justify-content:center;}.sb-stats{display:none;}}
+
+/* ---------- CUSTOM DROPDOWNS (guests + dates) ---------- */
+.sb-panel{position:absolute;top:calc(100% + 12px);left:0;background:#FFFDF9;border-radius:16px;box-shadow:var(--shadow-lg);padding:10px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .18s var(--ease),transform .18s var(--ease);z-index:100;}
+.sb-field.is-open .sb-panel,.sort-wrap.is-open .sb-panel{opacity:1;pointer-events:auto;transform:translateY(0);}
+.guest-panel{min-width:200px;}
+.sb-option{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;padding:11px 14px;border-radius:10px;font-size:.86rem;color:var(--ink);background:none;border:none;cursor:pointer;transition:background .15s ease;}
+.sb-option:hover{background:var(--peach-deep);}
+.sb-option.is-active{background:rgba(236,76,71,.09);color:var(--coral-deep);font-weight:700;}
+.sb-option.is-active::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--coral);}
+.date-panel{min-width:300px;padding:16px;}
+.where-panel{min-width:340px;max-width:380px;max-height:380px;overflow-y:auto;}
+.where-section+.where-section{margin-top:6px;padding-top:10px;border-top:1px solid var(--line-soft);}
+.where-heading{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);padding:6px 12px 8px;}
+.where-list{display:flex;flex-direction:column;gap:1px;}
+.where-item{display:flex;align-items:center;gap:12px;width:100%;padding:8px 12px;border-radius:11px;background:none;border:none;text-align:left;cursor:pointer;transition:background .15s ease;}
+.where-item:hover,.where-item.is-hover{background:var(--peach-deep);}
+.where-item-icon{width:36px;height:36px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--peach-deep);display:flex;align-items:center;justify-content:center;color:var(--ink-faint);}
+.where-item-icon img{width:100%;height:100%;object-fit:cover;}
+.where-item-text{display:flex;flex-direction:column;min-width:0;flex:1;}
+.where-item-text strong{font-size:.85rem;color:var(--ink);font-weight:600;line-height:1.3;}
+.where-item-text span{font-size:.72rem;color:var(--ink-faint);}
+.where-item-count{margin-left:auto;font-size:.7rem;font-weight:600;color:var(--ink-faint);flex-shrink:0;white-space:nowrap;}
+.where-empty{padding:20px 14px;font-size:.8rem;color:var(--ink-soft);text-align:center;line-height:1.5;}
+.where-empty span{font-weight:700;color:var(--navy);}
+mark{background:rgba(236,76,71,.14);color:var(--coral-deep);border-radius:3px;font-weight:700;}
+.dp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 2px;}
+.dp-head strong{font-family:var(--f-display);font-weight:400;font-size:1.05rem;color:var(--navy);letter-spacing:.01em;}
+.dp-nav{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:none;display:flex;align-items:center;justify-content:center;color:var(--navy);cursor:pointer;transition:all .15s ease;}
+.dp-nav:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.dp-dow{font-size:.62rem;font-weight:700;color:var(--ink-faint);text-align:center;padding:4px 0 8px;letter-spacing:.03em;}
+.dp-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--ink);background:none;border:none;border-radius:9px;cursor:pointer;transition:background .15s ease,color .15s ease;position:relative;}
+.dp-day:hover:not(.is-disabled){background:var(--peach-deep);}
+.dp-day.is-disabled{color:var(--ink-faint);opacity:.35;cursor:default;}
+.dp-day.is-empty{visibility:hidden;}
+.dp-day.is-selected{background:var(--coral);color:#fff;font-weight:700;}
+.dp-day.is-in-range{background:rgba(236,76,71,.12);border-radius:0;}
+.dp-day.is-range-start{border-radius:9px 0 0 9px;}
+.dp-day.is-range-end{border-radius:0 9px 9px 0;}
+.dp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft);}
+.dp-clear{background:none;border:none;font-size:.78rem;font-weight:600;color:var(--ink-soft);cursor:pointer;padding:6px 4px;}
+.dp-clear:hover{color:var(--coral);}
+.dp-apply{background:var(--navy);color:#fff;border:none;border-radius:100px;padding:9px 20px;font-size:.78rem;font-weight:700;cursor:pointer;transition:background .15s ease;}
+.dp-apply:hover{background:var(--coral);}
+@media(max-width:760px){.sb-panel{left:50%;transform:translate(-50%,-8px);}.sb-field.is-open .sb-panel{transform:translate(-50%,0);}}
+
+/* badges used on listing/newest photos */
+.ntw-badge{position:absolute;top:10px;left:10px;z-index:2;background:var(--coral);color:#fff;font-size:.64rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:100px;}
+.editor-badge{position:absolute;top:10px;left:10px;z-index:2;background:var(--navy);color:#fff;font-size:.64rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 9px;border-radius:100px;}
+
+/* nav arrows for the destinations carousel */
+.scroll-arrow{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--navy);display:flex;align-items:center;justify-content:center;transition:all .2s ease;flex-shrink:0;}
+.scroll-arrow:hover{border-color:var(--navy);background:var(--navy);color:#fff;}
+.scroll-arrow:active{transform:scale(.92);}
+
+/* ---------- FILTER BAR + DRAWER ---------- */
+.filter-bar{position:sticky;top:0;z-index:80;background:var(--peach);padding:14px 0;margin-bottom:40px;}
+.filter-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.chip-row{display:flex;gap:8px;align-items:center;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible;scrollbar-width:none;-ms-overflow-style:none;min-width:0;padding:2px 2px;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{padding:9px 17px;border-radius:100px;border:1px solid var(--line);font-size:.8rem;font-weight:600;letter-spacing:.01em;color:var(--ink-soft);background:var(--card);transition:all .2s ease;white-space:nowrap;flex-shrink:0;}
+.chip:hover{border-color:var(--navy);color:var(--navy);}
+.chip.is-active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.filters-btn{display:flex;align-items:center;gap:8px;padding:9px 17px 9px 15px;border-radius:100px;border:1.5px solid var(--navy);font-size:.8rem;font-weight:700;color:var(--navy);background:var(--card);flex-shrink:0;}
+.filters-btn .badge{background:var(--coral);color:#fff;font-size:.68rem;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.right-controls{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.view-toggle{display:flex;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:100px;padding:3px;gap:2px;}
+.view-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:none;background:none;font-size:.78rem;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:all .18s ease;}
+.view-btn.is-active{background:var(--navy);color:#fff;}
+.view-btn:not(.is-active):hover{color:var(--navy);}
+.sort-wrap{position:relative;display:flex;align-items:center;gap:9px;font-size:.8rem;color:var(--ink-soft);}
+.sort-label{flex-shrink:0;}
+.sort-trigger{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:100px;padding:9px 16px;font-size:.8rem;font-weight:600;color:var(--navy);background:var(--card);cursor:pointer;transition:border-color .18s ease;}
+.sort-trigger:hover{border-color:var(--navy);}
+.sort-trigger svg{color:var(--ink-faint);flex-shrink:0;transition:transform .2s var(--ease);}
+.sort-wrap.is-open .sort-trigger{border-color:var(--navy);}
+.sort-wrap.is-open .sort-trigger svg{transform:rotate(180deg);}
+.sort-panel{left:auto;right:0;min-width:200px;}
+.active-filters-bar{padding:14px 0 0;}
+.active-filters-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.af-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 8px 6px 14px;border-radius:100px;background:var(--card);border:1px solid var(--line);font-size:.76rem;font-weight:600;color:var(--navy);animation:afIn .25s var(--ease);}
+@keyframes afIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.af-pill button{display:flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;background:var(--peach-deep);border:none;cursor:pointer;color:var(--ink-soft);flex-shrink:0;transition:background .15s ease,color .15s ease;}
+.af-pill button:hover{background:var(--coral);color:#fff;}
+.af-clear-all{background:none;border:none;padding:0 0 2px;cursor:pointer;font-size:.76rem;font-weight:700;color:var(--coral);border-bottom:1px solid transparent;flex-shrink:0;}
+.af-clear-all:hover{border-color:var(--coral);}
+.result-count{font-size:.8rem;color:var(--ink-faint);margin:0 0 28px;}
+@media(max-width:680px){
+  .filter-bar .wrap{flex-wrap:wrap;row-gap:12px;}
+  .chip-row{flex:1 1 100%;order:1;}
+  .right-controls{flex:1 1 100%;order:2;justify-content:space-between;flex-wrap:wrap;row-gap:10px;}
+}
+
+.drawer-overlay{position:fixed;inset:0;background:rgba(20,24,45,.5);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.drawer-overlay.is-open{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:380px;max-width:88vw;background:var(--card);z-index:201;transform:translateX(100%);transition:transform .35s var(--ease);display:flex;flex-direction:column;box-shadow:var(--shadow-lg);}
+.drawer.is-open{transform:translateX(0);}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:22px 24px;border-bottom:1px solid var(--line-soft);}
+.drawer-head h3{font-family:var(--f-display);font-weight:400;font-size:1.4rem;color:var(--navy);}
+.drawer-close{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--navy);}
+.drawer-body{flex:1;overflow-y:auto;padding:22px 24px;}
+.drawer-group{margin-bottom:30px;}
+.drawer-group h4{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:14px;}
+.check-row{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:.92rem;color:var(--ink);cursor:pointer;}
+.check-row input[type=checkbox]{appearance:none;-webkit-appearance:none;width:19px;height:19px;border:1.5px solid var(--line);border-radius:5px;flex-shrink:0;position:relative;cursor:pointer;transition:all .15s ease;}
+.check-row input[type=checkbox]:checked{background:var(--coral);border-color:var(--coral);}
+.check-row input[type=checkbox]:checked::after{content:'';position:absolute;left:5.5px;top:1.5px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);}
+.price-row{display:flex;align-items:center;gap:10px;}
+.price-row input{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.9rem;color:var(--ink);}
+.price-row span{color:var(--ink-faint);font-size:.85rem;}
+.drawer-foot{padding:18px 24px;border-top:1px solid var(--line-soft);display:flex;gap:10px;}
+.btn-clear{flex:1;padding:12px;border-radius:100px;border:1px solid var(--line);font-size:.85rem;font-weight:700;color:var(--ink-soft);}
+.btn-apply{flex:2;padding:12px;border-radius:100px;background:var(--coral);color:#fff;font-size:.85rem;font-weight:700;}
+
+/* ---------- LISTINGS BENTO GRID ---------- */
+.listings-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-flow:dense;gap:22px;}
+.listing-card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s var(--ease);display:flex;flex-direction:column;}
+.listing-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.listing-card .ph{height:230px;border-radius:0;flex-shrink:0;}
+.listing-card.is-feature{grid-column:span 2;}
+.listing-card.is-feature .ph{height:230px;}
+.listing-card.is-tall{grid-row:span 2;}
+.listing-card.is-tall .ph{flex:1;}
+.lc-body{padding:16px 18px 18px;}
+.lc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px;}
+.lc-top-right{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.lc-loc{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);}
+.lc-cat{font-size:.68rem;font-weight:600;color:var(--coral);background:rgba(236,76,71,.08);padding:3px 8px;border-radius:100px;white-space:nowrap;}
+.lc-rating{display:flex;align-items:center;gap:3px;font-size:.74rem;font-weight:700;color:var(--navy);white-space:nowrap;}
+.lc-rating svg{color:var(--amber);flex-shrink:0;}
+.lc-body h3{font-family:var(--f-display);font-weight:400;font-size:1.25rem;color:var(--navy);margin-bottom:8px;line-height:1.1;}
+.lc-amenities{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.lc-amenity{display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--ink-soft);white-space:nowrap;}
+.lc-amenity svg{color:var(--ink-faint);flex-shrink:0;}
+.lc-save{position:absolute;top:12px;right:12px;z-index:2;width:34px;height:34px;border-radius:50%;background:rgba(20,24,45,.32);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:background .2s ease,transform .15s ease;}
+.lc-save:hover{background:rgba(20,24,45,.5);transform:scale(1.07);}
+.lc-save svg{stroke:#fff;fill:none;transition:fill .15s ease,stroke .15s ease;}
+.lc-save.is-saved svg{fill:var(--coral);stroke:var(--coral);}
+.lc-bottom{display:flex;align-items:baseline;justify-content:space-between;margin-top:8px;padding-top:10px;border-top:1px solid var(--line-soft);}
+.lc-price{font-size:.95rem;font-weight:700;color:var(--navy);}
+.lc-price span{font-weight:400;color:var(--ink-faint);font-size:.76rem;}
+
+@media(max-width:1180px){.listings-grid{grid-template-columns:repeat(3,1fr);}.listing-card.is-feature{grid-column:span 2;}}
+@media(max-width:1500px){.listings-grid{grid-template-columns:repeat(4,1fr);}}
+@media(min-width:1560px){.listings-grid{grid-template-columns:repeat(5,1fr);}}
+@media(max-width:780px){.listings-grid{grid-template-columns:repeat(2,1fr);}.listing-card.is-feature{grid-column:span 2;}}
+@media(max-width:520px){.listings-grid{grid-template-columns:1fr;}.listing-card.is-feature,.listing-card.is-tall{grid-column:span 1;grid-row:span 1;}.listing-card.is-tall .ph,.listing-card.is-feature .ph{aspect-ratio:4/3;}}
+
+.load-more-wrap{display:flex;justify-content:center;margin-top:18px;}
+.empty-state{display:flex;flex-direction:column;align-items:center;text-align:center;padding:80px 20px;color:var(--ink-soft);}
+.empty-state svg{color:var(--ink-faint);margin-bottom:18px;}
+.empty-state h3{font-family:var(--f-display);font-weight:400;font-size:1.6rem;color:var(--navy);margin-bottom:8px;}
+.empty-state p{font-size:.88rem;max-width:320px;margin-bottom:22px;}
+
+.map-view{border-radius:20px;overflow:hidden;}
+.map-canvas{position:relative;height:600px;background-color:#EDEAE0;background-image:url("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80");background-repeat:no-repeat;background-position:center;background-size:cover;border:1px solid var(--line);border-radius:20px;}
+.map-pin{position:absolute;transform:translate(-50%,-100%);background:var(--navy);color:#fff;font-size:.76rem;font-weight:700;padding:7px 12px;border-radius:100px 100px 100px 4px;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s ease,background .15s ease;white-space:nowrap;z-index:1;}
+.map-pin:hover,.map-pin.is-active{background:var(--coral);transform:translate(-50%,-104%) scale(1.06);z-index:2;}
+.map-pin-card{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);width:200px;background:var(--card);border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden;opacity:0;pointer-events:none;transition:opacity .15s ease;text-align:left;}
+.map-pin.is-active .map-pin-card{opacity:1;pointer-events:auto;}
+.map-pin-card img{width:100%;height:110px;object-fit:cover;}
+.map-pin-card .mpc-body{padding:10px 12px 12px;}
+.map-pin-card .mpc-loc{font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);}
+.map-pin-card h4{font-family:var(--f-display);font-weight:400;font-size:1rem;color:var(--navy);margin:2px 0 4px;}
+.map-pin-card .mpc-price{font-size:.8rem;font-weight:700;color:var(--navy);}
+.btn-outline{padding:13px 30px;border-radius:100px;border:1px solid var(--navy);font-size:.85rem;font-weight:700;color:var(--navy);transition:all .2s ease;}
+.btn-outline:hover{background:var(--navy);color:#fff;}
+
+/* ---------- ACTIVITIES (bento, small) ---------- */
+.activity-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.act-card{border-radius:16px;overflow:hidden;position:relative;height:170px;background-color:var(--peach-deep);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B3A996' stroke-width='1.4'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Ccircle cx='9' cy='10' r='2'/%3E%3Cpath d='M21 16l-5-5-4 4-3-3-6 6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:30px;}
+.act-card.is-tall{height:360px;grid-row:span 2;}
+.act-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease);}
+.act-card img.img-err{display:none;}
+.act-card:hover img{transform:scale(1.07);}
+.act-card::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,24,45,.72),rgba(20,24,45,0) 55%);}
+.act-body{position:absolute;left:14px;bottom:12px;z-index:2;color:#fff;font-size:.85rem;font-weight:600;}
+@media(max-width:980px){.activity-grid{grid-template-columns:repeat(3,1fr);}.act-card.is-tall{grid-row:span 1;height:170px;}}
+@media(max-width:620px){.activity-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ---------- DESTINATIONS: stamp badges ---------- */
+.stamp-row{display:flex;gap:26px;overflow-x:auto;padding:10px 4px 16px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;scroll-behavior:smooth;}
+.stamp-row::-webkit-scrollbar{display:none;}
+.stamp-row.is-dragging{cursor:grabbing;user-select:none;}
+.stamp{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.stamp-photo{width:104px;height:104px;border-radius:50%;overflow:hidden;border:2px dashed rgba(30,35,64,.28);padding:6px;position:relative;background-color:var(--peach-deep);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B3A996' stroke-width='1.4'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Ccircle cx='9' cy='10' r='2'/%3E%3Cpath d='M21 16l-5-5-4 4-3-3-6 6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:22px;}
+.stamp-photo img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.stamp-photo img.img-err{display:none;}
+.stamp h4{font-size:.85rem;font-weight:700;color:var(--navy);}
+.stamp span{font-size:.7rem;color:var(--ink-faint);}
+.dest-section{margin-bottom:36px;}
+.dest-scroll-wrap{position:relative;}
+.dest-arrow{position:absolute;top:44px;z-index:5;opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .2s var(--ease),transform .2s var(--ease);}
+.dest-scroll-wrap:hover .dest-arrow,.dest-arrow:focus-visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+.dest-arrow-left{left:-19px;}
+.dest-arrow-right{right:-19px;}
+.dest-arrow[disabled]{opacity:0!important;pointer-events:none!important;}
+.dest-fade{position:absolute;top:0;bottom:16px;width:56px;z-index:4;pointer-events:none;opacity:0;transition:opacity .2s var(--ease);}
+.dest-scroll-wrap:hover .dest-fade{opacity:1;}
+.dest-fade-left{left:0;background:linear-gradient(90deg,var(--peach) 0%,rgba(243,243,243,0) 100%);}
+.dest-fade-right{right:0;background:linear-gradient(270deg,var(--peach) 0%,rgba(243,243,243,0) 100%);}
+@media(max-width:900px){.dest-arrow,.dest-fade{display:none;}}
+
+/* ---------- TRUST WALL (photo-backed, polaroid) ---------- */
+.trust-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.tw-card{background:var(--card);border-radius:14px;padding:22px 20px 20px;box-shadow:var(--shadow-sm);border:1px solid var(--line-soft);}
+.tw-card .tw-quote-mark{font-family:var(--f-display);font-size:2.2rem;color:var(--coral);line-height:1;margin-bottom:6px;opacity:.85;}
+.tw-card p.q{font-size:.88rem;line-height:1.55;color:var(--ink);margin-bottom:18px;}
+.tw-who{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--line-soft);}
+.tw-who img{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--peach-deep);}
+.tw-who img.img-err{display:none;}
+.tw-who div{font-size:.74rem;color:var(--ink-soft);}
+.tw-who strong{color:var(--navy);display:block;font-size:.82rem;}
+@media(max-width:980px){.trust-wall{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.trust-wall{grid-template-columns:1fr;}}
+
+/* ---------- NEWSLETTER ---------- */
+.newsletter{background:var(--navy);border-radius:22px;padding:48px 44px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;}
+.newsletter h3{font-family:var(--f-display);font-weight:400;font-size:1.8rem;color:#fff;max-width:380px;line-height:1.1;}
+.newsletter p{color:rgba(255,253,249,.6);font-size:.85rem;margin-top:6px;}
+.nl-form{display:flex;gap:2px;background:#FFFDF9;border-radius:100px;padding:5px;flex:0 0 400px;max-width:100%;}
+.nl-form input{flex:1;border:none;background:none;padding:0 16px;font-size:.88rem;color:var(--ink);min-width:0;}
+.nl-form input:focus{outline:none;}
+.nl-form button{background:var(--coral);color:#fff;border-radius:100px;padding:11px 22px;font-size:.84rem;font-weight:700;flex-shrink:0;}
+.nl-form button:focus-visible{outline:none;}
+@media(max-width:760px){.newsletter{padding:36px 26px;}.nl-form{flex:1 1 100%;}}
+
+/* ---------- HOST LINE (under the newsletter CTA) ---------- */
+.host-line{display:block;text-align:center;margin-top:20px;font-size:.85rem;color:var(--ink-soft);}
+.host-line-link{font-weight:700;color:var(--navy);border-bottom:1px solid var(--navy);padding-bottom:1px;white-space:nowrap;}
+.host-line:hover .host-line-link{color:var(--coral-deep);border-color:var(--coral-deep);}
+@media(max-width:480px){.host-line{font-size:.8rem;}}
+
+/* ============================================================
+   SHARED NAV + FOOTER (kept identical across index/explore/host)
+   Source of truth: master.html — edit there, then re-sync.
+   ============================================================ */
+
+/* ---------- NAV ---------- */
+.nav-bar{position:fixed;top:28px;left:0;right:0;z-index:300;pointer-events:none;}
+.nav-bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.nav-bar .wrap>*{pointer-events:auto;}
+.nav-pill{position:relative;display:flex;align-items:center;gap:4px;padding:6px 6px 6px 14px;border-radius:16px;background:rgba(255,253,249,.42);backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);border:1px solid rgba(255,255,255,.55);box-shadow:var(--shadow-md);}
+.nav-pill .brand{display:flex;align-items:center;gap:8px;padding-right:12px;}
+.nav-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 3px rgba(236,76,71,.15);flex-shrink:0;}
+.nav-pill .word{font-family:'Oswald',sans-serif;font-weight:600;font-size:1.1rem;letter-spacing:-.01em;color:var(--navy);white-space:nowrap;font-synthesis:none;}
+.nav-pill .word .hw-light{font-weight:300;}
+.nav-pill .sep{width:1px;height:18px;background:var(--line);flex-shrink:0;}
+.nav-pill .links{display:flex;align-items:center;gap:2px;padding:0 4px;}
+.nav-pill .links a{font-family:var(--f-ui);font-size:.85rem;font-weight:400;line-height:1.2;color:var(--ink-soft);opacity:.85;padding:8px 12px;border-radius:100px;transition:color .2s ease,background .2s ease,opacity .2s ease;white-space:nowrap;}
+.nav-pill .links a:hover{color:var(--navy);opacity:1;background:rgba(30,35,64,.05);}
+.nav-pill .links a.is-current{color:var(--navy);opacity:1;background:rgba(30,35,64,.08);font-weight:600;}
+.nav-pill .actions{display:flex;align-items:center;gap:6px;padding-left:8px;}
+.nav-pill .icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s ease;flex-shrink:0;}
+.nav-pill .icon-btn:hover{background:rgba(30,35,64,.06);}
+.nav-pill .icon-btn svg{width:15px;height:15px;color:var(--navy);}
+.nav-pill .menu-toggle{display:none;}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-login{display:flex;align-items:center;padding:6px;border-radius:16px;flex-shrink:0;}
+.nav-login .cta{height:36px;display:inline-flex;align-items:center;gap:8px;background:var(--coral);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.25);color:#fff;font-family:var(--f-ui);font-size:.85rem;font-weight:400;line-height:1;padding:0 16px;border-radius:12px;transition:background .2s ease,transform .2s var(--ease);flex-shrink:0;}
+.nav-login .cta:hover{background:var(--coral-deep);transform:translateY(-1px);}
+.nav-login .cta-icon{display:none;width:16px;height:16px;flex-shrink:0;}
+.nav-search{position:relative;display:flex;align-items:center;}
+.nav-search::before{content:'';position:absolute;inset:-4px;z-index:0;border-radius:100px;background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.nav-search:hover::before,.nav-search.is-open::before{opacity:1;}
+.nav-search .icon-btn{position:relative;z-index:2;background:rgba(236,76,71,.13);}
+.nav-search .icon-btn svg{color:var(--coral);}
+.nav-search .icon-btn:hover{background:rgba(236,76,71,.2);}
+.nav-search.is-open .icon-btn{background:rgba(236,76,71,.2);}
+.nav-fields{position:relative;z-index:1;display:flex;align-items:stretch;max-width:0;opacity:0;overflow:hidden;transition:max-width .5s var(--ease),opacity .3s ease;}
+.nav-search:hover .nav-fields,.nav-search.is-open .nav-fields{max-width:520px;opacity:1;}
+.nav-field{padding:6px 16px;position:relative;display:flex;flex-direction:column;justify-content:center;}
+.nav-field:not(:last-child)::after{content:'';position:absolute;right:0;top:8px;bottom:8px;width:1px;background:var(--line);}
+.nav-field label{font-family:var(--f-mono);font-size:.56rem;text-transform:uppercase;letter-spacing:.06em;color:#5a5a5a;}
+.nav-field input{border:none;outline:none;background:none;font-size:.78rem;font-weight:500;color:var(--ink);width:120px;font-family:var(--f-ui);}
+.nav-field input::placeholder{color:var(--ink-faint);font-weight:400;}
+.nav-go{width:32px;height:32px;margin:2px 2px 2px 6px;border-radius:50%;background:var(--coral);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:center;transition:background .2s ease;}
+.nav-go:hover{background:var(--coral-deep);}
+.nav-go svg{width:13px;height:13px;}
+
+/* ---------- VERSION PILLS: horizontal, top nav, beside the login pill ---------- */
+.version-pills{display:flex;flex-direction:row;align-items:center;gap:6px;transition:opacity .35s var(--ease),visibility .35s var(--ease);}
+.version-pills.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.version-pill{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:rgba(255,253,249,.22);backdrop-filter:blur(24px) saturate(200%);-webkit-backdrop-filter:blur(24px) saturate(200%);border:1px solid rgba(255,255,255,.35);box-shadow:var(--shadow-sm);font-family:var(--f-ui);font-size:.68rem;font-weight:600;letter-spacing:.02em;color:var(--ink-soft);opacity:.4;transition:opacity .25s var(--ease),transform .25s var(--ease),color .25s ease,box-shadow .25s ease,background .25s ease;}
+.version-pill:hover{opacity:.85;color:var(--coral);transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.version-pill.is-current{opacity:.55;color:#fff;background:rgba(236,76,71,.55);border-color:rgba(236,76,71,.55);}
+
+/* ---------- MOBILE MENU ---------- */
+.mobile-menu{position:fixed;top:76px;left:16px;right:16px;z-index:250;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);padding:8px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .25s ease,transform .25s var(--ease);}
+.mobile-menu.is-open{opacity:1;pointer-events:auto;transform:translateY(0);}
+.mobile-menu a{padding:14px 16px;font-size:.92rem;font-weight:600;color:var(--ink);border-radius:14px;transition:background .2s ease,color .2s ease;}
+.mobile-menu a:hover{background:rgba(30,35,64,.05);color:var(--navy);}
+.mobile-menu a:not(:last-child){border-bottom:1px solid var(--line-soft);}
+.mobile-menu a.is-current{color:var(--coral);}
+.mobile-menu-cta{margin-top:6px;background:var(--navy);color:var(--peach)!important;text-align:center;border-bottom:none!important;}
+.mobile-menu-cta:hover{background:var(--coral);color:var(--peach)!important;}
+@media (min-width:901px){.mobile-menu{display:none;}}
+
+@media (max-width:900px){
+  .nav-pill .links{display:none;}
+  .nav-pill .menu-toggle{display:flex;}
+  .version-pills{display:none;}
+}
+@media (max-width:760px){
+  .nav-bar{top:18px;}
+  .nav-login .cta span{display:none;}
+  .nav-login .cta{width:36px;padding:0;justify-content:center;gap:0;}
+  .nav-login .cta-icon{display:block;}
+  .nav-fields{display:flex;flex-direction:column;align-items:stretch;position:fixed;top:76px;left:16px;right:16px;max-width:none;width:auto;opacity:0;pointer-events:none;transform:translateY(-8px);background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);padding:8px;z-index:250;transition:opacity .25s ease,transform .25s var(--ease);}
+  .nav-search.is-open .nav-fields{opacity:1;pointer-events:auto;transform:translateY(0);}
+  .nav-field{padding:13px 14px;}
+  .nav-field:not(:last-child)::after{display:none;}
+  .nav-field:not(:last-child){border-bottom:1px solid var(--line);}
+  .nav-go{align-self:flex-end;margin:8px 6px 2px;}
+}
+
+/* ---------- FOOTER ---------- */
+.footer-min{padding:56px 0 40px;}
+.footer-grid{max-width:1180px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr 1fr 1.4fr;gap:30px;box-sizing:border-box;}
+.footer-brand-col{text-align:right;}
+.footer-brand-mark{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-family:'Oswald',sans-serif;font-weight:600;font-size:1.1rem;letter-spacing:-.01em;color:var(--navy);margin-bottom:12px;font-synthesis:none;}
+.footer-brand-mark .hw-light{font-weight:300;}
+.footer-brand-mark .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 3px rgba(236,76,71,.15);flex-shrink:0;}
+.footer-grid p{color:var(--ink-soft);font-size:.86rem;max-width:260px;line-height:1.6;margin-left:auto;}
+.footer-col h5{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:14px;}
+.footer-col a{display:block;font-size:.86rem;color:var(--ink-soft);padding:6px 0;transition:color .2s ease;}
+.footer-col a:hover{color:var(--ink);}
+.footer-col a.is-current{color:var(--coral);}
+.footer-bottom{max-width:1180px;margin:36px auto 0;padding:24px 40px 0;box-sizing:border-box;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom span{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-faint);}
+@media (max-width:820px){
+  .footer-brand-col{text-align:left;}
+  .footer-brand-mark{justify-content:flex-start;}
+  .footer-grid p{margin-left:0;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:480px){
+  .footer-grid{grid-template-columns:1fr;padding:0 20px;gap:24px;}
+  .footer-bottom{padding:20px 20px 0;}
+}
+
+</style>
+</head>
+<body>
+<!-- ============ SHARED NAV (identical on every page — synced from master.html) ============ -->
+<div class="nav-bar">
+  <div class="wrap">
+    <nav class="nav-pill">
+      <a class="brand" href="index.html" aria-label="guestbook — home"><span class="word"><span class="hw-light">Guest</span>book</span><span class="dot"></span></a>
+      <span class="sep"></span>
+      <div class="links">
+        <a href="explore.html">Explore</a>
+        <a href="host.html">For Hosts</a>
+      </div>
+      <span class="sep"></span>
+      <div class="actions">
+        <div class="nav-search" id="navSearch">
+          <button class="icon-btn" type="button" aria-label="Search" id="navSearchBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+          <form class="nav-fields" onsubmit="return false;">
+            <div class="nav-field"><label>Where</label><input type="text" placeholder="Coastline, country"></div>
+            <div class="nav-field"><label>When</label><input type="text" placeholder="Add dates"></div>
+            <div class="nav-field"><label>Who</label><input type="text" placeholder="Guests"></div>
+            <button class="nav-go" type="submit" aria-label="Go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></button>
+          </form>
+        </div>
+        <button class="icon-btn menu-toggle" type="button" aria-label="Menu" aria-expanded="false" id="menuToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <div class="nav-right">
+      <div class="version-pills" aria-label="Other versions of this site">
+        <a class="version-pill is-current" href="../v1/index.html" title="guestbook · stays worth the flight">V1</a>
+        <a class="version-pill" href="../v2/index.html" title="guestbook · stays worth the flight">V2</a>
+        <a class="version-pill" href="../v3/index.html" title="Guestbook: some places wait">V3</a>
+      </div>
+      <div class="nav-login">
+        <a href="#" class="cta">
+          <svg class="cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Log in</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="explore.html">Explore</a>
+  <a href="host.html">For Hosts</a>
+  <a href="#" class="mobile-menu-cta">Log in</a>
+</div>
+<!-- ============ /SHARED NAV ============ -->
+
+
+<!-- SEARCH BAND -->
+<div class="search-band">
+  <div class="wrap">
+    <div class="sb-top">
+      <h1>Find your next stay.</h1>
+      <div class="sb-stats">
+        <div class="sb-stat-item"><strong>127</strong><span>locations, hand-reviewed</span></div>
+      </div>
+    </div>
+    <div class="search-bar" id="searchBar">
+      <div class="sb-field" id="whereField">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+        <div class="sb-field-text">
+          <label>Where</label>
+          <input type="text" id="searchInput" placeholder="Search a place or a stay" autocomplete="off">
+        </div>
+        <div class="sb-panel where-panel" id="wherePanel">
+          <div class="where-section" id="wherePopular">
+            <div class="where-heading">Popular destinations</div>
+            <div class="where-list" id="wherePopularList"></div>
+          </div>
+          <div class="where-section" id="whereMatches" style="display:none;">
+            <div class="where-heading" id="whereMatchesHeading">Destinations</div>
+            <div class="where-list" id="whereMatchesList"></div>
+          </div>
+          <div class="where-empty" id="whereEmpty" style="display:none;">No destinations match "<span id="whereEmptyQuery"></span>" — press Search to look across stay names too.</div>
+        </div>
+      </div>
+
+      <div class="sb-field" id="dateField">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+        <div class="sb-field-text">
+          <label>Dates</label>
+          <button type="button" class="sb-trigger is-placeholder" id="dateTrigger">Add dates</button>
+        </div>
+        <div class="sb-panel date-panel" id="datePanel">
+          <div class="dp-head">
+            <button type="button" class="dp-nav" id="dpPrev" aria-label="Previous month">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <strong id="dpMonthLabel">Month</strong>
+            <button type="button" class="dp-nav" id="dpNext" aria-label="Next month">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+          <div class="dp-grid" id="dpGrid"></div>
+          <div class="dp-foot">
+            <button type="button" class="dp-clear" id="dpClear">Clear dates</button>
+            <button type="button" class="dp-apply" id="dpApply">Apply</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-field" id="guestField">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><path d="M16 4.3a3.2 3.2 0 0 1 0 6.2M21 20c0-3-1.9-5.3-4.5-5.9"/></svg>
+        <div class="sb-field-text">
+          <label>Guests</label>
+          <button type="button" class="sb-trigger" id="guestTrigger">1 guest</button>
+        </div>
+        <div class="sb-panel guest-panel" id="guestPanel">
+          <button type="button" class="sb-option is-active" data-value="1 guest">1 guest</button>
+          <button type="button" class="sb-option" data-value="2 guests">2 guests</button>
+          <button type="button" class="sb-option" data-value="3+ guests">3+ guests</button>
+        </div>
+      </div>
+
+      <button class="sb-go" id="sbGoBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="wrap">
+    <div class="chip-row">
+      <button class="filters-btn" id="filtersBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        Filters
+        <span class="badge" id="filterBadge" style="display:none;">0</span>
+      </button>
+      <button class="chip is-active" data-cat="all">All stays</button>
+      <button class="chip" data-cat="boutique">Boutique</button>
+      <button class="chip" data-cat="surf">Surf camp</button>
+      <button class="chip" data-cat="retreat">Retreat</button>
+      <button class="chip" data-cat="villa">Villa</button>
+      <button class="chip" data-cat="eco">Eco-lodge</button>
+      <button class="chip" data-cat="island">Island</button>
+      <button class="chip" data-cat="mountain">Mountain</button>
+    </div>
+    <div class="right-controls">
+      <div class="view-toggle">
+        <button type="button" class="view-btn is-active" id="viewGridBtn" data-view="grid">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          Grid
+        </button>
+        <button type="button" class="view-btn" id="viewMapBtn" data-view="map">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+          Map
+        </button>
+      </div>
+      <div class="sort-wrap" id="sortWrap">
+        <span class="sort-label">Sort</span>
+        <button type="button" class="sort-trigger" id="sortTrigger">
+          <span id="sortTriggerText">Recommended</span>
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="sb-panel sort-panel" id="sortPanel">
+          <button type="button" class="sb-option is-active" data-value="rec">Recommended</button>
+          <button type="button" class="sb-option" data-value="new">Newest</button>
+          <button type="button" class="sb-option" data-value="asc">Price: low to high</button>
+          <button type="button" class="sb-option" data-value="desc">Price: high to low</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVE FILTER PILLS -->
+<div class="active-filters-bar" id="activeFiltersBar" style="display:none;">
+  <div class="wrap active-filters-row" id="activeFiltersRow"></div>
+</div>
+
+<!-- FILTER DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Filters</h3>
+    <button class="drawer-close" id="drawerClose">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-group">
+      <h4>Property type</h4>
+      <label class="check-row"><input type="checkbox" data-cat="boutique"> Boutique hotel</label>
+      <label class="check-row"><input type="checkbox" data-cat="surf"> Surf camp</label>
+      <label class="check-row"><input type="checkbox" data-cat="retreat"> Retreat centre</label>
+      <label class="check-row"><input type="checkbox" data-cat="villa"> Villa</label>
+      <label class="check-row"><input type="checkbox" data-cat="eco"> Eco-lodge</label>
+      <label class="check-row"><input type="checkbox" data-cat="island"> Island stay</label>
+      <label class="check-row"><input type="checkbox" data-cat="mountain"> Mountain lodge</label>
+    </div>
+    <div class="drawer-group">
+      <h4>Collections</h4>
+      <label class="check-row"><input type="checkbox" data-col="offgrid"> Off-grid, on purpose</label>
+      <label class="check-row"><input type="checkbox" data-col="surfvibe"> Surf, then nap, repeat</label>
+      <label class="check-row"><input type="checkbox" data-col="slowmornings"> Slow mornings, thin air</label>
+      <label class="check-row"><input type="checkbox" data-col="islandsearn"> Islands you have to earn</label>
+      <label class="check-row"><input type="checkbox" data-col="realquiet"> Retreats with real silence</label>
+      <label class="check-row"><input type="checkbox" data-col="stonenotstucco"> Stone, not stucco</label>
+      <label class="check-row"><input type="checkbox" data-col="familyrun"> Family-run, not franchised</label>
+      <label class="check-row"><input type="checkbox" data-col="packlight"> Pack light, stay long</label>
+    </div>
+    <div class="drawer-group">
+      <h4>Price per night</h4>
+      <div class="price-row">
+        <input type="number" id="minPrice" placeholder="Min">
+        <span>—</span>
+        <input type="number" id="maxPrice" placeholder="Max">
+      </div>
+    </div>
+    <div class="drawer-group">
+      <h4>Amenities</h4>
+      <label class="check-row"><input type="checkbox" data-am="pool"> Pool</label>
+      <label class="check-row"><input type="checkbox" data-am="beachfront"> Beachfront</label>
+      <label class="check-row"><input type="checkbox" data-am="pet"> Pet friendly</label>
+      <label class="check-row"><input type="checkbox" data-am="detox"> Digital detox (no wifi)</label>
+      <label class="check-row"><input type="checkbox" data-am="hottub"> Hot tub</label>
+      <label class="check-row"><input type="checkbox" data-am="oceanview"> Ocean view</label>
+      <label class="check-row"><input type="checkbox" data-am="kitchen"> Kitchen</label>
+      <label class="check-row"><input type="checkbox" data-am="ev"> EV charging</label>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn-clear" id="clearFilters">Clear all</button>
+    <button class="btn-apply" id="applyFilters">Show stays</button>
+  </div>
+</div>
+
+<!-- DESTINATIONS: stamp badges -->
+<section class="wrap dest-section">
+  <div class="dest-scroll-wrap">
+    <button type="button" class="scroll-arrow dest-arrow dest-arrow-left" id="destArrowLeft" aria-label="Scroll destinations left" onclick="scrollStrip('placeStrip',-1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="dest-fade dest-fade-left" id="destFadeLeft"></div>
+    <div class="stamp-row" id="placeStrip">
+      <a href="#" class="stamp" data-search="mexico"><div class="stamp-photo"><img src="../listings/9.webp" alt="Mexico"></div><h4>Mexico</h4></a>
+      <a href="#" class="stamp" data-search="sierra nevada"><div class="stamp-photo"><img src="../destination/2.webp" alt="Sierra Nevada"></div><h4>Sierra Nevada</h4></a>
+      <a href="#" class="stamp" data-search="algarve"><div class="stamp-photo"><img src="../destination/3.webp" alt="Algarve"></div><h4>Algarve</h4></a>
+      <a href="#" class="stamp" data-search="ubud"><div class="stamp-photo"><img src="../destination/5.webp" alt="Ubud"></div><h4>Ubud</h4></a>
+      <a href="#" class="stamp" data-search="azores"><div class="stamp-photo"><img src="../destination/6.webp" alt="Azores"></div><h4>Azores</h4></a>
+      <a href="#" class="stamp" data-search="puglia"><div class="stamp-photo"><img src="../listings/21.webp" alt="Puglia"></div><h4>Puglia</h4></a>
+      <a href="#" class="stamp" data-search="zanzibar"><div class="stamp-photo"><img src="../listings/23.webp" alt="Zanzibar"></div><h4>Zanzibar</h4></a>
+      <a href="#" class="stamp" data-search="chamonix"><div class="stamp-photo"><img src="../listings/17.webp" alt="Chamonix"></div><h4>Chamonix</h4></a>
+      <a href="#" class="stamp" data-search="lofoten"><div class="stamp-photo"><img src="../listings/24.webp" alt="Lofoten"></div><h4>Lofoten</h4></a>
+      <a href="#" class="stamp" data-search="dolomites"><div class="stamp-photo"><img src="../listings/30.webp" alt="Dolomites"></div><h4>Dolomites</h4></a>
+    </div>
+    <div class="dest-fade dest-fade-right" id="destFadeRight"></div>
+    <button type="button" class="scroll-arrow dest-arrow dest-arrow-right" id="destArrowRight" aria-label="Scroll destinations right" onclick="scrollStrip('placeStrip',1)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- LISTINGS GRID -->
+<section class="wrap">
+  <p class="result-count" id="resultCount">Showing 23 of 127 stays</p>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8.5 11h5"/></svg>
+    <h3>No stays match yet</h3>
+    <p>Try widening your price range, clearing a filter, or searching a different place.</p>
+    <button type="button" class="btn-outline" id="emptyClearBtn">Clear all filters</button>
+  </div>
+  <div class="map-view" id="mapView" style="display:none;">
+    <div class="map-canvas" id="mapCanvas"></div>
+  </div>
+  <div class="listings-grid" id="listingsGrid">
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="boutique" data-price="128" data-collections="stonenotstucco familyrun" data-location="oaxaca" data-amenities="pool kitchen" style="order:10">
+      <div class="ph"><img src="../listings/1.webp" alt="Casa Paloma, Oaxaca"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Oaxaca, Mexico</span><span class="lc-cat">Boutique</span></div><h3>Casa Paloma</h3><div class="lc-bottom"><div class="lc-price">$128<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card is-feature reveal" data-category="surf" data-price="64" data-collections="surfvibe" data-location="hossegor" data-amenities="beachfront detox" style="order:20">
+      <div class="ph"><img src="../listings/2.webp" alt="Salt Line Surf Camp, Hossegor"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Hossegor, France</span><span class="lc-cat">Surf camp</span></div><h3>Salt Line Surf Camp</h3><div class="lc-bottom"><div class="lc-price">$64<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="retreat" data-price="95" data-collections="realquiet" data-location="sierra" data-amenities="detox hottub" style="order:30">
+      <div class="ph"><img src="../listings/3.webp" alt="Alto Retreat, Sierra Nevada"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Sierra Nevada, Spain</span><span class="lc-cat">Retreat</span></div><h3>Alto Retreat</h3><div class="lc-bottom"><div class="lc-price">$95<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card is-tall reveal" data-category="island" data-price="145" data-collections="islandsearn" data-location="bacalar" data-amenities="oceanview pool" style="order:40">
+      <div class="ph"><img src="../listings/7.webp" alt="Isla Mora, Bacalar"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Bacalar, Mexico</span><span class="lc-cat">Island</span></div><h3>Isla Mora</h3><div class="lc-bottom"><div class="lc-price">$145<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="villa" data-price="210" data-collections="stonenotstucco packlight" data-location="algarve" data-amenities="pool oceanview" style="order:50">
+      <div class="ph"><img src="../listings/5.webp" alt="Villa Espiga, Algarve"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Algarve, Portugal</span><span class="lc-cat">Villa</span></div><h3>Villa Espiga</h3><div class="lc-bottom"><div class="lc-price">$210<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="eco" data-price="88" data-collections="offgrid realquiet" data-location="capeverde" data-amenities="detox kitchen" style="order:60">
+      <div class="ph"><img src="../listings/6.webp" alt="Trilho Verde Eco Lodge, Cape Verde"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Santo Antão, Cape Verde</span><span class="lc-cat">Eco-lodge</span></div><h3>Trilho Verde Eco Lodge</h3><div class="lc-bottom"><div class="lc-price">$88<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="retreat" data-price="99" data-collections="realquiet packlight" data-location="valdivia" data-amenities="hottub kitchen" style="order:65">
+      <div class="ph"><img src="../listings/62.webp" alt="Casa Roble, Valdivia"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Valdivia, Chile</span><span class="lc-cat">Retreat</span></div><h3>Casa Roble</h3><div class="lc-bottom"><div class="lc-price">$99<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="mountain" data-price="102" data-collections="slowmornings offgrid" data-location="bariloche" data-amenities="hottub kitchen" style="order:70">
+      <div class="ph"><img src="../listings/8.webp" alt="Refugio Alto, Bariloche"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Bariloche, Argentina</span><span class="lc-cat">Mountain</span></div><h3>Refugio Alto</h3><div class="lc-bottom"><div class="lc-price">$102<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="boutique" data-price="175" data-collections="familyrun" data-location="tulum" data-amenities="pool beachfront" style="order:80">
+      <div class="ph"><img src="../listings/9.webp" alt="Casa del Mar, Tulum"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Tulum, Mexico</span><span class="lc-cat">Boutique</span></div><h3>Casa del Mar</h3><div class="lc-bottom"><div class="lc-price">$175<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="surf" data-price="58" data-collections="surfvibe" data-location="ericeira" data-amenities="beachfront ev" style="order:90">
+      <div class="ph"><img src="../listings/12.webp" alt="Point Break Surf House, Ericeira"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Ericeira, Portugal</span><span class="lc-cat">Surf camp</span></div><h3>Point Break Surf House</h3><div class="lc-bottom"><div class="lc-price">$58<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card is-feature reveal" data-category="villa" data-price="265" data-collections="packlight stonenotstucco" data-location="tuscany" data-amenities="pool kitchen" style="order:100">
+      <div class="ph"><img src="../listings/14.webp" alt="Villa Serrana, Tuscany"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Tuscany, Italy</span><span class="lc-cat">Villa</span></div><h3>Villa Serrana</h3><div class="lc-bottom"><div class="lc-price">$265<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="retreat" data-price="76" data-collections="realquiet" data-location="ubud" data-amenities="detox kitchen" style="order:110">
+      <div class="ph"><img src="../listings/13.webp" alt="Dharma Retreat, Ubud"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Ubud, Bali</span><span class="lc-cat">Retreat</span></div><h3>Dharma Retreat</h3><div class="lc-bottom"><div class="lc-price">$76<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="eco" data-price="92" data-collections="offgrid realquiet" data-location="monteverde" data-amenities="detox hottub" style="order:120">
+      <div class="ph"><img src="../listings/15.webp" alt="Bosque Eco Cabins, Monteverde"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Monteverde, Costa Rica</span><span class="lc-cat">Eco-lodge</span></div><h3>Bosque Eco Cabins</h3><div class="lc-bottom"><div class="lc-price">$92<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="boutique" data-price="139" data-collections="familyrun stonenotstucco" data-location="paros" data-amenities="pool oceanview" style="order:125">
+      <div class="ph"><img src="../listings/63.webp" alt="Casa Kyma, Paros"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Paros, Greece</span><span class="lc-cat">Boutique</span></div><h3>Casa Kyma</h3><div class="lc-bottom"><div class="lc-price">$139<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card is-tall reveal" data-category="mountain" data-price="134" data-collections="slowmornings" data-location="chamonix" data-amenities="hottub ev" style="order:130">
+      <div class="ph"><img src="../listings/17.webp" alt="Alpine Hut Co., Chamonix"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Chamonix, France</span><span class="lc-cat">Mountain</span></div><h3>Alpine Hut Co.</h3><div class="lc-bottom"><div class="lc-price">$134<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="island" data-price="118" data-collections="islandsearn" data-location="azores" data-amenities="oceanview pet" style="order:140">
+      <div class="ph"><img src="../listings/16.webp" alt="Flores Cottage, Azores"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Azores, Portugal</span><span class="lc-cat">Island</span></div><h3>Flores Cottage</h3><div class="lc-bottom"><div class="lc-price">$118<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="boutique" data-price="150" data-collections="familyrun stonenotstucco" data-location="sanmiguel" data-amenities="pool pet" style="order:150">
+      <div class="ph"><img src="../listings/18.webp" alt="Casa Nube, San Miguel de Allende"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">San Miguel de Allende, Mexico</span><span class="lc-cat">Boutique</span></div><h3>Casa Nube</h3><div class="lc-bottom"><div class="lc-price">$150<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="surf" data-price="70" data-collections="surfvibe" data-location="byronbay" data-amenities="beachfront detox" style="order:160">
+      <div class="ph"><img src="../listings/19.webp" alt="Rip Curl Bunkhouse, Byron Bay"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Byron Bay, Australia</span><span class="lc-cat">Surf camp</span></div><h3>Rip Curl Bunkhouse</h3><div class="lc-bottom"><div class="lc-price">$70<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="retreat" data-price="110" data-collections="realquiet offgrid" data-location="sedona" data-amenities="detox hottub" style="order:170">
+      <div class="ph"><img src="../listings/20.webp" alt="Mesa Silence Retreat, Sedona"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Sedona, Arizona</span><span class="lc-cat">Retreat</span></div><h3>Mesa Silence Retreat</h3><div class="lc-bottom"><div class="lc-price">$110<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card is-feature reveal" data-category="villa" data-price="198" data-collections="packlight familyrun" data-location="puglia" data-amenities="pool kitchen" style="order:180">
+      <div class="ph"><img src="../listings/21.webp" alt="Villa Ombra, Puglia"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Puglia, Italy</span><span class="lc-cat">Villa</span></div><h3>Villa Ombra</h3><div class="lc-bottom"><div class="lc-price">$198<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="eco" data-price="86" data-collections="offgrid realquiet" data-location="pemba" data-amenities="detox oceanview" style="order:185">
+      <div class="ph"><img src="../listings/64.webp" alt="Baraza Eco Camp, Pemba"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Pemba, Tanzania</span><span class="lc-cat">Eco-lodge</span></div><h3>Baraza Eco Camp</h3><div class="lc-bottom"><div class="lc-price">$86<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="eco" data-price="84" data-collections="offgrid" data-location="manuelantonio" data-amenities="detox pool" style="order:190">
+      <div class="ph"><img src="../listings/22.webp" alt="Selva Eco Retreat, Manuel Antonio"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Manuel Antonio, Costa Rica</span><span class="lc-cat">Eco-lodge</span></div><h3>Selva Eco Retreat</h3><div class="lc-bottom"><div class="lc-price">$84<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="island" data-price="132" data-collections="islandsearn" data-location="zanzibar" data-amenities="oceanview beachfront" style="order:200">
+      <div class="ph"><img src="../listings/23.webp" alt="Coral Reef Bungalows, Zanzibar"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Zanzibar, Tanzania</span><span class="lc-cat">Island</span></div><h3>Coral Reef Bungalows</h3><div class="lc-bottom"><div class="lc-price">$132<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="mountain" data-price="158" data-collections="slowmornings offgrid" data-location="lofoten" data-amenities="hottub ev" style="order:210">
+      <div class="ph"><img src="../listings/24.webp" alt="Nordkapp Cabin Co., Lofoten"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Lofoten, Norway</span><span class="lc-cat">Mountain</span></div><h3>Nordkapp Cabin Co.</h3><div class="lc-bottom"><div class="lc-price">$158<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="boutique" data-price="142" data-collections="stonenotstucco familyrun" data-location="ronda" data-amenities="pool pet" style="order:220">
+      <div class="ph"><img src="../listings/25.webp" alt="Casa Higuera, Ronda"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Ronda, Spain</span><span class="lc-cat">Boutique</span></div><h3>Casa Higuera</h3><div class="lc-bottom"><div class="lc-price">$142<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-new="1" data-category="surf" data-price="52" data-collections="surfvibe packlight" data-location="taghazout" data-amenities="beachfront kitchen" style="order:230">
+      <div class="ph"><img src="../listings/26.webp" alt="Bluewave Surf Lodge, Taghazout"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Taghazout, Morocco</span><span class="lc-cat">Surf camp</span></div><h3>Bluewave Surf Lodge</h3><div class="lc-bottom"><div class="lc-price">$52<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal" data-category="retreat" data-price="118" data-collections="realquiet offgrid" data-location="dolomites" data-amenities="hottub detox" style="order:240">
+      <div class="ph"><img src="../listings/30.webp" alt="Rifugio Calma, Dolomites"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Dolomites, Italy</span><span class="lc-cat">Retreat</span></div><h3>Rifugio Calma</h3><div class="lc-bottom"><div class="lc-price">$118<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="boutique" data-price="118" data-collections="stonenotstucco" data-location="douro" data-amenities="pool kitchen" style="display:none;order:250">
+      <div class="ph"><img src="../listings/110.webp" alt="Casa do Vale, Douro Valley"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Douro Valley, Portugal</span><span class="lc-cat">Boutique</span></div><h3>Casa do Vale</h3><div class="lc-bottom"><div class="lc-price">$118<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="eco" data-price="96" data-collections="offgrid realquiet" data-location="monteverde" data-amenities="detox hottub" style="display:none;order:260">
+      <div class="ph"><img src="../listings/115.webp" alt="Kolibri Treehouse, Monteverde"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Monteverde, Costa Rica</span><span class="lc-cat">Eco-lodge</span></div><h3>Kolibri Treehouse</h3><div class="lc-bottom"><div class="lc-price">$96<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="mountain" data-price="74" data-collections="offgrid slowmornings" data-location="chalten" data-amenities="detox kitchen" style="display:none;order:270">
+      <div class="ph"><img src="../listings/120.webp" alt="Errante, El Chaltén"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">El Chaltén, Argentina</span><span class="lc-cat">Mountain</span></div><h3>Errante</h3><div class="lc-bottom"><div class="lc-price">$74<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="villa" data-price="189" data-collections="packlight stonenotstucco" data-location="ionian" data-amenities="pool oceanview" style="display:none;order:280">
+      <div class="ph"><img src="../listings/125.webp" alt="Villa Marée, Ionian Coast"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Ionian Coast, Greece</span><span class="lc-cat">Villa</span></div><h3>Villa Marée</h3><div class="lc-bottom"><div class="lc-price">$189<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="mountain" data-price="105" data-collections="slowmornings offgrid" data-location="blueridge" data-amenities="hottub kitchen" style="display:none;order:290">
+      <div class="ph"><img src="../listings/129.webp" alt="Ridgeline Cabin, Blue Ridge"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Blue Ridge, USA</span><span class="lc-cat">Mountain</span></div><h3>Ridgeline Cabin</h3><div class="lc-bottom"><div class="lc-price">$105<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="surf" data-price="68" data-collections="surfvibe packlight" data-location="sayulita" data-amenities="beachfront detox" style="display:none;order:300">
+      <div class="ph"><img src="../listings/34.webp" alt="Casa Mar Azul, Sayulita"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Sayulita, Mexico</span><span class="lc-cat">Surf camp</span></div><h3>Casa Mar Azul</h3><div class="lc-bottom"><div class="lc-price">$68<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="boutique" data-price="96" data-collections="stonenotstucco familyrun" data-location="guatemala" data-amenities="pool kitchen" style="display:none;order:310">
+      <div class="ph"><img src="../listings/31.webp" alt="Casa Alma, Antigua"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Antigua, Guatemala</span><span class="lc-cat">Boutique</span></div><h3>Casa Alma</h3><div class="lc-bottom"><div class="lc-price">$96<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="surf" data-price="54" data-collections="surfvibe" data-location="siargao" data-amenities="beachfront detox" style="display:none;order:320">
+      <div class="ph"><img src="../listings/32.webp" alt="Driftwood Surf Camp, Siargao"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Siargao, Philippines</span><span class="lc-cat">Surf camp</span></div><h3>Driftwood Surf Camp</h3><div class="lc-bottom"><div class="lc-price">$54<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="retreat" data-price="88" data-collections="realquiet offgrid" data-location="karelia" data-amenities="hottub detox" style="display:none;order:330">
+      <div class="ph"><img src="../listings/33.webp" alt="Quiet Pines Retreat, Karelia"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Karelia, Finland</span><span class="lc-cat">Retreat</span></div><h3>Quiet Pines Retreat</h3><div class="lc-bottom"><div class="lc-price">$88<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="villa" data-price="178" data-collections="stonenotstucco packlight" data-location="costabrava" data-amenities="pool oceanview" style="display:none;order:340">
+      <div class="ph"><img src="../listings/35.webp" alt="Villa Limón, Costa Brava"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Costa Brava, Spain</span><span class="lc-cat">Villa</span></div><h3>Villa Limón</h3><div class="lc-bottom"><div class="lc-price">$178<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="eco" data-price="79" data-collections="offgrid realquiet" data-location="chiloe" data-amenities="detox kitchen" style="display:none;order:350">
+      <div class="ph"><img src="../listings/36.webp" alt="Terra Verde Eco Lodge, Chiloé"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Chiloé, Chile</span><span class="lc-cat">Eco-lodge</span></div><h3>Terra Verde Eco Lodge</h3><div class="lc-bottom"><div class="lc-price">$79<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="island" data-price="62" data-collections="islandsearn" data-location="kohrong" data-amenities="oceanview beachfront" style="display:none;order:360">
+      <div class="ph"><img src="../listings/37.webp" alt="Isla Luna, Koh Rong"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Koh Rong, Cambodia</span><span class="lc-cat">Island</span></div><h3>Isla Luna</h3><div class="lc-bottom"><div class="lc-price">$62<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="mountain" data-price="68" data-collections="slowmornings offgrid" data-location="huaraz" data-amenities="hottub kitchen" style="display:none;order:370">
+      <div class="ph"><img src="../listings/38.webp" alt="Refugio del Cielo, Huaraz"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Huaraz, Peru</span><span class="lc-cat">Mountain</span></div><h3>Refugio del Cielo</h3><div class="lc-bottom"><div class="lc-price">$68<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="boutique" data-price="132" data-collections="familyrun stonenotstucco" data-location="guadalupevalley" data-amenities="pool kitchen" style="display:none;order:380">
+      <div class="ph"><img src="../listings/39.webp" alt="Casa Girasol, Valle de Guadalupe"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Valle de Guadalupe, Mexico</span><span class="lc-cat">Boutique</span></div><h3>Casa Girasol</h3><div class="lc-bottom"><div class="lc-price">$132<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="surf" data-price="61" data-collections="surfvibe" data-location="mundaka" data-amenities="beachfront ev" style="display:none;order:390">
+      <div class="ph"><img src="../listings/40.webp" alt="Salt & Pine Surf House, Mundaka"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Mundaka, Spain</span><span class="lc-cat">Surf camp</span></div><h3>Salt & Pine Surf House</h3><div class="lc-bottom"><div class="lc-price">$61<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="retreat" data-price="71" data-collections="realquiet offgrid" data-location="kerala" data-amenities="detox kitchen" style="display:none;order:400">
+      <div class="ph"><img src="../listings/41.webp" alt="Whispering Reeds Retreat, Kerala"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Kerala, India</span><span class="lc-cat">Retreat</span></div><h3>Whispering Reeds Retreat</h3><div class="lc-bottom"><div class="lc-price">$71<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="villa" data-price="205" data-collections="packlight stonenotstucco" data-location="aland" data-amenities="pool oceanview" style="display:none;order:410">
+      <div class="ph"><img src="../listings/42.webp" alt="Villa Aurinko, Åland Islands"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Åland Islands, Finland</span><span class="lc-cat">Villa</span></div><h3>Villa Aurinko</h3><div class="lc-bottom"><div class="lc-price">$205<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="eco" data-price="99" data-collections="offgrid islandsearn" data-location="principe" data-amenities="detox oceanview" style="display:none;order:420">
+      <div class="ph"><img src="../listings/43.webp" alt="Casa Coral, Príncipe Island"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Príncipe Island, São Tomé</span><span class="lc-cat">Eco-lodge</span></div><h3>Casa Coral</h3><div class="lc-bottom"><div class="lc-price">$99<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="island" data-price="121" data-collections="islandsearn" data-location="holbox" data-amenities="oceanview beachfront" style="display:none;order:430">
+      <div class="ph"><img src="../listings/44.webp" alt="Isla Encantada, Holbox"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Holbox, Mexico</span><span class="lc-cat">Island</span></div><h3>Isla Encantada</h3><div class="lc-bottom"><div class="lc-price">$121<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="mountain" data-price="168" data-collections="slowmornings" data-location="interlaken" data-amenities="hottub ev" style="display:none;order:440">
+      <div class="ph"><img src="../listings/45.webp" alt="Alpenglow Chalet, Interlaken"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Interlaken, Switzerland</span><span class="lc-cat">Mountain</span></div><h3>Alpenglow Chalet</h3><div class="lc-bottom"><div class="lc-price">$168<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="boutique" data-price="84" data-collections="familyrun offgrid" data-location="nosybe" data-amenities="pool beachfront" style="display:none;order:450">
+      <div class="ph"><img src="../listings/46.webp" alt="Casa Baobab, Nosy Be"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Nosy Be, Madagascar</span><span class="lc-cat">Boutique</span></div><h3>Casa Baobab</h3><div class="lc-bottom"><div class="lc-price">$84<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="surf" data-price="66" data-collections="surfvibe packlight" data-location="canggu" data-amenities="beachfront pool" style="display:none;order:460">
+      <div class="ph"><img src="../listings/47.webp" alt="Bluewater Surf Lodge, Canggu"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Canggu, Bali</span><span class="lc-cat">Surf camp</span></div><h3>Bluewater Surf Lodge</h3><div class="lc-bottom"><div class="lc-price">$66<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="retreat" data-price="89" data-collections="realquiet offgrid" data-location="sierragorda" data-amenities="detox hottub" style="display:none;order:470">
+      <div class="ph"><img src="../listings/48.webp" alt="Refugio Silencio, Sierra Gorda"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Sierra Gorda, Mexico</span><span class="lc-cat">Retreat</span></div><h3>Refugio Silencio</h3><div class="lc-bottom"><div class="lc-price">$89<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="villa" data-price="224" data-collections="packlight stonenotstucco" data-location="formentera" data-amenities="pool oceanview" style="display:none;order:480">
+      <div class="ph"><img src="../listings/49.webp" alt="Villa Sotavento, Formentera"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Formentera, Spain</span><span class="lc-cat">Villa</span></div><h3>Villa Sotavento</h3><div class="lc-bottom"><div class="lc-price">$224<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="eco" data-price="93" data-collections="offgrid realquiet" data-location="yucatan" data-amenities="detox kitchen" style="display:none;order:490">
+      <div class="ph"><img src="../listings/50.webp" alt="Casa Ceiba, Yucatán jungle"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Yucatán jungle, Mexico</span><span class="lc-cat">Eco-lodge</span></div><h3>Casa Ceiba</h3><div class="lc-bottom"><div class="lc-price">$93<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="island" data-price="143" data-collections="islandsearn" data-location="rosario" data-amenities="oceanview pool" style="display:none;order:500">
+      <div class="ph"><img src="../listings/51.webp" alt="Isla Palma, Islas del Rosario"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Islas del Rosario, Colombia</span><span class="lc-cat">Island</span></div><h3>Isla Palma</h3><div class="lc-bottom"><div class="lc-price">$143<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="mountain" data-price="152" data-collections="slowmornings offgrid" data-location="senja" data-amenities="hottub ev" style="display:none;order:510">
+      <div class="ph"><img src="../listings/52.webp" alt="Nordlys Cabin, Senja"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Senja, Norway</span><span class="lc-cat">Mountain</span></div><h3>Nordlys Cabin</h3><div class="lc-bottom"><div class="lc-price">$152<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="boutique" data-price="112" data-collections="familyrun packlight" data-location="sanpancho" data-amenities="pool beachfront" style="display:none;order:520">
+      <div class="ph"><img src="../listings/53.webp" alt="Casa Zafiro, San Pancho"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">San Pancho, Mexico</span><span class="lc-cat">Boutique</span></div><h3>Casa Zafiro</h3><div class="lc-bottom"><div class="lc-price">$112<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="surf" data-price="57" data-collections="surfvibe" data-location="raglan" data-amenities="beachfront detox" style="display:none;order:530">
+      <div class="ph"><img src="../listings/54.webp" alt="Wildwater Surf Camp, Raglan"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Raglan, New Zealand</span><span class="lc-cat">Surf camp</span></div><h3>Wildwater Surf Camp</h3><div class="lc-bottom"><div class="lc-price">$57<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="retreat" data-price="104" data-collections="realquiet offgrid" data-location="atacama" data-amenities="detox hottub" style="display:none;order:540">
+      <div class="ph"><img src="../listings/55.webp" alt="Casa Silencio, Atacama"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Atacama, Chile</span><span class="lc-cat">Retreat</span></div><h3>Casa Silencio</h3><div class="lc-bottom"><div class="lc-price">$104<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="villa" data-price="214" data-collections="stonenotstucco packlight" data-location="provence" data-amenities="pool kitchen" style="display:none;order:550">
+      <div class="ph"><img src="../listings/56.webp" alt="Villa Bougainville, Provence"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Provence, France</span><span class="lc-cat">Villa</span></div><h3>Villa Bougainville</h3><div class="lc-bottom"><div class="lc-price">$214<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-new="1" data-category="eco" data-price="82" data-collections="offgrid realquiet" data-location="boquete" data-amenities="detox kitchen" style="display:none;order:560">
+      <div class="ph"><img src="../listings/57.webp" alt="Terra Alta Eco Cabins, Boquete"><span class="ntw-badge">New</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Boquete, Panama</span><span class="lc-cat">Eco-lodge</span></div><h3>Terra Alta Eco Cabins</h3><div class="lc-bottom"><div class="lc-price">$82<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="island" data-price="98" data-collections="islandsearn" data-location="giliair" data-amenities="oceanview beachfront" style="display:none;order:570">
+      <div class="ph"><img src="../listings/58.webp" alt="Isla Coral, Gili Air"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Gili Air, Indonesia</span><span class="lc-cat">Island</span></div><h3>Isla Coral</h3><div class="lc-bottom"><div class="lc-price">$98<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="mountain" data-price="126" data-collections="slowmornings" data-location="picoseuropa" data-amenities="hottub kitchen" style="display:none;order:580">
+      <div class="ph"><img src="../listings/59.webp" alt="Cima Blanca Refuge, Picos de Europa"><span class="editor-badge">Editor's pick</span></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Picos de Europa, Spain</span><span class="lc-cat">Mountain</span></div><h3>Cima Blanca Refuge</h3><div class="lc-bottom"><div class="lc-price">$126<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="boutique" data-price="108" data-collections="familyrun offgrid" data-location="ilhagrande" data-amenities="pool beachfront" style="display:none;order:590">
+      <div class="ph"><img src="../listings/60.webp" alt="Casa Ostra, Ilha Grande"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Ilha Grande, Brazil</span><span class="lc-cat">Boutique</span></div><h3>Casa Ostra</h3><div class="lc-bottom"><div class="lc-price">$108<span>/night</span></div></div></div>
+    </a>
+
+    <a href="#" class="listing-card reveal is-more" data-category="surf" data-price="76" data-collections="surfvibe packlight" data-location="nosara" data-amenities="beachfront kitchen" style="display:none;order:600">
+      <div class="ph"><img src="../listings/61.webp" alt="Palmares Surf Lodge, Nosara"></div>
+      <div class="lc-body"><div class="lc-top"><span class="lc-loc">Nosara, Costa Rica</span><span class="lc-cat">Surf camp</span></div><h3>Palmares Surf Lodge</h3><div class="lc-bottom"><div class="lc-price">$76<span>/night</span></div></div></div>
+    </a>
+
+  </div>
+  <div class="load-more-wrap"><button class="btn-outline" id="loadMoreBtn">Load more stays</button></div>
+</section>
+
+<div class="section-gap"></div>
+
+<!-- ACTIVITIES -->
+<section class="wrap">
+  <div class="sec-head">
+    <div><div class="eyebrow">Beyond the room</div><h2 data-h2scrub>Not just where you stay</h2></div>
+  </div>
+  <div class="activity-grid">
+    <a href="#" class="act-card is-tall reveal"><img src="../activity/1.webp" alt="Surf lessons"><div class="act-body">Surf lessons</div></a>
+    <a href="#" class="act-card reveal"><img src="../activity/2.webp" alt="Sunrise hikes"><div class="act-body">Sunrise hikes</div></a>
+    <a href="#" class="act-card reveal"><img src="../activity/3.webp" alt="Cooking class"><div class="act-body">Cooking class</div></a>
+    <a href="#" class="act-card reveal"><img src="../activity/4.webp" alt="Boat trips"><div class="act-body">Boat trips</div></a>
+    <a href="#" class="act-card is-tall reveal"><img src="../activity/5.webp" alt="Yoga on the deck"><div class="act-body">Yoga on the deck</div></a>
+    <a href="#" class="act-card reveal"><img src="../activity/6.webp" alt="Market runs"><div class="act-body">Market runs</div></a>
+    <a href="#" class="act-card reveal"><img src="../listings/90.webp" alt="Sunset sail"><div class="act-body">Sunset sail</div></a>
+    <a href="#" class="act-card reveal"><img src="../listings/95.webp" alt="Foraging walk"><div class="act-body">Foraging walk</div></a>
+  </div>
+</section>
+
+<div class="section-gap"></div>
+
+<!-- TRUST WALL -->
+<section class="wrap">
+  <div class="sec-head">
+    <div><div class="eyebrow">From guests</div><h2 data-h2scrub>What it's actually like</h2></div>
+  </div>
+  <div class="trust-wall">
+    <div class="tw-card reveal">
+      <div class="tw-quote-mark">"</div>
+      <p class="q">The photos matched the place. First time that's happened to me in years of booking online.</p>
+      <div class="tw-who"><img src="../review%20icons/1.webp" alt=""><div><strong>Priya N.</strong>Stayed at Casa Paloma</div></div>
+    </div>
+    <div class="tw-card reveal">
+      <div class="tw-quote-mark">"</div>
+      <p class="q">No resort fee buried at checkout. The price on the page was the price on the card.</p>
+      <div class="tw-who"><img src="../review%20icons/2.webp" alt=""><div><strong>Marcus T.</strong>Stayed at Alto Retreat</div></div>
+    </div>
+    <div class="tw-card reveal">
+      <div class="tw-quote-mark">"</div>
+      <p class="q">Messaged at midnight about a late arrival. The host answered from the surf shop in ten minutes.</p>
+      <div class="tw-who"><img src="../review%20icons/3.webp" alt=""><div><strong>Elin K.</strong>Stayed at Salt Line Surf Camp</div></div>
+    </div>
+    <div class="tw-card reveal">
+      <div class="tw-quote-mark">"</div>
+      <p class="q">Booked the villa for a month. The host knocked ten percent off, no app in the middle taking a cut.</p>
+      <div class="tw-who"><img src="../review%20icons/4.webp" alt=""><div><strong>Adaeze O.</strong>Stayed at Villa Serrana</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-gap"></div>
+
+<!-- NEWSLETTER -->
+<section class="wrap">
+  <div class="newsletter">
+    <div><h3>New stays, before they book out.</h3><p>One email a month. No noise, no spam.</p></div>
+    <form class="nl-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Sent';">
+      <input type="email" placeholder="you@email.com" required>
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+  <a href="#" class="host-line">Have a place to share? <span class="host-line-link">List it — 0% commission, always</span></a>
+</section>
+
+<div class="section-gap"></div>
+
+<script>
+/* ---------- reveal on scroll (fades in .reveal elements, e.g. listing cards) ---------- */
+const revealIo = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); revealIo.unobserve(e.target); } });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>revealIo.observe(el));
+
+/* ---------- broken image fallback ---------- */
+document.querySelectorAll('img').forEach(img=>{
+  const markErr=()=>img.classList.add('img-err');
+  if(img.complete&&img.naturalWidth===0)markErr();
+  img.addEventListener('error',markErr,{once:true});
+});
+
+/* ---------- grid/map view toggle ---------- */
+(function(){
+  const gridBtn=document.getElementById('viewGridBtn');
+  const mapBtn=document.getElementById('viewMapBtn');
+  const mapView=document.getElementById('mapView');
+  const mapCanvas=document.getElementById('mapCanvas');
+  if(!gridBtn||!mapBtn)return;
+
+  function hashPercent(str,salt){
+    let h=0;
+    for(let i=0;i<str.length;i++){h=(h*31+str.charCodeAt(i)+salt)&0xffffffff;}
+    return Math.abs(h)%100;
+  }
+
+  function renderPins(){
+    mapCanvas.innerHTML='';
+    document.querySelectorAll('.listing-card').forEach(card=>{
+      if(card.style.display==='none')return;
+      const loc=card.dataset.location||'x';
+      const left=8+hashPercent(loc,17)*0.84;
+      const top=10+hashPercent(loc,53)*0.78;
+      const price=card.dataset.price;
+      const name=card.querySelector('h3')?.textContent||'';
+      const locLabel=card.querySelector('.lc-loc')?.textContent||'';
+      const img=card.querySelector('.ph img')?.getAttribute('src')||'';
+      const pin=document.createElement('div');
+      pin.className='map-pin';
+      pin.style.left=left+'%';
+      pin.style.top=top+'%';
+      pin.innerHTML='$'+price+
+        '<div class="map-pin-card"><img src="'+img+'" alt=""><div class="mpc-body"><div class="mpc-loc">'+locLabel+'</div><h4>'+name+'</h4><div class="mpc-price">$'+price+'<span style="font-weight:400;color:var(--ink-faint);">/night</span></div></div></div>';
+      pin.addEventListener('click',e=>{
+        e.stopPropagation();
+        const wasActive=pin.classList.contains('is-active');
+        document.querySelectorAll('.map-pin.is-active').forEach(p=>p.classList.remove('is-active'));
+        if(!wasActive)pin.classList.add('is-active');
+      });
+      mapCanvas.appendChild(pin);
+    });
+  }
+  document.addEventListener('click',()=>{document.querySelectorAll('.map-pin.is-active').forEach(p=>p.classList.remove('is-active'));});
+
+  gridBtn.addEventListener('click',()=>{
+    gridBtn.classList.add('is-active');mapBtn.classList.remove('is-active');
+    mapView.style.display='none';
+    applyFilter();
+  });
+  mapBtn.addEventListener('click',()=>{
+    mapBtn.classList.add('is-active');gridBtn.classList.remove('is-active');
+    grid.style.display='none';
+    document.getElementById('emptyState').style.display='none';
+    mapView.style.display='block';
+    renderPins();
+  });
+})();
+
+/* ---------- enrich listing cards: save heart, rating, amenities ---------- */
+(function(){
+  const amenityIcons={
+    pool:'<path d="M3 17c1.2 1 2.2 1 3.4 0 1.2-1 2.2-1 3.4 0 1.2 1 2.2 1 3.4 0 1.2-1 2.2-1 3.4 0"/><path d="M3 21c1.2 1 2.2 1 3.4 0 1.2-1 2.2-1 3.4 0 1.2 1 2.2 1 3.4 0 1.2-1 2.2-1 3.4 0"/><path d="M6 17V6a2 2 0 0 1 2-2h3l7 7"/>',
+    kitchen:'<path d="M4 3v7a3 3 0 0 0 3 3v8M4 3v3M7 3v3M10 3v3M17 3v18M17 3a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3"/>',
+    beachfront:'<path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0M13 3l-2 6h5l-6 8"/>',
+    detox:'<path d="M12 3c2 3 4 5 4 8a4 4 0 0 1-8 0c0-3 2-5 4-8z"/>',
+    hottub:'<circle cx="12" cy="13" r="7"/><path d="M9 13a3 3 0 0 1 6 0M5 5l1.5 1.5M19 5l-1.5 1.5"/>',
+    oceanview:'<circle cx="12" cy="9" r="3.5"/><path d="M2 20c2-2.5 4-2.5 6 0s4 2.5 6 0 4-2.5 6 0"/>',
+    ev:'<path d="M11 3 4 14h6l-1 7 7-11h-6l1-7z"/>',
+    pet:'<circle cx="7" cy="9" r="1.6"/><circle cx="12" cy="6.5" r="1.6"/><circle cx="17" cy="9" r="1.6"/><circle cx="9.5" cy="14" r="1.6"/><path d="M6 18c0-2.5 2.5-4.5 6-4.5s6 2 6 4.5-2.5 2-6 2-6 .5-6-2z"/>'
+  };
+  const amenityLabels={pool:'Pool',kitchen:'Kitchen',beachfront:'Beachfront',detox:'Detox',hottub:'Hot tub',oceanview:'Ocean view',ev:'EV charging',pet:'Pet friendly'};
+
+  document.querySelectorAll('.listing-card').forEach((card,i)=>{
+    // save/wishlist heart
+    const ph=card.querySelector('.ph');
+    if(ph&&!ph.querySelector('.lc-save')){
+      const heart=document.createElement('button');
+      heart.type='button';heart.className='lc-save';heart.setAttribute('aria-label','Save this stay');
+      heart.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2"><path d="M12 20.5s-7.5-4.6-10-9.3C.4 7.8 2 4.5 5.4 4c2.3-.4 4.2.8 6.6 3.2C14.4 4.8 16.3 3.6 18.6 4c3.4.5 5 3.8 3.4 7.2-2.5 4.7-10 9.3-10 9.3z"/></svg>';
+      heart.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();heart.classList.toggle('is-saved');});
+      ph.appendChild(heart);
+    }
+    // rating badge, injected next to the category pill
+    const cat=card.querySelector('.lc-cat');
+    if(cat&&!card.querySelector('.lc-rating')){
+      const price=parseInt(card.dataset.price||'100',10);
+      const rating=(4.5+((price*7+i*3)%40)/100).toFixed(2).slice(0,3);
+      const ratingEl=document.createElement('span');
+      ratingEl.className='lc-rating';
+      ratingEl.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.6 7.1.9-5.3 4.9 1.4 7.1L12 17.9 5.7 21.5l1.4-7.1L1.8 9.5l7.1-.9z"/></svg>'+rating;
+      const wrap=document.createElement('div');
+      wrap.className='lc-top-right';
+      cat.parentNode.insertBefore(wrap,cat);
+      wrap.appendChild(ratingEl);
+      wrap.appendChild(cat);
+    }
+    // amenity icons row
+    const amenitiesStr=card.dataset.amenities;
+    const h3=card.querySelector('.lc-body h3');
+    if(amenitiesStr&&h3&&!card.querySelector('.lc-amenities')){
+      const row=document.createElement('div');
+      row.className='lc-amenities';
+      amenitiesStr.split(' ').forEach(key=>{
+        if(!amenityIcons[key])return;
+        const item=document.createElement('span');
+        item.className='lc-amenity';
+        item.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+amenityIcons[key]+'</svg>'+(amenityLabels[key]||key);
+        row.appendChild(item);
+      });
+      h3.insertAdjacentElement('afterend',row);
+    }
+  });
+})();
+
+/* ---------- guest dropdown ---------- */
+(function(){
+  const field=document.getElementById('guestField');
+  const trigger=document.getElementById('guestTrigger');
+  const panel=document.getElementById('guestPanel');
+  if(!field)return;
+  panel.querySelectorAll('.sb-option').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      panel.querySelectorAll('.sb-option').forEach(o=>o.classList.remove('is-active'));
+      opt.classList.add('is-active');
+      trigger.textContent=opt.dataset.value;
+      field.classList.remove('is-open');
+    });
+  });
+  trigger.addEventListener('click',e=>{
+    e.stopPropagation();
+    closeAllPanels(field);
+    field.classList.toggle('is-open');
+  });
+})();
+
+/* ---------- date range picker ---------- */
+(function(){
+  const field=document.getElementById('dateField');
+  if(!field)return;
+  const trigger=document.getElementById('dateTrigger');
+  const grid=document.getElementById('dpGrid');
+  const monthLabel=document.getElementById('dpMonthLabel');
+  const prevBtn=document.getElementById('dpPrev');
+  const nextBtn=document.getElementById('dpNext');
+  const clearBtn=document.getElementById('dpClear');
+  const applyBtn=document.getElementById('dpApply');
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dows=['S','M','T','W','T','F','S'];
+  const today=new Date();today.setHours(0,0,0,0);
+  let viewYear=today.getFullYear(),viewMonth=today.getMonth();
+  let rangeStart=null,rangeEnd=null;
+
+  function fmt(d){return monthNames[d.getMonth()].slice(0,3)+' '+d.getDate();}
+
+  function render(){
+    monthLabel.textContent=monthNames[viewMonth]+' '+viewYear;
+    grid.innerHTML='';
+    dows.forEach(d=>{const el=document.createElement('div');el.className='dp-dow';el.textContent=d;grid.appendChild(el);});
+    const firstDay=new Date(viewYear,viewMonth,1).getDay();
+    const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
+    for(let i=0;i<firstDay;i++){const el=document.createElement('div');el.className='dp-day is-empty';grid.appendChild(el);}
+    for(let d=1;d<=daysInMonth;d++){
+      const date=new Date(viewYear,viewMonth,d);
+      const btn=document.createElement('button');
+      btn.type='button';btn.className='dp-day';btn.textContent=d;
+      if(date<today){btn.classList.add('is-disabled');}
+      else{
+        if(rangeStart&&date.getTime()===rangeStart.getTime())btn.classList.add('is-selected','is-range-start');
+        if(rangeEnd&&date.getTime()===rangeEnd.getTime())btn.classList.add('is-selected','is-range-end');
+        if(rangeStart&&rangeEnd&&date>rangeStart&&date<rangeEnd)btn.classList.add('is-in-range');
+        btn.addEventListener('click',()=>{
+          if(!rangeStart||(rangeStart&&rangeEnd)){rangeStart=date;rangeEnd=null;}
+          else if(date<rangeStart){rangeStart=date;}
+          else{rangeEnd=date;}
+          setTimeout(render,0);
+        });
+      }
+      grid.appendChild(btn);
+    }
+  }
+  prevBtn.addEventListener('click',()=>{viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}render();});
+  nextBtn.addEventListener('click',()=>{viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}render();});
+  clearBtn.addEventListener('click',()=>{rangeStart=null;rangeEnd=null;render();});
+  applyBtn.addEventListener('click',()=>{
+    if(rangeStart&&rangeEnd){trigger.textContent=fmt(rangeStart)+' – '+fmt(rangeEnd);trigger.classList.remove('is-placeholder');}
+    else if(rangeStart){trigger.textContent=fmt(rangeStart)+' – ?';trigger.classList.remove('is-placeholder');}
+    field.classList.remove('is-open');
+  });
+  trigger.addEventListener('click',e=>{
+    e.stopPropagation();
+    closeAllPanels(field);
+    field.classList.toggle('is-open');
+    if(field.classList.contains('is-open'))render();
+  });
+})();
+
+function closeAllPanels(except){
+  document.querySelectorAll('.sb-field.is-open, .sort-wrap.is-open').forEach(f=>{if(f!==except)f.classList.remove('is-open');});
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.sb-field, .sort-wrap'))closeAllPanels(null);
+});
+
+/* ---------- carousel arrows ---------- */
+function scrollStrip(id,dir){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const card=el.querySelector(':scope > *');
+  const step=card?card.getBoundingClientRect().width+18:360;
+  el.scrollBy({left:dir*step*1.4,behavior:'smooth'});
+}
+
+/* ---------- destination strip: disable arrows at ends ---------- */
+(function(){
+  const strip=document.getElementById('placeStrip');
+  const left=document.getElementById('destArrowLeft');
+  const right=document.getElementById('destArrowRight');
+  if(!strip||!left||!right)return;
+  function update(){
+    const max=strip.scrollWidth-strip.clientWidth-2;
+    left.disabled=strip.scrollLeft<=0;
+    right.disabled=strip.scrollLeft>=max;
+  }
+  strip.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  update();
+})();
+
+/* ---------- click-and-drag scrolling ---------- */
+document.querySelectorAll('.stamp-row').forEach(strip=>{
+  let isDown=false,startX=0,startScroll=0,moved=false;
+  strip.addEventListener('mousedown',e=>{
+    isDown=true;moved=false;strip.classList.add('is-dragging');
+    startX=e.pageX;startScroll=strip.scrollLeft;
+  });
+  window.addEventListener('mouseup',()=>{isDown=false;strip.classList.remove('is-dragging');});
+  window.addEventListener('mousemove',e=>{
+    if(!isDown)return;
+    const dx=e.pageX-startX;
+    if(Math.abs(dx)>4)moved=true;
+    strip.scrollLeft=startScroll-dx;
+  });
+  strip.addEventListener('click',e=>{if(moved){e.preventDefault();e.stopPropagation();}},true);
+});
+
+/* ---------- filter state ---------- */
+const grid=document.getElementById('listingsGrid');
+const cards=Array.from(grid.querySelectorAll('.listing-card'));
+const chips=document.querySelectorAll('.chip');
+const catChecks=document.querySelectorAll('.check-row input[data-cat]');
+const amChecks=document.querySelectorAll('.check-row input[data-am]');
+const colChecks=document.querySelectorAll('.check-row input[data-col]');
+const searchInput=document.getElementById('searchInput');
+const resultCount=document.getElementById('resultCount');
+const minPrice=document.getElementById('minPrice');
+const maxPrice=document.getElementById('maxPrice');
+const filterBadge=document.getElementById('filterBadge');
+const activeFiltersBar=document.getElementById('activeFiltersBar');
+const activeFiltersRow=document.getElementById('activeFiltersRow');
+
+const catLabels={boutique:'Boutique hotel',surf:'Surf camp',retreat:'Retreat centre',villa:'Villa',eco:'Eco-lodge',island:'Island stay',mountain:'Mountain lodge'};
+const amLabels={pool:'Pool',beachfront:'Beachfront',pet:'Pet friendly',detox:'Digital detox',hottub:'Hot tub',oceanview:'Ocean view',kitchen:'Kitchen',ev:'EV charging'};
+const colLabels={offgrid:'Off-grid, on purpose',surfvibe:'Surf, then nap, repeat',slowmornings:'Slow mornings, thin air',islandsearn:'Islands you have to earn',realquiet:'Real silence',stonenotstucco:'Stone, not stucco',familyrun:'Family-run',packlight:'Pack light, stay long'};
+
+function afPill(label,onRemove){
+  const pill=document.createElement('span');
+  pill.className='af-pill';
+  const text=document.createElement('span');
+  text.textContent=label;
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.setAttribute('aria-label','Remove filter: '+label);
+  btn.innerHTML='<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>';
+  btn.addEventListener('click',onRemove);
+  pill.appendChild(text);pill.appendChild(btn);
+  return pill;
+}
+
+function renderActiveFilters(){
+  activeFiltersRow.innerHTML='';
+  let count=0;
+  selectedCats.forEach(cat=>{
+    activeFiltersRow.appendChild(afPill(catLabels[cat]||cat,()=>{selectedCats.delete(cat);syncCatUI();applyFilter();}));
+    count++;
+  });
+  selectedAms.forEach(am=>{
+    activeFiltersRow.appendChild(afPill(amLabels[am]||am,()=>{
+      selectedAms.delete(am);
+      const cb=document.querySelector('.check-row input[data-am="'+am+'"]');if(cb)cb.checked=false;
+      syncCatUI();applyFilter();
+    }));
+    count++;
+  });
+  selectedCols.forEach(col=>{
+    activeFiltersRow.appendChild(afPill(colLabels[col]||col,()=>{
+      selectedCols.delete(col);
+      const cb=document.querySelector('.check-row input[data-col="'+col+'"]');if(cb)cb.checked=false;
+      syncCatUI();applyFilter();
+    }));
+    count++;
+  });
+  if(minPrice.value||maxPrice.value){
+    const label=minPrice.value&&maxPrice.value?'$'+minPrice.value+'–$'+maxPrice.value
+      :minPrice.value?'$'+minPrice.value+'+':'Up to $'+maxPrice.value;
+    activeFiltersRow.appendChild(afPill(label,()=>{minPrice.value='';maxPrice.value='';applyFilter();}));
+    count++;
+  }
+  if(searchInput.value.trim()){
+    activeFiltersRow.appendChild(afPill('"'+searchInput.value.trim()+'"',()=>{searchInput.value='';applyFilter();}));
+    count++;
+  }
+  if(count>1){
+    const clearAll=document.createElement('button');
+    clearAll.type='button';clearAll.className='af-clear-all';clearAll.textContent='Clear all';
+    clearAll.addEventListener('click',()=>document.getElementById('clearFilters').click());
+    activeFiltersRow.appendChild(clearAll);
+  }
+  activeFiltersBar.style.display=count>0?'block':'none';
+}
+
+let selectedCats=new Set();
+let selectedAms=new Set();
+let selectedCols=new Set();
+
+function syncCatUI(){
+  chips.forEach(c=>{
+    if(c.dataset.cat==='all'){c.classList.toggle('is-active',selectedCats.size===0);}
+    else{c.classList.toggle('is-active',selectedCats.has(c.dataset.cat));}
+  });
+  catChecks.forEach(ch=>{ch.checked=selectedCats.has(ch.dataset.cat);});
+  const n=selectedCats.size+selectedAms.size+selectedCols.size;
+  filterBadge.style.display=n>0?'flex':'none';
+  filterBadge.textContent=n;
+}
+
+function toggleCat(cat){
+  if(cat==='all'){selectedCats.clear();}
+  else{ selectedCats.has(cat)?selectedCats.delete(cat):selectedCats.add(cat); }
+  syncCatUI();
+  applyFilter();
+}
+
+chips.forEach(chip=>chip.addEventListener('click',()=>toggleCat(chip.dataset.cat)));
+catChecks.forEach(ch=>ch.addEventListener('change',()=>toggleCat(ch.dataset.cat)));
+amChecks.forEach(ch=>ch.addEventListener('change',()=>{
+  ch.checked?selectedAms.add(ch.dataset.am):selectedAms.delete(ch.dataset.am);
+  syncCatUI();
+  applyFilter();
+}));
+colChecks.forEach(ch=>ch.addEventListener('change',()=>{
+  ch.checked?selectedCols.add(ch.dataset.col):selectedCols.delete(ch.dataset.col);
+  syncCatUI();
+  applyFilter();
+}));
+
+function applyFilter(){
+  const q=searchInput.value.trim().toLowerCase();
+  const min=minPrice.value?+minPrice.value:0;
+  const max=maxPrice.value?+maxPrice.value:Infinity;
+  let visible=0;
+  cards.forEach(c=>{
+    const cat=c.dataset.category;
+    const price=+c.dataset.price;
+    const am=(c.dataset.amenities||'').split(' ');
+    const col=(c.dataset.collections||'').split(' ');
+    const text=c.innerText.toLowerCase();
+    const matchCat=selectedCats.size===0||selectedCats.has(cat);
+    const matchAm=[...selectedAms].every(a=>am.includes(a));
+    const matchCol=[...selectedCols].every(k=>col.includes(k));
+    const matchPrice=price>=min&&price<=max;
+    const matchText=!q||text.includes(q);
+    const show=matchCat&&matchAm&&matchCol&&matchPrice&&matchText&&!c.classList.contains('is-more');
+    c.style.display=show?'flex':'none';
+    if(show)visible++;
+  });
+  resultCount.textContent='Showing '+visible+' of 127 '+(visible===1?'stay':'stays');
+  document.getElementById('emptyState').style.display=visible===0?'flex':'none';
+  grid.style.display=visible===0?'none':'grid';
+  renderActiveFilters();
+}
+document.getElementById('emptyClearBtn').addEventListener('click',()=>{
+  document.getElementById('clearFilters').click();
+});
+
+function applySort(mode){
+  if(mode==='rec'){
+    cards.forEach(c=>{c.style.order=c.getAttribute('data-order-original');});
+    return;
+  }
+  if(mode==='new'){
+    let sorted=[...cards].sort((a,b)=> (b.dataset.new==='1'?1:0)-(a.dataset.new==='1'?1:0));
+    sorted.forEach((c,i)=>{c.style.order=(i+1)*10;});
+    return;
+  }
+  let sorted=[...cards].sort((a,b)=> mode==='asc' ? (+a.dataset.price-+b.dataset.price) : (+b.dataset.price-+a.dataset.price));
+  sorted.forEach((c,i)=>{c.style.order=(i+1)*10;});
+}
+cards.forEach(c=>c.setAttribute('data-order-original',c.style.order));
+
+/* ---------- sort dropdown ---------- */
+(function(){
+  const wrap=document.getElementById('sortWrap');
+  const trigger=document.getElementById('sortTrigger');
+  const triggerText=document.getElementById('sortTriggerText');
+  const panel=document.getElementById('sortPanel');
+  if(!wrap)return;
+  panel.querySelectorAll('.sb-option').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      panel.querySelectorAll('.sb-option').forEach(o=>o.classList.remove('is-active'));
+      opt.classList.add('is-active');
+      triggerText.textContent=opt.textContent;
+      wrap.classList.remove('is-open');
+      applySort(opt.dataset.value);
+    });
+  });
+  trigger.addEventListener('click',e=>{
+    e.stopPropagation();
+    closeAllPanels(wrap);
+    wrap.classList.toggle('is-open');
+  });
+})();
+
+searchInput.addEventListener('input',applyFilter);
+minPrice.addEventListener('input',applyFilter);
+maxPrice.addEventListener('input',applyFilter);
+
+/* ---------- search button ---------- */
+const sbGoBtn=document.getElementById('sbGoBtn');
+if(sbGoBtn){
+  sbGoBtn.addEventListener('click',()=>{
+    closeAllPanels(null);
+    applyFilter();
+    document.getElementById('listingsGrid').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+}
+
+/* ---------- Where: destination typeahead ---------- */
+(function(){
+  const field=document.getElementById('whereField');
+  const popularWrap=document.getElementById('wherePopular');
+  const popularList=document.getElementById('wherePopularList');
+  const matchesWrap=document.getElementById('whereMatches');
+  const matchesHeading=document.getElementById('whereMatchesHeading');
+  const matchesList=document.getElementById('whereMatchesList');
+  const emptyWrap=document.getElementById('whereEmpty');
+  const emptyQuery=document.getElementById('whereEmptyQuery');
+  if(!field)return;
+
+  const popular=[
+    {label:'Mexico',search:'mexico',img:'../listings/9.webp'},
+    {label:'Sierra Nevada',search:'sierra nevada',img:'../destination/2.webp'},
+    {label:'Algarve',search:'algarve',img:'../destination/3.webp'},
+    {label:'Ubud',search:'ubud',img:'../destination/5.webp'},
+    {label:'Azores',search:'azores',img:'../destination/6.webp'},
+    {label:'Puglia',search:'puglia',img:'../listings/21.webp'},
+    {label:'Zanzibar',search:'zanzibar',img:'../listings/23.webp'},
+    {label:'Chamonix',search:'chamonix',img:'../listings/17.webp'}
+  ];
+
+  // index every listing's "City, Country" into lookups the moment the page loads
+  const cityMap=new Map();
+  const countryMap=new Map();
+  document.querySelectorAll('.listing-card .lc-loc').forEach(el=>{
+    const raw=el.textContent.trim();
+    const parts=raw.split(',').map(s=>s.trim());
+    const city=parts[0],country=parts[1]||'';
+    if(city){
+      const key=city.toLowerCase();
+      const entry=cityMap.get(key)||{city,country,count:0};
+      entry.count++;
+      cityMap.set(key,entry);
+    }
+    if(country){
+      const key=country.toLowerCase();
+      countryMap.set(key,(countryMap.get(key)||0)+1);
+    }
+  });
+
+  const pinSvg='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="9" r="2.2"/></svg>';
+  function iconFor(label){
+    const p=popular.find(p=>p.label.toLowerCase()===label.toLowerCase());
+    return p?'<img src="'+p.img+'" alt="">':pinSvg;
+  }
+  function highlight(text,q){
+    if(!q)return text;
+    const i=text.toLowerCase().indexOf(q.toLowerCase());
+    if(i===-1)return text;
+    return text.slice(0,i)+'<mark>'+text.slice(i,i+q.length)+'</mark>'+text.slice(i+q.length);
+  }
+  function makeItem({main,sub,count,iconHtml,onClick}){
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='where-item';
+    btn.innerHTML='<span class="where-item-icon">'+iconHtml+'</span>'+
+      '<span class="where-item-text"><strong>'+main+'</strong>'+(sub?'<span>'+sub+'</span>':'')+'</span>'+
+      (count?'<span class="where-item-count">'+count+'</span>':'');
+    btn.addEventListener('click',onClick);
+    return btn;
+  }
+  function choose(label,search){
+    searchInput.value=search||label;
+    field.classList.remove('is-open');
+    applyFilter();
+  }
+  function renderPopular(){
+    popularList.innerHTML='';
+    popular.slice(0,6).forEach(p=>{
+      popularList.appendChild(makeItem({
+        main:p.label,sub:'Popular destination',iconHtml:'<img src="'+p.img+'" alt="">',
+        onClick:()=>choose(p.label,p.search)
+      }));
+    });
+  }
+  function renderMatches(q){
+    const ql=q.toLowerCase();
+    const rank=s=>s.toLowerCase().startsWith(ql)?0:1;
+    const cityResults=[...cityMap.values()].filter(v=>v.city.toLowerCase().includes(ql))
+      .sort((a,b)=>rank(a.city)-rank(b.city)||a.city.localeCompare(b.city));
+    const countryResults=[...countryMap.entries()].filter(([k])=>k.includes(ql))
+      .sort((a,b)=>rank(a[0])-rank(b[0])||a[0].localeCompare(b[0]));
+
+    matchesList.innerHTML='';
+    let n=0;
+    cityResults.slice(0,6).forEach(c=>{
+      matchesList.appendChild(makeItem({
+        main:highlight(c.city,q),sub:c.country,
+        count:c.count+(c.count===1?' stay':' stays'),
+        iconHtml:iconFor(c.city),
+        onClick:()=>choose(c.city,c.city.toLowerCase())
+      }));
+      n++;
+    });
+    countryResults.slice(0,4).forEach(([key,count])=>{
+      const label=key.replace(/\b\w/g,ch=>ch.toUpperCase());
+      matchesList.appendChild(makeItem({
+        main:highlight(label,q),sub:'Country',
+        count:count+(count===1?' stay':' stays'),
+        iconHtml:iconFor(label),
+        onClick:()=>choose(label,key)
+      }));
+      n++;
+    });
+
+    if(n===0){
+      matchesWrap.style.display='none';
+      emptyWrap.style.display='block';
+      emptyQuery.textContent=q;
+    }else{
+      emptyWrap.style.display='none';
+      matchesWrap.style.display='block';
+      matchesHeading.textContent='Destinations matching “'+q+'”';
+    }
+  }
+  function refresh(){
+    const q=searchInput.value.trim();
+    if(!q){
+      popularWrap.style.display='block';
+      matchesWrap.style.display='none';
+      emptyWrap.style.display='none';
+    }else{
+      popularWrap.style.display='none';
+      renderMatches(q);
+    }
+  }
+
+  renderPopular();
+  searchInput.addEventListener('focus',()=>{
+    closeAllPanels(field);
+    field.classList.add('is-open');
+    refresh();
+  });
+  searchInput.addEventListener('input',refresh);
+})();
+
+/* ---------- drawer ---------- */
+const drawer=document.getElementById('drawer');
+const drawerOverlay=document.getElementById('drawerOverlay');
+function openDrawer(){drawer.classList.add('is-open');drawerOverlay.classList.add('is-open');}
+function closeDrawer(){drawer.classList.remove('is-open');drawerOverlay.classList.remove('is-open');}
+document.getElementById('filtersBtn').addEventListener('click',openDrawer);
+document.getElementById('drawerClose').addEventListener('click',closeDrawer);
+drawerOverlay.addEventListener('click',closeDrawer);
+document.getElementById('applyFilters').addEventListener('click',()=>{applyFilter();closeDrawer();});
+document.getElementById('clearFilters').addEventListener('click',()=>{
+  selectedCats.clear();selectedAms.clear();selectedCols.clear();
+  amChecks.forEach(ch=>ch.checked=false);
+  colChecks.forEach(ch=>ch.checked=false);
+  minPrice.value='';maxPrice.value='';searchInput.value='';
+  syncCatUI();applyFilter();
+});
+
+syncCatUI();
+
+/* ---------- destination pills: click to filter listings ---------- */
+document.querySelectorAll('.stamp[data-search]').forEach(stamp=>{
+  stamp.addEventListener('click',e=>{
+    e.preventDefault();
+    searchInput.value=stamp.dataset.search;
+    applyFilter();
+    document.getElementById('listingsGrid').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+/* ---------- load more listings ---------- */
+const loadMoreBtn=document.getElementById('loadMoreBtn');
+if(loadMoreBtn){
+  loadMoreBtn.addEventListener('click',()=>{
+    document.querySelectorAll('.is-more').forEach(c=>{c.classList.remove('is-more');});
+    applyFilter();
+    loadMoreBtn.style.display='none';
+  });
+}
+
+/* ---------- initial sync so counts and pills reflect real state on load ---------- */
+applyFilter();
+</script>
+
+<!-- ============ SHARED FOOTER (identical on every page — synced from master.html) ============ -->
+<footer class="footer-min">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a href="index.html#destinations">Locations</a>
+      <a href="explore.html">Stays</a>
+      <a href="#">Themes</a>
+    </div>
+    <div class="footer-col">
+      <h5>guestbook</h5>
+      <a href="#">About</a>
+      <a href="index.html#journal">Journal</a>
+      <a href="host.html">For Hosts</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <a href="#">hello@guestbook.com</a>
+      <a href="#">Instagram</a>
+      <a href="#">Newsletter</a>
+    </div>
+    <div class="footer-brand-col">
+      <a class="footer-brand-mark" href="index.html"><span class="word"><span class="hw-light">Guest</span>book</span><span class="dot"></span></a>
+      <p>A short, scouted list of stays worth the flight.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 guestbook</span>
+    <span>Terms &middot; Privacy</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- highlight the current page in the nav + mobile menu + footer ---------- */
+(function(){
+  const path=location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.nav-pill .links a, .mobile-menu a, .footer-col a').forEach(a=>{
+    if(a.getAttribute('href')===path) a.classList.add('is-current');
+  });
+})();
+
+/* ---------- nav search: expands on hover (desktop), toggles on tap (touch) ---------- */
+(function(){
+  const navSearch=document.getElementById('navSearch'),navSearchBtn=document.getElementById('navSearchBtn');
+  if(navSearch&&navSearchBtn){
+    navSearchBtn.addEventListener('click',(e)=>{e.stopPropagation();navSearch.classList.toggle('is-open');});
+    document.addEventListener('click',(e)=>{if(!navSearch.contains(e.target))navSearch.classList.remove('is-open');});
+  }
+})();
+
+/* ---------- mobile menu: hamburger opens/closes the dropdown ---------- */
+(function(){
+  const menuToggle=document.getElementById('menuToggle'),mobileMenu=document.getElementById('mobileMenu');
+  if(!menuToggle||!mobileMenu)return;
+  const closeMenu=()=>{mobileMenu.classList.remove('is-open');menuToggle.setAttribute('aria-expanded','false');};
+  menuToggle.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    const isOpen=mobileMenu.classList.toggle('is-open');
+    menuToggle.setAttribute('aria-expanded',String(isOpen));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+  document.addEventListener('click',(e)=>{if(!mobileMenu.contains(e.target)&&!menuToggle.contains(e.target))closeMenu();});
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeMenu();});
+})();
+</script>
+<!-- ============ /SHARED FOOTER ============ -->
+
+<script>
+/* ---- version pills: only visible while the top search-band section is in view ---- */
+(function(){
+  const heroEl = document.querySelector('.search-band');
+  const pills = document.querySelector('.version-pills');
+  if(!heroEl || !pills) return;
+  const heroIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ pills.classList.toggle('is-hidden', !e.isIntersecting); });
+  },{threshold:0});
+  heroIo.observe(heroEl);
+})();
+
+/* ---- h2 headings: lighter navy words progressively deepen to final navy as you scroll ---- */
+(function(){
+  const scrubHeads = document.querySelectorAll('[data-h2scrub]');
+  if(!scrubHeads.length) return;
+  const wrapWords = (el) => {
+    Array.from(el.childNodes).forEach(node => {
+      if(node.nodeType === Node.TEXT_NODE){
+        if(!node.textContent.trim()){ return; }
+        const frag = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(token => {
+          if(token.trim() === ''){
+            frag.appendChild(document.createTextNode(token));
+          } else {
+            const span = document.createElement('span');
+            span.className = 'h2-scrub-word';
+            span.textContent = token;
+            frag.appendChild(span);
+          }
+        });
+        node.replaceWith(frag);
+      } else if(node.nodeType === Node.ELEMENT_NODE){
+        wrapWords(node);
+      }
+    });
+  };
+  scrubHeads.forEach(h => wrapWords(h));
+
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    let ticking = false;
+    const update = () => {
+      const vh = window.innerHeight;
+      const start = vh * 0.8;
+      scrubHeads.forEach(h => {
+        const rect = h.getBoundingClientRect();
+        const range = rect.height + vh * 0.45;
+        const progress = Math.min(1, Math.max(0, (start - rect.top) / range));
+        const words = h.querySelectorAll('.h2-scrub-word');
+        const litCount = Math.round(progress * words.length);
+        words.forEach((w,i) => w.classList.toggle('is-lit', i < litCount));
+      });
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => { if(!ticking){ requestAnimationFrame(update); ticking = true; } }, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  } else {
+    scrubHeads.forEach(h => h.querySelectorAll('.h2-scrub-word').forEach(w => w.classList.add('is-lit')));
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2714%27%20fill%3D%27%23ff5151%27/%3E%3Ctext%20x%3D%2732%27%20y%3D%2745%27%20font-family%3D%27DM%20Sans%2C%20Inter%2C%20-apple-system%2C%20sans-serif%27%20font-weight%3D%27700%27%20font-size%3D%2734%27%20text-anchor%3D%27middle%27%20fill%3D%27%23ffffff%27%3EM%3C/text%3E%3C/svg%3E">
+<title>guestbook: explore stays</title>
+<meta name="description" content="Boutique hotels, surf camps, and retreats — 127 places, hand-reviewed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --ink:#232323;
+    --ink-soft:#7A7267;
+    --sand:#F7F2EA;
+    --paper:#faf9f8;
+    --fog:#E7E0D2;
+    --white:#FFFFFF;
+
+    --atlantic:#0F3D5E;
+    --pine:#165A5A;
+    --coral:#ff5151;
+    --stone:#EDE6D9;
+    --nav-blue:#068ec1;
+
+    --f-display:'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --f-ui:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --f-hand:'Caveat', 'Segoe Script', 'Bradley Hand', cursive;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:var(--f-ui); line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1230px; margin:0 auto; padding:0 24px; }
+  :focus-visible{ outline:2px solid var(--coral); outline-offset:3px; }
+
+  header{
+    position:sticky; top:16px; z-index:100;
+    background:transparent; border-bottom:none;
+    padding:0 24px;
+  }
+  .header-row{
+    display:flex; align-items:center; gap:32px;
+    max-width:1230px; margin:0 auto;
+    padding:12px 26px;
+    background:rgba(255,255,255,.6);
+    -webkit-backdrop-filter:blur(20px) saturate(180%);
+    backdrop-filter:blur(20px) saturate(180%);
+    border:1px solid rgba(255,255,255,.7);
+    border-radius:999px;
+    transition:border-color .35s ease, background .35s ease, padding .3s ease;
+    position:relative;
+  }
+  header.is-scrolled .header-row{
+    background:rgba(255,255,255,.82);
+    border-color:rgba(23,38,43,.08);
+  }
+  .mobile-nav-toggle{
+    display:none; width:36px; height:36px; border-radius:50%; border:1px solid rgba(35,35,35,.12);
+    background:rgba(35,35,35,.04); align-items:center; justify-content:center; cursor:pointer;
+    flex-shrink:0; transition:background .2s ease, transform .15s ease; margin-left:6px;
+  }
+  .mobile-nav-toggle:hover{ background:rgba(35,35,35,.08); }
+  .mobile-nav-toggle svg{ width:16px; height:16px; color:var(--ink); }
+  .mobile-nav-panel{
+    display:none; flex-direction:column; gap:2px;
+    position:absolute; top:calc(100% + 10px); left:0; right:0;
+    background:rgba(255,255,255,.97);
+    -webkit-backdrop-filter:blur(20px) saturate(180%); backdrop-filter:blur(20px) saturate(180%);
+    border:1px solid rgba(23,38,43,.08); border-radius:20px;
+    padding:10px; z-index:99;
+  }
+  .mobile-nav-panel.is-open{ display:flex; }
+  .mobile-nav-panel a{
+    font-family:var(--f-ui); font-size:.95rem; font-weight:500; color:var(--ink);
+    padding:12px 14px; border-radius:12px; transition:background .2s ease;
+  }
+  .mobile-nav-panel a:hover{ background:rgba(35,35,35,.06); }
+  .mobile-nav-panel .mnp-divider{
+    height:1px; background:rgba(35,35,35,.08); margin:6px 6px;
+  }
+  .mobile-nav-panel .mnp-list-link{ color:var(--nav-blue); font-weight:700; }
+
+  .logo{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--f-ui); font-weight:700; font-size:1.1625rem;
+    letter-spacing:-.01em; white-space:nowrap; color:var(--ink);
+  }
+  .logo .logo-pina{
+    font-weight:600;
+    background-image:linear-gradient(to right, var(--ink) 0%, var(--ink) 50%, var(--coral) 50%, var(--coral) 100%);
+    background-size:200% 100%;
+    background-position:0% 0;
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent; -webkit-text-fill-color:transparent;
+    animation: pinaDrip 1.15s cubic-bezier(.22,.68,.35,1) .35s 1 both;
+  }
+  .logo:hover .logo-pina{
+    animation: pinaDrip 1s cubic-bezier(.22,.68,.35,1) 1 both;
+  }
+  @keyframes pinaDrip{
+    from{ background-position:0% 0; }
+    to{ background-position:100% 0; }
+  }
+  .header-links{ display:flex; gap:4px; font-family:var(--f-ui); font-size:.85rem; color:var(--ink-soft); font-weight:500; }
+  .header-links a{
+    position:relative; padding:7px 14px; border-radius:999px;
+    background:rgba(35,35,35,0); transition:color .2s ease, background .2s ease;
+  }
+  .header-links a:hover{ color:var(--ink); background:rgba(35,35,35,.06); }
+  .header-links a.is-current{ color:var(--ink); background:rgba(35,35,35,.07); font-weight:700; }
+  .header-right{ margin-left:auto; display:flex; align-items:center; gap:14px; }
+  
+  .header-versions{
+    display:flex; align-items:center; gap:5px; overflow:hidden;
+    max-width:110px; opacity:1; transform:translateY(0) scale(1);
+    transition:opacity .3s ease, transform .3s ease, max-width .3s ease, margin .3s ease;
+  }
+  .header-versions.is-hidden{ opacity:0; transform:translateY(-4px) scale(.92); max-width:0; margin:0; pointer-events:none; }
+  .hv-pill{
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    width:25px; height:25px; border-radius:50%;
+    background:rgba(35,35,35,.05); border:1px solid rgba(35,35,35,.1);
+    font-family:var(--f-ui); font-size:.6rem; font-weight:700; letter-spacing:.01em; color:var(--ink-soft);
+    transition:background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
+  }
+  .hv-pill:hover{ background:rgba(35,35,35,.1); color:var(--ink); transform:translateY(-1px); }
+  .hv-pill.is-current{ background:rgba(255,81,81,.14); border-color:rgba(255,81,81,.32); color:var(--coral); }
+  .header-right .list-link{
+    font-family:var(--f-ui); font-size:calc(.85rem - 2px); font-weight:700; color:var(--white); white-space:nowrap;
+    background:var(--nav-blue); padding:9px 18px; border-radius:999px; transition:background .2s ease, transform .15s ease;
+  }
+  .header-right .list-link:hover{ background:#057aa8; }
+  .header-search{
+    display:flex; align-items:center; gap:8px;
+    background:rgba(35,35,35,.05); border:1px solid rgba(35,35,35,.08);
+    border-radius:999px; padding:8px 14px 8px 12px; min-width:190px;
+  }
+  .header-search svg{ width:15px; height:15px; color:var(--ink-soft); flex-shrink:0; }
+  .header-search input{
+    border:none; background:none; outline:none; font-family:var(--f-ui);
+    font-size:.82rem; color:var(--ink); width:100%;
+  }
+  .header-search input::placeholder{ color:var(--ink-soft); }
+
+  main{ padding:0; }
+  section{ margin-bottom:53px; }
+
+  .reveal{ opacity:0; transform:translateY(22px) scale(.98); transition:opacity 1.25s cubic-bezier(.22,.61,.36,1), transform 1.25s cubic-bezier(.22,.61,.36,1); }
+  .reveal.in-view{ opacity:1; transform:translateY(0) scale(1); }
+
+  
+  .hero{ padding-top:52px; padding-bottom:30px; margin-bottom:14px; }
+  
+  .hero-copy h1{
+    font-family:'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-weight:700; font-size:2.9rem;
+    line-height:1.05; margin-bottom:14px; max-width:520px; letter-spacing:-.01em;
+  }
+  .hero-copy .sub{ font-family:'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; font-style:italic; font-weight:400; font-size:1.05rem; opacity:.92; max-width:640px; line-height:1.5; }
+
+  
+  @keyframes heroIn{
+    from{ opacity:0; translate:0 14px; }
+    to{ opacity:1; translate:0 0; }
+  } .hero-copy h1, .hero-copy .sub, .hero-search{
+    animation:heroIn .8s cubic-bezier(.22,.61,.36,1) both;
+  }
+  .hero-copy h1{ animation-delay:.16s; }
+  .hero-copy .sub{ animation-delay:.3s; }
+  .hero-search{ animation-delay:.54s; }
+  .sec-whisper{
+    font-family:var(--f-hand); font-weight:600; font-size:1.15rem; color:var(--coral);
+    margin-top:8px; transform:rotate(-1deg); transform-origin:left; display:inline-block;
+  }
+
+  .hero-search{ width:100%; position:relative; z-index:2; }
+  .search-bar{
+    display:flex; align-items:stretch; gap:2px;
+    background:var(--white); border-radius:999px;
+    padding:6px; max-width:620px;
+    border:1px solid rgba(23,38,43,.08);
+    transition:border-color .25s ease;
+  }
+  .search-bar:focus-within{ border-color:var(--coral); }
+  .search-seg{
+    flex:1; display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+    background:none; border:none; cursor:pointer; text-align:left;
+    padding:9px 20px; border-radius:999px; min-width:0;
+    transition:background .2s ease;
+  }
+  .search-seg:hover{ background:rgba(23,38,43,.05); }
+  .search-seg.is-active{ background:var(--white); border:1px solid rgba(23,38,43,.08); }
+  .search-seg-label{ font-family:var(--f-ui); font-weight:700; font-size:.7rem; color:var(--ink); }
+  .search-seg-value{
+    font-family:var(--f-ui); font-size:.82rem; color:var(--ink-soft); margin-top:2px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .search-divider{ width:1px; flex-shrink:0; background:var(--fog); margin:8px 0; }
+  .search-submit{
+    flex-shrink:0; width:48px; height:48px; margin-left:4px;
+    border:none; cursor:pointer; background:var(--coral); color:var(--white);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .search-submit:hover{ background:#e64545; transform:scale(1.06); }
+  .search-submit svg{ width:17px; height:17px; }
+  .listing-card{
+    flex:0 0 236px; background:var(--white); border-radius:20px;
+    padding:14px; display:flex; flex-direction:column;
+    border:1px solid rgba(23,38,43,.07);
+    transition:border-color .3s ease, transform .3s ease;
+  }
+  .listing-card:hover{
+    border-color:rgba(23,38,43,.16);
+    transform:translateY(-3px);
+  }
+  .lc-image{
+    position:relative; border-radius:20px 20px 0 0; overflow:hidden; aspect-ratio:4/5;
+    background:var(--fog); margin:-14px -14px 14px; isolation:isolate;
+  }
+  .lc-badge{
+    position:absolute; top:12px; left:12px; z-index:5;
+    background:rgba(255,255,255,.28); backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.45);
+    color:var(--ink); font-family:var(--f-ui); font-size:.68rem; font-weight:600;
+    padding:6px 12px; border-radius:99px; letter-spacing:.01em;
+    text-shadow:none;
+  }
+  .lc-badge--new{
+    background:#1F8A4C; border-color:rgba(255,255,255,.3);
+    color:var(--white); text-shadow:none;
+  }
+
+  .lc-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:8px; }
+  .lc-location{ color:var(--ink-soft); font-weight:400; font-size:.78rem; line-height:1.35; }
+  .lc-title{ font-weight:700; font-size:.95rem; margin-bottom:8px; line-height:1.3; }
+  .lc-bottom{ display:flex; justify-content:space-between; align-items:center; font-size:.85rem; margin-top:auto; }
+  .lc-price{ font-weight:700; }
+  .lc-price span{ font-weight:500; color:var(--ink-soft); }
+  .lc-badge--pick{
+    background:var(--coral); border-color:rgba(255,255,255,.3);
+    color:var(--white); text-shadow:none; font-weight:700;
+  }
+
+  
+  .sec-head{ margin-bottom:42px; }
+  .sec-head .kicker{
+    font-family:var(--f-ui); font-weight:700; font-size:.7rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--coral); margin-bottom:14px;
+  }
+  .sec-head h2{
+    font-family:var(--f-display); font-weight:600; font-size:1.5625rem; line-height:1.12;
+    letter-spacing:-.01em;
+  }
+
+  
+  .newsletter-panel{
+    background:var(--coral); color:var(--white); border-radius:28px;
+    padding:44px 48px; display:flex; justify-content:space-between; align-items:center;
+    gap:40px; flex-wrap:wrap;
+  }
+  .newsletter-panel .tag{
+    font-family:var(--f-ui); font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+    color:rgba(255,255,255,.85); margin-bottom:14px;
+  }
+  .newsletter-panel h2{
+    font-family:var(--f-display); font-weight:500; font-size:2.1rem; line-height:1.18; max-width:640px;
+  }
+  .newsletter-panel h2 .accent{ color:var(--ink); font-style:italic; }
+  .newsletter-form{ display:flex; flex-direction:column; gap:10px; flex-shrink:0; }
+  .newsletter-row{ display:flex; gap:8px; }
+  .newsletter-row input{
+    font-family:var(--f-ui); font-size:.88rem; color:var(--ink); background:var(--white);
+    border:none; border-radius:999px; padding:14px 20px; width:250px; outline:none;
+  }
+  .newsletter-row button{
+    background:var(--ink); color:var(--white); font-weight:700; font-size:.85rem;
+    padding:14px 24px; border-radius:999px; white-space:nowrap; transition:background .2s ease, transform .15s ease;
+  }
+  .newsletter-row button:hover{ background:#3a3a3a; }
+  .newsletter-fine{ font-size:.72rem; color:rgba(255,255,255,.75); }
+
+  
+  footer{ border-top:1px solid rgba(23,38,43,.08); padding:28px 0 24px; }
+  .footer-trust{
+    text-align:center; font-family:var(--f-ui); font-size:.72rem; letter-spacing:.04em;
+    color:var(--ink-soft); padding-bottom:20px; margin-bottom:28px; border-bottom:1px solid var(--fog);
+  }
+  .footer-trust .dot{ color:var(--coral); }
+  .footer-cols{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;
+    padding-bottom:28px; margin-bottom:20px; border-bottom:1px solid var(--fog);
+  }
+  .footer-brand .logo{ margin-bottom:8px; }
+  .footer-brand p{ font-size:.82rem; color:var(--ink-soft); max-width:240px; line-height:1.5; }
+  .footer-col h4{ font-size:.78rem; font-weight:700; color:var(--ink); margin-bottom:14px; }
+  .footer-col a{ display:block; font-size:.82rem; color:var(--ink-soft); font-weight:500; margin-bottom:11px; }
+  .footer-col a:hover{ color:var(--ink); }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-links{ display:flex; gap:22px; font-size:.82rem; color:var(--ink-soft); font-weight:500; flex-wrap:wrap; }
+  .footer-copy{ font-size:.78rem; color:var(--ink-soft); }
+  .footer-meta{ display:flex; align-items:center; gap:18px; }
+  .footer-social{ display:flex; align-items:center; gap:14px; }
+  .footer-social a{
+    width:32px; height:32px; border-radius:50%; border:1px solid var(--fog);
+    display:flex; align-items:center; justify-content:center; color:var(--ink-soft);
+    transition:border-color .2s ease, color .2s ease, transform .15s ease;
+  }
+  .footer-social a:hover{ border-color:var(--ink); color:var(--ink); transform:translateY(-2px); }
+  .footer-social svg{ width:15px; height:15px; }
+
+  
+
+  
+  @media (max-width:880px){
+    .header-search{ display:none; }
+    .footer-cols{ grid-template-columns:1fr 1fr; }
+    .footer-brand{ grid-column:1/-1; margin-bottom:8px; }
+  }
+
+  
+  @media (max-width:720px){
+    header{ top:10px; padding:0 14px; }
+    .header-row{ padding:10px 18px; gap:16px; }
+    .header-links{ display:none; }
+    .mobile-nav-toggle{ display:flex; } .header-right .list-link{ display:none; }
+    section{ margin-bottom:34px; }
+    .sec-whisper{ font-size:1rem; }
+    .search-bar{ max-width:100%; }
+    .search-seg{ padding:9px 14px; }
+    .search-seg-label{ font-size:.64rem; }
+    .search-seg-value{ font-size:.76rem; }
+    .listing-card{ flex-basis:170px; }
+    .newsletter-panel{ padding:32px 26px; border-radius:22px; }
+    .newsletter-form{ flex-shrink:1; width:100%; }
+    .newsletter-row{ flex-wrap:wrap; }
+    .newsletter-row input{ width:100%; }
+    .hero-copy h1{ font-size:2rem; }
+  }
+
+  
+  @media (max-width:480px){
+    .footer-cols{ grid-template-columns:1fr; }
+  }
+
+  
+  .search-submit:active, .header-right .list-link:active,
+  .newsletter-row button:active,
+  .mobile-nav-toggle:active{
+    transform:scale(.94);
+  }
+
+  
+@media (hover:none){
+  }
+@media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+  }
+  @media (max-width:520px){
+    .header-versions{ display:none; }
+  }
+
+  
+
+  .hero{ padding-top:48px; padding-bottom:8px; margin-bottom:30px; }
+  .explore-hero-copy{ max-width:640px; }
+  .explore-hero-copy .sec-whisper{ margin-bottom:12px; display:inline-block; }
+  .explore-hero-copy h1{
+    font-family:var(--f-display); font-weight:700; font-size:clamp(2rem, 4.2vw, 2.9rem);
+    line-height:1.06; letter-spacing:-.01em; margin-bottom:12px;
+  }
+  .explore-hero-copy .sub{
+    font-family:var(--f-ui); font-size:.98rem; color:var(--ink-soft); max-width:520px; line-height:1.5;
+  }
+  .hero-search{ margin-top:26px; }
+
+  
+  .dest-section{ margin-bottom:38px; }
+  .dest-strip{
+    display:flex; gap:22px; overflow-x:auto; scroll-behavior:smooth;
+    scrollbar-width:none; padding:2px 2px 6px;
+  }
+  .dest-strip::-webkit-scrollbar{ display:none; }
+  .dest-chip{
+    flex:0 0 82px; display:flex; flex-direction:column; align-items:center; gap:9px;
+    text-align:center; background:none; border:none; cursor:pointer; font-family:inherit;
+  }
+  .dest-chip-photo{
+    width:82px; height:82px; border-radius:50%; overflow:hidden; isolation:isolate;
+    border:1px solid rgba(23,38,43,.1); background:var(--fog); transition:border-color .25s ease, transform .2s ease;
+  }
+  .dest-chip-photo img{ width:100%; height:100%; object-fit:cover; transition:transform 2.2s cubic-bezier(.19,1,.22,1); }
+  .dest-chip:hover .dest-chip-photo{ transform:translateY(-3px); border-color:rgba(255,81,81,.5); }
+  .dest-chip:hover .dest-chip-photo img{ transform:scale(1.1); }
+  .dest-chip h4{ font-family:var(--f-ui); font-weight:600; font-size:.76rem; color:var(--ink); }
+  .dest-chip.is-active .dest-chip-photo{ border-color:var(--coral); border-width:2px; }
+  .dest-chip.is-active h4{ color:var(--coral); }
+
+  
+  .explore-toolbar{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    flex-wrap:wrap; margin-bottom:20px;
+  }
+  .cat-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .cat-chip{
+    font-family:var(--f-ui); font-size:.8rem; font-weight:600; color:var(--ink-soft);
+    padding:9px 16px; border-radius:999px; border:1px solid rgba(35,35,35,.1);
+    background:var(--white); cursor:pointer; transition:background .2s ease, color .2s ease, border-color .2s ease;
+    -webkit-appearance:none; appearance:none;
+  }
+  .cat-chip:hover{ border-color:rgba(35,35,35,.24); }
+  .cat-chip.is-active{ background:var(--ink); color:var(--white); border-color:var(--ink); }
+  .filters-btn{
+    display:flex; align-items:center; gap:8px; font-family:var(--f-ui); font-size:.8rem; font-weight:700;
+    color:var(--ink); background:var(--white); border:1px solid rgba(35,35,35,.14); padding:9px 16px 9px 14px;
+    border-radius:999px; cursor:pointer; transition:border-color .2s ease, background .2s ease;
+  }
+  .filters-btn:hover{ border-color:var(--ink); }
+  .filters-btn svg{ width:14px; height:14px; }
+  .filters-btn .fb-badge{
+    background:var(--coral); color:var(--white); font-size:.62rem; font-weight:700;
+    padding:2px 6px; border-radius:99px; line-height:1.3;
+  }
+  .toolbar-right{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .sort-wrap{ position:relative; }
+  .sort-trigger{
+    display:flex; align-items:center; gap:8px; font-family:var(--f-ui); font-size:.8rem; font-weight:600;
+    color:var(--ink); background:var(--white); border:1px solid rgba(35,35,35,.14); padding:9px 16px;
+    border-radius:999px; cursor:pointer; transition:border-color .2s ease;
+  }
+  .sort-trigger:hover{ border-color:var(--ink); }
+  .sort-trigger svg{ width:9px; height:9px; transition:transform .2s ease; }
+  .sort-wrap.is-open .sort-trigger svg{ transform:rotate(180deg); }
+  .sort-panel{
+    position:absolute; top:calc(100% + 8px); right:0; z-index:40; min-width:190px;
+    background:var(--white); border:1px solid rgba(23,38,43,.08); border-radius:16px;
+    box-shadow:0 20px 40px -18px rgba(23,38,43,.25); padding:6px; display:none; flex-direction:column;
+  }
+  .sort-wrap.is-open .sort-panel{ display:flex; }
+  .sort-option{
+    font-family:var(--f-ui); font-size:.82rem; font-weight:500; color:var(--ink-soft);
+    padding:10px 12px; border-radius:10px; text-align:left; background:none; border:none;
+    cursor:pointer; transition:background .15s ease, color .15s ease;
+  }
+  .sort-option:hover{ background:rgba(35,35,35,.05); color:var(--ink); }
+  .sort-option.is-active{ color:var(--coral); font-weight:700; }
+  .result-count{ font-family:var(--f-ui); font-size:.82rem; color:var(--ink-soft); margin-bottom:18px; }
+  .result-count b{ color:var(--ink); }
+
+  
+  .explore-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(228px, 1fr));
+    gap:22px;
+  }
+  .explore-grid .listing-card{ flex:none; width:100%; }
+  .lc-image > img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    transition:transform 2.8s cubic-bezier(.19,1,.22,1);
+  }
+  .listing-card:hover .lc-image > img{ transform:scale(1.06); }
+  .lc-cat-tag{ font-family:var(--f-ui); font-size:.68rem; font-weight:600; color:var(--ink-soft); flex-shrink:0; white-space:nowrap; margin-top:1px; }
+  .empty-state{ display:none; text-align:center; padding:60px 20px; font-family:var(--f-ui); color:var(--ink-soft); }
+  .empty-state.is-visible{ display:block; }
+  .empty-state h3{ font-family:var(--f-display); color:var(--ink); font-size:1.2rem; margin-bottom:8px; }
+  .load-more-wrap{ display:flex; justify-content:center; margin-top:34px; }
+  .btn-outline{
+    font-family:var(--f-ui); font-weight:700; font-size:.85rem; color:var(--ink);
+    background:var(--white); border:1px solid rgba(35,35,35,.16); padding:13px 28px;
+    border-radius:999px; cursor:pointer; transition:border-color .2s ease, background .2s ease, transform .15s ease;
+  }
+  .btn-outline:hover{ border-color:var(--ink); transform:translateY(-1px); }
+
+  
+  .drawer-overlay{
+    position:fixed; inset:0; background:rgba(23,20,15,.32); backdrop-filter:blur(2px);
+    z-index:500; opacity:0; pointer-events:none; transition:opacity .3s ease;
+  }
+  .drawer-overlay.is-open{ opacity:1; pointer-events:auto; }
+  .drawer{
+    position:fixed; top:0; right:0; bottom:0; width:min(400px, 92vw); background:var(--paper);
+    z-index:501; box-shadow:-24px 0 60px -20px rgba(23,20,15,.3);
+    transform:translateX(100%); transition:transform .4s cubic-bezier(.22,.61,.36,1);
+    display:flex; flex-direction:column;
+  }
+  .drawer.is-open{ transform:translateX(0); }
+  .drawer-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 24px; border-bottom:1px solid rgba(35,35,35,.08); flex-shrink:0;
+  }
+  .drawer-head h3{ font-family:var(--f-display); font-weight:600; font-size:1.15rem; }
+  .drawer-close{
+    width:32px; height:32px; border-radius:50%; border:1px solid rgba(35,35,35,.12); background:var(--white);
+    cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:1rem;
+    transition:background .2s ease;
+  }
+  .drawer-close:hover{ background:rgba(35,35,35,.06); }
+  .drawer-body{ padding:22px 24px; overflow-y:auto; flex:1; }
+  .drawer-group{ margin-bottom:28px; }
+  .drawer-group h4{ font-family:var(--f-ui); font-weight:700; font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin-bottom:14px; }
+  .check-row{
+    display:flex; align-items:center; gap:10px; font-family:var(--f-ui); font-size:.88rem; color:var(--ink);
+    padding:9px 0; cursor:pointer;
+  }
+  .check-row input{ width:17px; height:17px; accent-color:var(--coral); cursor:pointer; }
+  .price-row{ display:flex; align-items:center; gap:10px; }
+  .price-row input{
+    width:100%; font-family:var(--f-ui); font-size:.88rem; padding:11px 14px; border-radius:12px;
+    border:1px solid rgba(35,35,35,.14); background:var(--white); color:var(--ink);
+  }
+  .price-row input:focus{ outline:none; border-color:var(--coral); }
+  .price-row span{ color:var(--ink-soft); }
+  .drawer-foot{ display:flex; gap:12px; padding:20px 24px; border-top:1px solid rgba(35,35,35,.08); flex-shrink:0; }
+  .btn-clear{
+    flex:1; font-family:var(--f-ui); font-weight:700; font-size:.85rem; color:var(--ink);
+    background:none; border:1px solid rgba(35,35,35,.16); padding:13px; border-radius:999px; cursor:pointer;
+  }
+  .btn-apply{
+    flex:1; font-family:var(--f-ui); font-weight:700; font-size:.85rem; color:var(--white);
+    background:var(--coral); border:none; padding:13px; border-radius:999px; cursor:pointer;
+    transition:background .2s ease;
+  }
+  .btn-apply:hover{ background:#e64545; }
+
+  
+  .activity-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:20px;
+  }
+  .act-card{ position:relative; display:block; border-radius:16px; overflow:hidden; aspect-ratio:4/5; isolation:isolate; }
+  .act-card img{ width:100%; height:100%; object-fit:cover; transition:transform 2.5s cubic-bezier(.19,1,.22,1); }
+  .act-card:hover img{ transform:scale(1.08); }
+  .act-card::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(23,38,43,0) 45%, rgba(23,38,43,.65) 100%); }
+  .act-body{ position:absolute; left:14px; right:14px; bottom:12px; z-index:2; color:var(--white); font-family:var(--f-display); font-weight:600; font-size:.92rem; }
+
+  
+  .trust-wall{ display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; }
+  .tw-card{
+    background:var(--white); border:1px solid rgba(23,38,43,.07); border-radius:20px; padding:24px;
+    display:flex; flex-direction:column; transition:border-color .3s ease, transform .3s ease;
+  }
+  .tw-card:hover{ border-color:rgba(23,38,43,.16); transform:translateY(-3px); }
+  .tw-quote-mark{ font-family:var(--f-display); font-size:2rem; color:var(--coral); line-height:1; margin-bottom:6px; }
+  .tw-card .q{ font-family:var(--f-display); font-size:.92rem; line-height:1.45; margin-bottom:18px; flex:1; }
+  .tw-who{ display:flex; align-items:center; gap:10px; }
+  .tw-who img{ width:34px; height:34px; border-radius:50%; object-fit:cover; }
+  .tw-who div{ font-family:var(--f-ui); font-size:.76rem; color:var(--ink-soft); }
+  .tw-who strong{ display:block; color:var(--ink); font-size:.84rem; }
+
+  .host-line{ display:block; text-align:center; margin-top:24px; font-family:var(--f-ui); font-size:.9rem; color:var(--ink-soft); }
+  .host-line-link{ color:var(--coral); font-weight:700; }
+
+  .search-seg-input{
+    font-family:var(--f-ui); font-weight:500; font-size:.82rem; color:var(--ink);
+    border:none; background:none; outline:none; width:100%; padding:0; margin-top:1px;
+  }
+  .search-seg-input::placeholder{ color:var(--ink-soft); }
+
+  @media (max-width:880px){
+    .activity-grid{ grid-template-columns:repeat(2, 1fr); }
+    .trust-wall{ grid-template-columns:repeat(2, 1fr); }
+  }
+  @media (max-width:640px){
+    .explore-toolbar{ flex-direction:column; align-items:flex-start; }
+    .cat-chips{ overflow-x:auto; flex-wrap:nowrap; width:100%; scrollbar-width:none; padding-bottom:2px; }
+    .cat-chips::-webkit-scrollbar{ display:none; }
+    .cat-chip{ flex-shrink:0; }
+    .toolbar-right{ width:100%; justify-content:space-between; }
+    .activity-grid{ grid-template-columns:1fr 1fr; }
+  }
+  
+  .search-seg{ position:relative; }
+  .dd-panel{
+    position:absolute; top:calc(100% + 14px); z-index:60;
+    background:var(--white); border-radius:20px; border:1px solid rgba(23,38,43,.08);
+    box-shadow:0 24px 60px -20px rgba(23,38,43,.28);
+    padding:20px; opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .22s ease, transform .22s ease, visibility .22s;
+    cursor:default;
+  }
+  .search-seg.dd-open .dd-panel{ opacity:1; visibility:visible; transform:translateY(0); }
+  #dateDropdown{ left:0; width:308px; }
+  #guestDropdown{ right:0; width:270px; }
+
+  .cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .cal-head button{
+    width:28px; height:28px; border-radius:50%; border:1px solid rgba(35,35,35,.14); background:var(--white);
+    cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.95rem; color:var(--ink);
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .cal-head button:hover{ background:rgba(35,35,35,.06); border-color:rgba(35,35,35,.24); }
+  .cal-head button:disabled{ opacity:.28; cursor:default; pointer-events:none; }
+  .cal-head span{ font-family:var(--f-display); font-weight:600; font-size:.88rem; color:var(--ink); }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7, 1fr); gap:2px; }
+  .cal-dow{ font-family:var(--f-ui); font-size:.6rem; font-weight:700; color:var(--ink-soft); text-align:center; padding-bottom:6px; text-transform:uppercase; letter-spacing:.02em; }
+  .cal-day{
+    position:relative; aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    font-family:var(--f-ui); font-size:.78rem; color:var(--ink); cursor:pointer; border-radius:50%;
+    transition:background .15s ease, color .15s ease;
+  }
+  .cal-day:hover:not(.is-disabled):not(.is-start):not(.is-end){ background:rgba(35,35,35,.07); }
+  .cal-day.is-disabled{ color:rgba(35,35,35,.2); cursor:default; }
+  .cal-day.is-empty{ visibility:hidden; cursor:default; }
+  .cal-day.is-range{ border-radius:0; background:rgba(255,81,81,.12); }
+  .cal-day.is-start, .cal-day.is-end{ background:var(--coral); color:var(--white); }
+  .cal-day.is-start{ border-radius:50% 0 0 50%; }
+  .cal-day.is-end{ border-radius:0 50% 50% 0; }
+  .cal-day.is-start.is-end{ border-radius:50%; }
+  .dd-footer{ display:flex; align-items:center; justify-content:flex-end; margin-top:14px; padding-top:14px; border-top:1px solid var(--fog); }
+  .dd-clear{ font-family:var(--f-ui); font-size:.78rem; font-weight:700; color:var(--ink); background:none; border:none; text-decoration:underline; cursor:pointer; padding:0; }
+
+  .gd-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding:13px 0; border-bottom:1px solid var(--fog); }
+  .gd-row:last-of-type{ border-bottom:none; }
+  .gd-info h5{ font-family:var(--f-ui); font-weight:700; font-size:.84rem; color:var(--ink); margin-bottom:2px; }
+  .gd-info p{ font-family:var(--f-ui); font-size:.7rem; color:var(--ink-soft); }
+  .gd-stepper{ display:flex; align-items:center; gap:12px; flex-shrink:0; }
+  .gd-btn{
+    width:26px; height:26px; border-radius:50%; border:1px solid rgba(35,35,35,.22); background:var(--white);
+    color:var(--ink); font-size:.95rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:border-color .2s ease, background .2s ease, opacity .2s ease;
+  }
+  .gd-btn:hover:not(:disabled){ border-color:var(--ink); background:rgba(35,35,35,.04); }
+  .gd-btn:disabled{ opacity:.28; cursor:default; }
+  .gd-count{ font-family:var(--f-ui); font-weight:600; font-size:.85rem; color:var(--ink); width:14px; text-align:center; }
+  .gd-done{
+    margin-top:8px; width:100%; background:var(--ink); color:var(--white); font-family:var(--f-ui);
+    font-weight:700; font-size:.82rem; padding:12px; border-radius:999px; border:none; cursor:pointer;
+    transition:background .2s ease;
+  }
+  .gd-done:hover{ background:#3a3a3a; }
+
+  @media (max-width:640px){
+    .dd-panel{
+      position:fixed; left:16px; right:16px; top:auto; bottom:16px; width:auto !important;
+      max-height:72vh; overflow-y:auto;
+    }
+  }
+
+</style>
+
+<body>
+<header>
+  <div class="wrap header-row">
+    <div class="logo"><span class="logo-word">Guest<span class="logo-pina">book</span></span></div>
+    <label class="header-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" placeholder="Country, island, vibe...">
+    </label>
+    <div class="header-right">
+      <nav class="header-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="host.html">For Hosts</a>
+      </nav>
+      <div class="header-versions" aria-label="Other versions of this site">
+        <a class="hv-pill" href="../v1/index.html" title="guestbook · stays worth the flight">V1</a>
+        <a class="hv-pill" href="../v2/index.html" title="guestbook · stays worth the flight">V2</a>
+        <a class="hv-pill is-current" href="../v3/index.html" title="Guestbook: some places wait">V3</a>
+      </div>
+      <a href="host.html" class="list-link">List your place</a>
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavPanel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-panel" id="mobileNavPanel">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="host.html">For Hosts</a>
+      <div class="mnp-divider"></div>
+      <a href="host.html" class="mnp-list-link">List your place</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+<section class="hero">
+  <div class="hero-copy explore-hero-copy">
+    <div class="sec-whisper">127 places, hand-reviewed</div>
+    <h1>Find your next stay.</h1>
+    <p class="sub">Boutique hotels, surf camps, and retreats. Search by place, vibe, or nothing at all.</p>
+  </div>
+  <div class="hero-search">
+    <div class="search-bar">
+      <div class="search-seg is-active" data-seg="where">
+        <span class="search-seg-label">Where</span>
+        <input type="text" id="whereInput" class="search-seg-input" placeholder="Search destinations or stays">
+      </div>
+      <div class="search-seg" data-seg="when" tabindex="0" role="button" id="whenSeg">
+        <span class="search-seg-label">When</span>
+        <span class="search-seg-value" id="whenValue">Add dates</span>
+        <div class="dd-panel" id="dateDropdown">
+          <div class="cal-head">
+            <button type="button" id="calPrev" aria-label="Previous month">&lsaquo;</button>
+            <span id="calMonthLabel"></span>
+            <button type="button" id="calNext" aria-label="Next month">&rsaquo;</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="dd-footer">
+            <button type="button" class="dd-clear" id="calClear">Clear dates</button>
+          </div>
+        </div>
+      </div>
+      <div class="search-divider"></div>
+      <div class="search-seg" data-seg="who" tabindex="0" role="button" id="whoSeg">
+        <span class="search-seg-label">Who</span>
+        <span class="search-seg-value" id="whoValue">Add guests</span>
+        <div class="dd-panel" id="guestDropdown">
+          <div class="gd-row">
+            <div class="gd-info"><h5>Adults</h5><p>Ages 13+</p></div>
+            <div class="gd-stepper">
+              <button type="button" class="gd-btn" data-type="adults" data-action="dec">&minus;</button>
+              <span class="gd-count" id="gd-adults">1</span>
+              <button type="button" class="gd-btn" data-type="adults" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="gd-row">
+            <div class="gd-info"><h5>Children</h5><p>Ages 2&ndash;12</p></div>
+            <div class="gd-stepper">
+              <button type="button" class="gd-btn" data-type="children" data-action="dec">&minus;</button>
+              <span class="gd-count" id="gd-children">0</span>
+              <button type="button" class="gd-btn" data-type="children" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="gd-row">
+            <div class="gd-info"><h5>Infants</h5><p>Under 2</p></div>
+            <div class="gd-stepper">
+              <button type="button" class="gd-btn" data-type="infants" data-action="dec">&minus;</button>
+              <span class="gd-count" id="gd-infants">0</span>
+              <button type="button" class="gd-btn" data-type="infants" data-action="inc">+</button>
+            </div>
+          </div>
+          <div class="gd-row">
+            <div class="gd-info"><h5>Pets</h5><p>Bringing a service animal?</p></div>
+            <div class="gd-stepper">
+              <button type="button" class="gd-btn" data-type="pets" data-action="dec">&minus;</button>
+              <span class="gd-count" id="gd-pets">0</span>
+              <button type="button" class="gd-btn" data-type="pets" data-action="inc">+</button>
+            </div>
+          </div>
+          <button type="button" class="gd-done" id="guestDone">Done</button>
+        </div>
+      </div>
+      <button class="search-submit" id="searchSubmitBtn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="dest-section">
+  <div class="sec-head">
+    <div class="kicker">Popular destinations</div>
+    <h2>Jump straight to a place</h2>
+  </div>
+  <div class="dest-strip" id="destStrip">
+      <button type="button" class="dest-chip" data-dest="mexico"><div class="dest-chip-photo"><img src="../listings/9.webp" alt="Mexico"></div><h4>Mexico</h4></button>
+      <button type="button" class="dest-chip" data-dest="sierra nevada"><div class="dest-chip-photo"><img src="../listings/3.webp" alt="Sierra Nevada"></div><h4>Sierra Nevada</h4></button>
+      <button type="button" class="dest-chip" data-dest="algarve"><div class="dest-chip-photo"><img src="../listings/5.webp" alt="Algarve"></div><h4>Algarve</h4></button>
+      <button type="button" class="dest-chip" data-dest="bali"><div class="dest-chip-photo"><img src="../listings/13.webp" alt="Bali"></div><h4>Bali</h4></button>
+      <button type="button" class="dest-chip" data-dest="azores"><div class="dest-chip-photo"><img src="../listings/16.webp" alt="Azores"></div><h4>Azores</h4></button>
+      <button type="button" class="dest-chip" data-dest="puglia"><div class="dest-chip-photo"><img src="../listings/21.webp" alt="Puglia"></div><h4>Puglia</h4></button>
+      <button type="button" class="dest-chip" data-dest="zanzibar"><div class="dest-chip-photo"><img src="../listings/23.webp" alt="Zanzibar"></div><h4>Zanzibar</h4></button>
+      <button type="button" class="dest-chip" data-dest="chamonix"><div class="dest-chip-photo"><img src="../listings/17.webp" alt="Chamonix"></div><h4>Chamonix</h4></button>
+      <button type="button" class="dest-chip" data-dest="lofoten"><div class="dest-chip-photo"><img src="../listings/24.webp" alt="Lofoten"></div><h4>Lofoten</h4></button>
+      <button type="button" class="dest-chip" data-dest="dolomites"><div class="dest-chip-photo"><img src="../listings/30.webp" alt="Dolomites"></div><h4>Dolomites</h4></button>
+  </div>
+</section>
+
+<section id="listings">
+  <div class="explore-toolbar">
+    <div class="cat-chips" id="catChips">
+      <button class="cat-chip is-active" data-cat="all" type="button">All stays</button>
+      <button class="cat-chip" data-cat="boutique" type="button">Boutique</button>
+      <button class="cat-chip" data-cat="villa" type="button">Villa</button>
+      <button class="cat-chip" data-cat="surf" type="button">Surf camp</button>
+      <button class="cat-chip" data-cat="retreat" type="button">Retreat</button>
+      <button class="cat-chip" data-cat="eco" type="button">Eco-lodge</button>
+      <button class="cat-chip" data-cat="mountain" type="button">Mountain</button>
+      <button class="cat-chip" data-cat="island" type="button">Island</button>
+    </div>
+    <div class="toolbar-right">
+      <button class="filters-btn" id="filtersBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        Filters
+        <span class="fb-badge" id="filterBadge" hidden>0</span>
+      </button>
+      <div class="sort-wrap" id="sortWrap">
+        <button class="sort-trigger" id="sortTrigger" type="button">
+          Sort: <span id="sortLabel">Recommended</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="sort-panel">
+          <button class="sort-option is-active" data-sort="recommended" type="button">Recommended</button>
+          <button class="sort-option" data-sort="price-asc" type="button">Price: low to high</button>
+          <button class="sort-option" data-sort="price-desc" type="button">Price: high to low</button>
+          <button class="sort-option" data-sort="newest" type="button">Newest first</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-count" id="resultCount">Showing <b>27</b> of <b>63</b> stays</div>
+
+  <div class="explore-grid" id="exploreGrid">
+    <a href="#" class="listing-card reveal" data-cat="boutique" data-price="128" data-new="1" data-amenities="pool kitchen" data-search="casa paloma oaxaca, mexico">
+      <div class="lc-image"><img src="../listings/1.webp" alt="Casa Paloma, Oaxaca"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Oaxaca, Mexico</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Paloma</div>
+      <div class="lc-bottom"><div class="lc-price">$128<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="surf" data-price="64" data-new="0" data-amenities="beachfront detox" data-search="salt line surf camp hossegor, france">
+      <div class="lc-image"><img src="../listings/2.webp" alt="Salt Line Surf Camp, Hossegor"></div>
+      <div class="lc-top"><span class="lc-location">Hossegor, France</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Salt Line Surf Camp</div>
+      <div class="lc-bottom"><div class="lc-price">$64<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="retreat" data-price="95" data-new="0" data-amenities="detox hottub" data-search="alto retreat sierra nevada, spain">
+      <div class="lc-image"><img src="../listings/3.webp" alt="Alto Retreat, Sierra Nevada"></div>
+      <div class="lc-top"><span class="lc-location">Sierra Nevada, Spain</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Alto Retreat</div>
+      <div class="lc-bottom"><div class="lc-price">$95<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="island" data-price="145" data-new="0" data-amenities="oceanview pool" data-search="isla mora bacalar, mexico">
+      <div class="lc-image"><img src="../listings/7.webp" alt="Isla Mora, Bacalar"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Bacalar, Mexico</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Isla Mora</div>
+      <div class="lc-bottom"><div class="lc-price">$145<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="villa" data-price="210" data-new="0" data-amenities="pool oceanview" data-search="villa espiga algarve, portugal">
+      <div class="lc-image"><img src="../listings/5.webp" alt="Villa Espiga, Algarve"></div>
+      <div class="lc-top"><span class="lc-location">Algarve, Portugal</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Espiga</div>
+      <div class="lc-bottom"><div class="lc-price">$210<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="eco" data-price="88" data-new="1" data-amenities="detox kitchen" data-search="trilho verde eco lodge santo antão, cape verde">
+      <div class="lc-image"><img src="../listings/6.webp" alt="Trilho Verde Eco Lodge, Cape Verde"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Santo Antão, Cape Verde</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Trilho Verde Eco Lodge</div>
+      <div class="lc-bottom"><div class="lc-price">$88<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="retreat" data-price="99" data-new="0" data-amenities="hottub kitchen" data-search="casa roble valdivia, chile">
+      <div class="lc-image"><img src="../listings/62.webp" alt="Casa Roble, Valdivia"></div>
+      <div class="lc-top"><span class="lc-location">Valdivia, Chile</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Casa Roble</div>
+      <div class="lc-bottom"><div class="lc-price">$99<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="mountain" data-price="102" data-new="0" data-amenities="hottub kitchen" data-search="refugio alto bariloche, argentina">
+      <div class="lc-image"><img src="../listings/8.webp" alt="Refugio Alto, Bariloche"></div>
+      <div class="lc-top"><span class="lc-location">Bariloche, Argentina</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Refugio Alto</div>
+      <div class="lc-bottom"><div class="lc-price">$102<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="boutique" data-price="175" data-new="1" data-amenities="pool beachfront" data-search="casa del mar tulum, mexico">
+      <div class="lc-image"><img src="../listings/9.webp" alt="Casa del Mar, Tulum"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Tulum, Mexico</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa del Mar</div>
+      <div class="lc-bottom"><div class="lc-price">$175<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="surf" data-price="58" data-new="0" data-amenities="beachfront ev" data-search="point break surf house ericeira, portugal">
+      <div class="lc-image"><img src="../listings/12.webp" alt="Point Break Surf House, Ericeira"></div>
+      <div class="lc-top"><span class="lc-location">Ericeira, Portugal</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Point Break Surf House</div>
+      <div class="lc-bottom"><div class="lc-price">$58<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="villa" data-price="265" data-new="0" data-amenities="pool kitchen" data-search="villa serrana tuscany, italy">
+      <div class="lc-image"><img src="../listings/14.webp" alt="Villa Serrana, Tuscany"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Tuscany, Italy</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Serrana</div>
+      <div class="lc-bottom"><div class="lc-price">$265<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="retreat" data-price="76" data-new="0" data-amenities="detox kitchen" data-search="dharma retreat ubud, bali">
+      <div class="lc-image"><img src="../listings/13.webp" alt="Dharma Retreat, Ubud"></div>
+      <div class="lc-top"><span class="lc-location">Ubud, Bali</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Dharma Retreat</div>
+      <div class="lc-bottom"><div class="lc-price">$76<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="eco" data-price="92" data-new="0" data-amenities="detox hottub" data-search="bosque eco cabins monteverde, costa rica">
+      <div class="lc-image"><img src="../listings/15.webp" alt="Bosque Eco Cabins, Monteverde"></div>
+      <div class="lc-top"><span class="lc-location">Monteverde, Costa Rica</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Bosque Eco Cabins</div>
+      <div class="lc-bottom"><div class="lc-price">$92<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="boutique" data-price="139" data-new="1" data-amenities="pool oceanview" data-search="casa kyma paros, greece">
+      <div class="lc-image"><img src="../listings/63.webp" alt="Casa Kyma, Paros"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Paros, Greece</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Kyma</div>
+      <div class="lc-bottom"><div class="lc-price">$139<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="mountain" data-price="134" data-new="0" data-amenities="hottub ev" data-search="alpine hut co. chamonix, france">
+      <div class="lc-image"><img src="../listings/17.webp" alt="Alpine Hut Co., Chamonix"></div>
+      <div class="lc-top"><span class="lc-location">Chamonix, France</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Alpine Hut Co.</div>
+      <div class="lc-bottom"><div class="lc-price">$134<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="island" data-price="118" data-new="0" data-amenities="oceanview pet" data-search="flores cottage azores, portugal">
+      <div class="lc-image"><img src="../listings/16.webp" alt="Flores Cottage, Azores"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Azores, Portugal</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Flores Cottage</div>
+      <div class="lc-bottom"><div class="lc-price">$118<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="boutique" data-price="150" data-new="0" data-amenities="pool pet" data-search="casa nube san miguel de allende, mexico">
+      <div class="lc-image"><img src="../listings/18.webp" alt="Casa Nube, San Miguel de Allende"></div>
+      <div class="lc-top"><span class="lc-location">San Miguel de Allende, Mexico</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Nube</div>
+      <div class="lc-bottom"><div class="lc-price">$150<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="surf" data-price="70" data-new="0" data-amenities="beachfront detox" data-search="rip curl bunkhouse byron bay, australia">
+      <div class="lc-image"><img src="../listings/19.webp" alt="Rip Curl Bunkhouse, Byron Bay"></div>
+      <div class="lc-top"><span class="lc-location">Byron Bay, Australia</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Rip Curl Bunkhouse</div>
+      <div class="lc-bottom"><div class="lc-price">$70<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="retreat" data-price="110" data-new="1" data-amenities="detox hottub" data-search="mesa silence retreat sedona, arizona">
+      <div class="lc-image"><img src="../listings/20.webp" alt="Mesa Silence Retreat, Sedona"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Sedona, Arizona</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Mesa Silence Retreat</div>
+      <div class="lc-bottom"><div class="lc-price">$110<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="villa" data-price="198" data-new="0" data-amenities="pool kitchen" data-search="villa ombra puglia, italy">
+      <div class="lc-image"><img src="../listings/21.webp" alt="Villa Ombra, Puglia"></div>
+      <div class="lc-top"><span class="lc-location">Puglia, Italy</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Ombra</div>
+      <div class="lc-bottom"><div class="lc-price">$198<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="eco" data-price="86" data-new="1" data-amenities="detox oceanview" data-search="baraza eco camp pemba, tanzania">
+      <div class="lc-image"><img src="../listings/64.webp" alt="Baraza Eco Camp, Pemba"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Pemba, Tanzania</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Baraza Eco Camp</div>
+      <div class="lc-bottom"><div class="lc-price">$86<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="eco" data-price="84" data-new="0" data-amenities="detox pool" data-search="selva eco retreat manuel antonio, costa rica">
+      <div class="lc-image"><img src="../listings/22.webp" alt="Selva Eco Retreat, Manuel Antonio"></div>
+      <div class="lc-top"><span class="lc-location">Manuel Antonio, Costa Rica</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Selva Eco Retreat</div>
+      <div class="lc-bottom"><div class="lc-price">$84<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="island" data-price="132" data-new="0" data-amenities="oceanview beachfront" data-search="coral reef bungalows zanzibar, tanzania">
+      <div class="lc-image"><img src="../listings/23.webp" alt="Coral Reef Bungalows, Zanzibar"></div>
+      <div class="lc-top"><span class="lc-location">Zanzibar, Tanzania</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Coral Reef Bungalows</div>
+      <div class="lc-bottom"><div class="lc-price">$132<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="mountain" data-price="158" data-new="0" data-amenities="hottub ev" data-search="nordkapp cabin co. lofoten, norway">
+      <div class="lc-image"><img src="../listings/24.webp" alt="Nordkapp Cabin Co., Lofoten"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Lofoten, Norway</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Nordkapp Cabin Co.</div>
+      <div class="lc-bottom"><div class="lc-price">$158<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="boutique" data-price="142" data-new="0" data-amenities="pool pet" data-search="casa higuera ronda, spain">
+      <div class="lc-image"><img src="../listings/25.webp" alt="Casa Higuera, Ronda"></div>
+      <div class="lc-top"><span class="lc-location">Ronda, Spain</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Higuera</div>
+      <div class="lc-bottom"><div class="lc-price">$142<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="surf" data-price="52" data-new="1" data-amenities="beachfront kitchen" data-search="bluewave surf lodge taghazout, morocco">
+      <div class="lc-image"><img src="../listings/26.webp" alt="Bluewave Surf Lodge, Taghazout"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Taghazout, Morocco</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Bluewave Surf Lodge</div>
+      <div class="lc-bottom"><div class="lc-price">$52<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal" data-cat="retreat" data-price="118" data-new="0" data-amenities="hottub detox" data-search="rifugio calma dolomites, italy">
+      <div class="lc-image"><img src="../listings/30.webp" alt="Rifugio Calma, Dolomites"></div>
+      <div class="lc-top"><span class="lc-location">Dolomites, Italy</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Rifugio Calma</div>
+      <div class="lc-bottom"><div class="lc-price">$118<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="boutique" data-price="118" data-new="0" data-amenities="pool kitchen" data-search="casa do vale douro valley, portugal" style="display:none">
+      <div class="lc-image"><img src="../listings/110.webp" alt="Casa do Vale, Douro Valley"></div>
+      <div class="lc-top"><span class="lc-location">Douro Valley, Portugal</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa do Vale</div>
+      <div class="lc-bottom"><div class="lc-price">$118<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="eco" data-price="96" data-new="0" data-amenities="detox hottub" data-search="kolibri treehouse monteverde, costa rica" style="display:none">
+      <div class="lc-image"><img src="../listings/115.webp" alt="Kolibri Treehouse, Monteverde"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Monteverde, Costa Rica</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Kolibri Treehouse</div>
+      <div class="lc-bottom"><div class="lc-price">$96<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="mountain" data-price="74" data-new="0" data-amenities="detox kitchen" data-search="errante el chaltén, argentina" style="display:none">
+      <div class="lc-image"><img src="../listings/120.webp" alt="Errante, El Chaltén"></div>
+      <div class="lc-top"><span class="lc-location">El Chaltén, Argentina</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Errante</div>
+      <div class="lc-bottom"><div class="lc-price">$74<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="villa" data-price="189" data-new="1" data-amenities="pool oceanview" data-search="villa marée ionian coast, greece" style="display:none">
+      <div class="lc-image"><img src="../listings/125.webp" alt="Villa Marée, Ionian Coast"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Ionian Coast, Greece</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Marée</div>
+      <div class="lc-bottom"><div class="lc-price">$189<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="mountain" data-price="105" data-new="0" data-amenities="hottub kitchen" data-search="ridgeline cabin blue ridge, usa" style="display:none">
+      <div class="lc-image"><img src="../listings/129.webp" alt="Ridgeline Cabin, Blue Ridge"></div>
+      <div class="lc-top"><span class="lc-location">Blue Ridge, USA</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Ridgeline Cabin</div>
+      <div class="lc-bottom"><div class="lc-price">$105<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="surf" data-price="68" data-new="0" data-amenities="beachfront detox" data-search="casa mar azul sayulita, mexico" style="display:none">
+      <div class="lc-image"><img src="../listings/34.webp" alt="Casa Mar Azul, Sayulita"></div>
+      <div class="lc-top"><span class="lc-location">Sayulita, Mexico</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Casa Mar Azul</div>
+      <div class="lc-bottom"><div class="lc-price">$68<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="boutique" data-price="96" data-new="1" data-amenities="pool kitchen" data-search="casa alma antigua, guatemala" style="display:none">
+      <div class="lc-image"><img src="../listings/31.webp" alt="Casa Alma, Antigua"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Antigua, Guatemala</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Alma</div>
+      <div class="lc-bottom"><div class="lc-price">$96<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="surf" data-price="54" data-new="0" data-amenities="beachfront detox" data-search="driftwood surf camp siargao, philippines" style="display:none">
+      <div class="lc-image"><img src="../listings/32.webp" alt="Driftwood Surf Camp, Siargao"></div>
+      <div class="lc-top"><span class="lc-location">Siargao, Philippines</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Driftwood Surf Camp</div>
+      <div class="lc-bottom"><div class="lc-price">$54<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="retreat" data-price="88" data-new="0" data-amenities="hottub detox" data-search="quiet pines retreat karelia, finland" style="display:none">
+      <div class="lc-image"><img src="../listings/33.webp" alt="Quiet Pines Retreat, Karelia"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Karelia, Finland</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Quiet Pines Retreat</div>
+      <div class="lc-bottom"><div class="lc-price">$88<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="villa" data-price="178" data-new="0" data-amenities="pool oceanview" data-search="villa limón costa brava, spain" style="display:none">
+      <div class="lc-image"><img src="../listings/35.webp" alt="Villa Limón, Costa Brava"></div>
+      <div class="lc-top"><span class="lc-location">Costa Brava, Spain</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Limón</div>
+      <div class="lc-bottom"><div class="lc-price">$178<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="eco" data-price="79" data-new="0" data-amenities="detox kitchen" data-search="terra verde eco lodge chiloé, chile" style="display:none">
+      <div class="lc-image"><img src="../listings/36.webp" alt="Terra Verde Eco Lodge, Chiloé"></div>
+      <div class="lc-top"><span class="lc-location">Chiloé, Chile</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Terra Verde Eco Lodge</div>
+      <div class="lc-bottom"><div class="lc-price">$79<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="island" data-price="62" data-new="1" data-amenities="oceanview beachfront" data-search="isla luna koh rong, cambodia" style="display:none">
+      <div class="lc-image"><img src="../listings/37.webp" alt="Isla Luna, Koh Rong"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Koh Rong, Cambodia</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Isla Luna</div>
+      <div class="lc-bottom"><div class="lc-price">$62<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="mountain" data-price="68" data-new="0" data-amenities="hottub kitchen" data-search="refugio del cielo huaraz, peru" style="display:none">
+      <div class="lc-image"><img src="../listings/38.webp" alt="Refugio del Cielo, Huaraz"></div>
+      <div class="lc-top"><span class="lc-location">Huaraz, Peru</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Refugio del Cielo</div>
+      <div class="lc-bottom"><div class="lc-price">$68<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="boutique" data-price="132" data-new="0" data-amenities="pool kitchen" data-search="casa girasol valle de guadalupe, mexico" style="display:none">
+      <div class="lc-image"><img src="../listings/39.webp" alt="Casa Girasol, Valle de Guadalupe"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Valle de Guadalupe, Mexico</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Girasol</div>
+      <div class="lc-bottom"><div class="lc-price">$132<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="surf" data-price="61" data-new="0" data-amenities="beachfront ev" data-search="salt & pine surf house mundaka, spain" style="display:none">
+      <div class="lc-image"><img src="../listings/40.webp" alt="Salt & Pine Surf House, Mundaka"></div>
+      <div class="lc-top"><span class="lc-location">Mundaka, Spain</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Salt & Pine Surf House</div>
+      <div class="lc-bottom"><div class="lc-price">$61<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="retreat" data-price="71" data-new="0" data-amenities="detox kitchen" data-search="whispering reeds retreat kerala, india" style="display:none">
+      <div class="lc-image"><img src="../listings/41.webp" alt="Whispering Reeds Retreat, Kerala"></div>
+      <div class="lc-top"><span class="lc-location">Kerala, India</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Whispering Reeds Retreat</div>
+      <div class="lc-bottom"><div class="lc-price">$71<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="villa" data-price="205" data-new="1" data-amenities="pool oceanview" data-search="villa aurinko åland islands, finland" style="display:none">
+      <div class="lc-image"><img src="../listings/42.webp" alt="Villa Aurinko, Åland Islands"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Åland Islands, Finland</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Aurinko</div>
+      <div class="lc-bottom"><div class="lc-price">$205<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="eco" data-price="99" data-new="0" data-amenities="detox oceanview" data-search="casa coral príncipe island, são tomé" style="display:none">
+      <div class="lc-image"><img src="../listings/43.webp" alt="Casa Coral, Príncipe Island"></div>
+      <div class="lc-top"><span class="lc-location">Príncipe Island, São Tomé</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Casa Coral</div>
+      <div class="lc-bottom"><div class="lc-price">$99<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="island" data-price="121" data-new="1" data-amenities="oceanview beachfront" data-search="isla encantada holbox, mexico" style="display:none">
+      <div class="lc-image"><img src="../listings/44.webp" alt="Isla Encantada, Holbox"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Holbox, Mexico</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Isla Encantada</div>
+      <div class="lc-bottom"><div class="lc-price">$121<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="mountain" data-price="168" data-new="0" data-amenities="hottub ev" data-search="alpenglow chalet interlaken, switzerland" style="display:none">
+      <div class="lc-image"><img src="../listings/45.webp" alt="Alpenglow Chalet, Interlaken"></div>
+      <div class="lc-top"><span class="lc-location">Interlaken, Switzerland</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Alpenglow Chalet</div>
+      <div class="lc-bottom"><div class="lc-price">$168<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="boutique" data-price="84" data-new="0" data-amenities="pool beachfront" data-search="casa baobab nosy be, madagascar" style="display:none">
+      <div class="lc-image"><img src="../listings/46.webp" alt="Casa Baobab, Nosy Be"></div>
+      <div class="lc-top"><span class="lc-location">Nosy Be, Madagascar</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Baobab</div>
+      <div class="lc-bottom"><div class="lc-price">$84<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="surf" data-price="66" data-new="0" data-amenities="beachfront pool" data-search="bluewater surf lodge canggu, bali" style="display:none">
+      <div class="lc-image"><img src="../listings/47.webp" alt="Bluewater Surf Lodge, Canggu"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Canggu, Bali</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Bluewater Surf Lodge</div>
+      <div class="lc-bottom"><div class="lc-price">$66<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="retreat" data-price="89" data-new="0" data-amenities="detox hottub" data-search="refugio silencio sierra gorda, mexico" style="display:none">
+      <div class="lc-image"><img src="../listings/48.webp" alt="Refugio Silencio, Sierra Gorda"></div>
+      <div class="lc-top"><span class="lc-location">Sierra Gorda, Mexico</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Refugio Silencio</div>
+      <div class="lc-bottom"><div class="lc-price">$89<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="villa" data-price="224" data-new="1" data-amenities="pool oceanview" data-search="villa sotavento formentera, spain" style="display:none">
+      <div class="lc-image"><img src="../listings/49.webp" alt="Villa Sotavento, Formentera"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Formentera, Spain</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Sotavento</div>
+      <div class="lc-bottom"><div class="lc-price">$224<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="eco" data-price="93" data-new="0" data-amenities="detox kitchen" data-search="casa ceiba yucatán jungle, mexico" style="display:none">
+      <div class="lc-image"><img src="../listings/50.webp" alt="Casa Ceiba, Yucatán jungle"></div>
+      <div class="lc-top"><span class="lc-location">Yucatán jungle, Mexico</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Casa Ceiba</div>
+      <div class="lc-bottom"><div class="lc-price">$93<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="island" data-price="143" data-new="0" data-amenities="oceanview pool" data-search="isla palma islas del rosario, colombia" style="display:none">
+      <div class="lc-image"><img src="../listings/51.webp" alt="Isla Palma, Islas del Rosario"></div>
+      <div class="lc-top"><span class="lc-location">Islas del Rosario, Colombia</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Isla Palma</div>
+      <div class="lc-bottom"><div class="lc-price">$143<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="mountain" data-price="152" data-new="0" data-amenities="hottub ev" data-search="nordlys cabin senja, norway" style="display:none">
+      <div class="lc-image"><img src="../listings/52.webp" alt="Nordlys Cabin, Senja"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Senja, Norway</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Nordlys Cabin</div>
+      <div class="lc-bottom"><div class="lc-price">$152<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="boutique" data-price="112" data-new="0" data-amenities="pool beachfront" data-search="casa zafiro san pancho, mexico" style="display:none">
+      <div class="lc-image"><img src="../listings/53.webp" alt="Casa Zafiro, San Pancho"></div>
+      <div class="lc-top"><span class="lc-location">San Pancho, Mexico</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Zafiro</div>
+      <div class="lc-bottom"><div class="lc-price">$112<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="surf" data-price="57" data-new="1" data-amenities="beachfront detox" data-search="wildwater surf camp raglan, new zealand" style="display:none">
+      <div class="lc-image"><img src="../listings/54.webp" alt="Wildwater Surf Camp, Raglan"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Raglan, New Zealand</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Wildwater Surf Camp</div>
+      <div class="lc-bottom"><div class="lc-price">$57<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="retreat" data-price="104" data-new="0" data-amenities="detox hottub" data-search="casa silencio atacama, chile" style="display:none">
+      <div class="lc-image"><img src="../listings/55.webp" alt="Casa Silencio, Atacama"></div>
+      <div class="lc-top"><span class="lc-location">Atacama, Chile</span><span class="lc-cat-tag">Retreat</span></div>
+      <div class="lc-title">Casa Silencio</div>
+      <div class="lc-bottom"><div class="lc-price">$104<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="villa" data-price="214" data-new="0" data-amenities="pool kitchen" data-search="villa bougainville provence, france" style="display:none">
+      <div class="lc-image"><img src="../listings/56.webp" alt="Villa Bougainville, Provence"></div>
+      <div class="lc-top"><span class="lc-location">Provence, France</span><span class="lc-cat-tag">Villa</span></div>
+      <div class="lc-title">Villa Bougainville</div>
+      <div class="lc-bottom"><div class="lc-price">$214<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="eco" data-price="82" data-new="1" data-amenities="detox kitchen" data-search="terra alta eco cabins boquete, panama" style="display:none">
+      <div class="lc-image"><img src="../listings/57.webp" alt="Terra Alta Eco Cabins, Boquete"><span class="lc-badge lc-badge--new">New</span></div>
+      <div class="lc-top"><span class="lc-location">Boquete, Panama</span><span class="lc-cat-tag">Eco-lodge</span></div>
+      <div class="lc-title">Terra Alta Eco Cabins</div>
+      <div class="lc-bottom"><div class="lc-price">$82<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="island" data-price="98" data-new="0" data-amenities="oceanview beachfront" data-search="isla coral gili air, indonesia" style="display:none">
+      <div class="lc-image"><img src="../listings/58.webp" alt="Isla Coral, Gili Air"></div>
+      <div class="lc-top"><span class="lc-location">Gili Air, Indonesia</span><span class="lc-cat-tag">Island</span></div>
+      <div class="lc-title">Isla Coral</div>
+      <div class="lc-bottom"><div class="lc-price">$98<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="mountain" data-price="126" data-new="0" data-amenities="hottub kitchen" data-search="cima blanca refuge picos de europa, spain" style="display:none">
+      <div class="lc-image"><img src="../listings/59.webp" alt="Cima Blanca Refuge, Picos de Europa"><span class="lc-badge lc-badge--pick">Editor's pick</span></div>
+      <div class="lc-top"><span class="lc-location">Picos de Europa, Spain</span><span class="lc-cat-tag">Mountain</span></div>
+      <div class="lc-title">Cima Blanca Refuge</div>
+      <div class="lc-bottom"><div class="lc-price">$126<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="boutique" data-price="108" data-new="0" data-amenities="pool beachfront" data-search="casa ostra ilha grande, brazil" style="display:none">
+      <div class="lc-image"><img src="../listings/60.webp" alt="Casa Ostra, Ilha Grande"></div>
+      <div class="lc-top"><span class="lc-location">Ilha Grande, Brazil</span><span class="lc-cat-tag">Boutique</span></div>
+      <div class="lc-title">Casa Ostra</div>
+      <div class="lc-bottom"><div class="lc-price">$108<span>/night</span></div></div>
+    </a>
+    <a href="#" class="listing-card reveal is-more" data-cat="surf" data-price="76" data-new="0" data-amenities="beachfront kitchen" data-search="palmares surf lodge nosara, costa rica" style="display:none">
+      <div class="lc-image"><img src="../listings/61.webp" alt="Palmares Surf Lodge, Nosara"></div>
+      <div class="lc-top"><span class="lc-location">Nosara, Costa Rica</span><span class="lc-cat-tag">Surf camp</span></div>
+      <div class="lc-title">Palmares Surf Lodge</div>
+      <div class="lc-bottom"><div class="lc-price">$76<span>/night</span></div></div>
+    </a>
+  </div>
+
+  <div class="empty-state" id="emptyState">
+    <h3>No stays match those filters</h3>
+    <p>Try clearing a filter or searching a different place.</p>
+  </div>
+
+  <div class="load-more-wrap" id="loadMoreWrap">
+    <button class="btn-outline" id="loadMoreBtn" type="button">Show more stays</button>
+  </div>
+</section>
+
+
+<section>
+  <div class="sec-head">
+    <div class="kicker">Beyond the room</div>
+    <h2>Not just where you stay</h2>
+  </div>
+  <div class="activity-grid">
+    <a href="#" class="act-card"><img src="../activity/1.webp" alt="Surf lessons"><div class="act-body">Surf lessons</div></a>
+    <a href="#" class="act-card"><img src="../activity/2.webp" alt="Sunrise hikes"><div class="act-body">Sunrise hikes</div></a>
+    <a href="#" class="act-card"><img src="../activity/3.webp" alt="Cooking class"><div class="act-body">Cooking class</div></a>
+    <a href="#" class="act-card"><img src="../activity/4.webp" alt="Boat trips"><div class="act-body">Boat trips</div></a>
+  </div>
+</section>
+
+
+<section>
+  <div class="sec-head">
+    <div class="kicker">From guests</div>
+    <h2>What it's actually like</h2>
+  </div>
+  <div class="trust-wall">
+    <div class="tw-card">
+      <div class="tw-quote-mark">&rdquo;</div>
+      <p class="q">The photos matched the place. First time that's happened in years of booking online.</p>
+      <div class="tw-who"><img src="../review%20icons/1.webp" alt=""><div><strong>Priya N.</strong>Stayed at Casa Paloma</div></div>
+    </div>
+    <div class="tw-card">
+      <div class="tw-quote-mark">&rdquo;</div>
+      <p class="q">No resort fee buried at checkout. The price on the page was the price on the card.</p>
+      <div class="tw-who"><img src="../review%20icons/2.webp" alt=""><div><strong>Marcus T.</strong>Stayed at Alto Retreat</div></div>
+    </div>
+    <div class="tw-card">
+      <div class="tw-quote-mark">&rdquo;</div>
+      <p class="q">Messaged at midnight about a late arrival. The host answered from the surf shop in ten minutes.</p>
+      <div class="tw-who"><img src="../review%20icons/3.webp" alt=""><div><strong>Elin K.</strong>Stayed at Salt Line Surf Camp</div></div>
+    </div>
+    <div class="tw-card">
+      <div class="tw-quote-mark">&rdquo;</div>
+      <p class="q">Booked the villa for a month. The host knocked ten percent off, no app in the middle taking a cut.</p>
+      <div class="tw-who"><img src="../review%20icons/4.webp" alt=""><div><strong>Adaeze O.</strong>Stayed at Villa Serrana</div></div>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div class="newsletter-panel">
+    <div>
+      <div class="tag">The insider list</div>
+      <h2>New stays, before they <span class="accent">book out.</span></h2>
+    </div>
+    <form class="newsletter-form" onsubmit="return false;">
+      <div class="newsletter-row">
+        <input type="email" placeholder="your@email.com" required>
+        <button type="submit">Count me in</button>
+      </div>
+      <div class="newsletter-fine">One email a month · no noise, no spam</div>
+    </form>
+  </div>
+  <a href="host.html" class="host-line">Have a place to share? <span class="host-line-link">List it, 0% commission, always</span></a>
+</section>
+
+</main>
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="filterDrawer">
+  <div class="drawer-head">
+    <h3>Filters</h3>
+    <button class="drawer-close" id="drawerClose" aria-label="Close filters">&times;</button>
+  </div>
+  <div class="drawer-body">
+    <div class="drawer-group">
+      <h4>Property type</h4>
+      <label class="check-row"><input type="checkbox" class="js-type" value="boutique">Boutique</label>
+      <label class="check-row"><input type="checkbox" class="js-type" value="villa">Villa</label>
+      <label class="check-row"><input type="checkbox" class="js-type" value="surf">Surf camp</label>
+      <label class="check-row"><input type="checkbox" class="js-type" value="retreat">Retreat</label>
+      <label class="check-row"><input type="checkbox" class="js-type" value="eco">Eco-lodge</label>
+      <label class="check-row"><input type="checkbox" class="js-type" value="mountain">Mountain</label>
+      <label class="check-row"><input type="checkbox" class="js-type" value="island">Island</label>
+    </div>
+    <div class="drawer-group">
+      <h4>Price per night</h4>
+      <div class="price-row">
+        <input type="number" id="minPriceInput" placeholder="Min">
+        <span>&mdash;</span>
+        <input type="number" id="maxPriceInput" placeholder="Max">
+      </div>
+    </div>
+    <div class="drawer-group">
+      <h4>Amenities</h4>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="pool">Pool</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="beachfront">Beachfront</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="kitchen">Kitchen</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="hottub">Hot tub</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="oceanview">Ocean view</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="pet">Pet friendly</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="detox">Digital detox</label>
+      <label class="check-row"><input type="checkbox" class="js-amenity" value="ev">EV charging</label>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn-clear" id="clearFilters" type="button">Clear all</button>
+    <button class="btn-apply" id="applyFilters" type="button">Show stays</button>
+  </div>
+</div>
+<footer>
+  <div class="wrap">
+    <div class="footer-trust">Every property on guestbook is reviewed before it's listed<span class="dot"> · </span>no exceptions</div>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-word">Guest<span class="logo-pina">book</span></span></div>
+        <p>A home for boutique hotels, surf camps, and retreats.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help center</a>
+        <a href="#">Safety information</a>
+        <a href="#">Cancellation options</a>
+        <a href="#">Anti-discrimination</a>
+      </div>
+      <div class="footer-col">
+        <h4>Hosting</h4>
+        <a href="host.html">List your place</a>
+        <a href="host.html#how">Hosting resources</a>
+        <a href="#">Community forum</a>
+        <a href="#">Refer a host</a>
+      </div>
+      <div class="footer-col">
+        <h4>guestbook</h4>
+        <a href="#">About</a>
+        <a href="#">Editorials</a>
+        <a href="#">Press</a>
+        <a href="#">Careers</a>
+      </div>
+    </div>
+    <div class="footer-row">
+      <div class="footer-meta">
+        <div class="footer-copy">© 2026 guestbook</div>
+        <nav class="footer-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Sitemap</a>
+        </nav>
+      </div>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8.1-9.3L1 2h6.9l4.8 6.3L18.9 2z"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.25-1.5 1.55-1.5H16.7V3.7c-.28-.04-1.25-.12-2.36-.12-2.34 0-3.94 1.43-3.94 4.05v2.26H8v3.1h2.4V21h3.1z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+  // Fallback: any <img> that fails to load shows its expected filename instead of breaking
+  (function(){
+    function svgSrc(lines){
+      const text = lines.map(function(line, i){
+        const y = lines.length === 1 ? 50 : 14 + i * (72 / (lines.length - 1 || 1));
+        return '<text x="50%" y="' + y + '%" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" '
+          + 'font-size="12" fill="#7A7267" text-anchor="middle" dominant-baseline="middle">'
+          + line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</text>';
+      }).join('');
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">'
+        + '<rect width="100%" height="100%" fill="#E7E0D2"/>' + text + '</svg>';
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+    function filenameOf(img){ return decodeURIComponent((img.getAttribute('src') || '').split('/').pop()); }
+    document.querySelectorAll('img').forEach(function(img){
+      function apply(){ img.src = svgSrc([filenameOf(img)]); }
+      if (img.complete && img.naturalWidth === 0) apply();
+      else img.addEventListener('error', apply, { once: true });
+    });
+  })();
+
+  // Mobile nav toggle
+  const mobileNavToggle = document.getElementById('mobileNavToggle');
+  const mobileNavPanel = document.getElementById('mobileNavPanel');
+  if (mobileNavToggle && mobileNavPanel) {
+    const closeMobileNav = () => {
+      mobileNavPanel.classList.remove('is-open');
+      mobileNavToggle.setAttribute('aria-expanded', 'false');
+    };
+    mobileNavToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mobileNavPanel.classList.toggle('is-open');
+      mobileNavToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    mobileNavPanel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+    document.addEventListener('click', (e) => {
+      if (!mobileNavPanel.contains(e.target) && !mobileNavToggle.contains(e.target)) closeMobileNav();
+    });
+    window.addEventListener('resize', () => { if (window.innerWidth > 720) closeMobileNav(); });
+  }
+
+  // Header scroll state
+  const siteHeader = document.querySelector('header');
+  if (siteHeader) {
+    const paintHeader = () => siteHeader.classList.toggle('is-scrolled', window.scrollY > 24);
+    paintHeader();
+    window.addEventListener('scroll', paintHeader, { passive: true });
+  }
+
+  // Search bar segment toggle (When / Who decorative segments)
+  document.querySelectorAll('.search-seg').forEach(seg => {
+    seg.addEventListener('click', () => {
+      document.querySelectorAll('.search-seg').forEach(s => s.classList.remove('is-active'));
+      seg.classList.add('is-active');
+    });
+  });
+
+  // Scroll-in reveal
+  const revealTargets = [...document.querySelectorAll('main > section:not(.hero)')];
+  revealTargets.forEach(el => el.classList.add('reveal'));
+  const cardGroupSelectors = ['.dest-strip', '.activity-grid', '.trust-wall', '.explore-grid'];
+  const cardGroups = cardGroupSelectors.flatMap(sel => [...document.querySelectorAll(sel)]);
+  cardGroups.forEach(group => {
+    [...group.children].forEach((card, i) => {
+      card.classList.add('reveal');
+      card.style.transitionDelay = Math.min(i * 60, 300) + 'ms';
+    });
+  });
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  [...revealTargets, ...cardGroups.flatMap(g => [...g.children])].forEach(el => io.observe(el));
+</script>
+<script>
+  // Version pills fade out once the hero has scrolled past
+  (function(){
+    const heroEl = document.querySelector('.hero');
+    const hv = document.querySelector('.header-versions');
+    if(!heroEl || !hv) return;
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=> hv.classList.toggle('is-hidden', !e.isIntersecting));
+    }, { threshold: 0 });
+    io.observe(heroEl);
+  })();
+  // Highlight the current page in the header + mobile nav
+  (function(){
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.header-links a, .mobile-nav-panel a').forEach(a=>{
+      if(a.getAttribute('href') === path) a.classList.add('is-current');
+    });
+  })();
+</script>
+
+<script>
+  (function(){
+    const grid = document.getElementById('exploreGrid');
+    const cards = [...grid.querySelectorAll('.listing-card')];
+    const resultCount = document.getElementById('resultCount');
+    const emptyState = document.getElementById('emptyState');
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const catChips = [...document.querySelectorAll('.cat-chip')];
+    const whereInput = document.getElementById('whereInput');
+    const searchSubmitBtn = document.getElementById('searchSubmitBtn');
+    const destChips = [...document.querySelectorAll('.dest-chip')];
+
+    const state = { cat: 'all', search: '', sort: 'recommended', types: [], amenities: [], minPrice: null, maxPrice: null, expanded: false };
+    const BATCH = 15;
+
+    function matches(card){
+      if (state.cat !== 'all' && card.dataset.cat !== state.cat) return false;
+      if (state.types.length && !state.types.includes(card.dataset.cat)) return false;
+      if (state.search && !card.dataset.search.includes(state.search)) return false;
+      const price = parseInt(card.dataset.price, 10);
+      if (state.minPrice != null && price < state.minPrice) return false;
+      if (state.maxPrice != null && price > state.maxPrice) return false;
+      if (state.amenities.length){
+        const has = (card.dataset.amenities || '').split(' ');
+        if (!state.amenities.every(a => has.includes(a))) return false;
+      }
+      return true;
+    }
+
+    function sortCards(list){
+      const sorted = [...list];
+      if (state.sort === 'price-asc') sorted.sort((a,b)=> a.price - b.price);
+      else if (state.sort === 'price-desc') sorted.sort((a,b)=> b.price - a.price);
+      else if (state.sort === 'newest') sorted.sort((a,b)=> b.isNew - a.isNew);
+      return sorted;
+    }
+
+    function render(){
+      const all = cards.map(card => ({
+        el: card,
+        match: matches(card),
+        price: parseInt(card.dataset.price, 10),
+        isNew: parseInt(card.dataset.new, 10)
+      }));
+      const filtered = sortCards(all.filter(x => x.match));
+      const total = filtered.length;
+      const shown = state.expanded ? total : Math.min(BATCH, total);
+
+      cards.forEach(c => { c.style.display = 'none'; c.style.order = ''; });
+      filtered.forEach((item, i) => {
+        item.el.style.order = String(i);
+        item.el.style.display = i < shown ? '' : 'none';
+      });
+
+      resultCount.innerHTML = total
+        ? `Showing <b>${shown}</b> of <b>${total}</b> stays`
+        : `Showing <b>0</b> stays`;
+      emptyState.classList.toggle('is-visible', total === 0);
+      loadMoreWrap.style.display = (!state.expanded && total > BATCH) ? 'flex' : 'none';
+
+      const filterCount = state.types.length + state.amenities.length + (state.minPrice != null ? 1 : 0) + (state.maxPrice != null ? 1 : 0);
+      const badge = document.getElementById('filterBadge');
+      badge.hidden = filterCount === 0;
+      badge.textContent = filterCount;
+    }
+
+    // category chips
+    catChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        catChips.forEach(c => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        state.cat = chip.dataset.cat;
+        state.expanded = false;
+        render();
+      });
+    });
+
+    // destination quick filter (matches against location text)
+    destChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const already = chip.classList.contains('is-active');
+        destChips.forEach(c => c.classList.remove('is-active'));
+        if (already){
+          state.search = '';
+          whereInput.value = '';
+        } else {
+          chip.classList.add('is-active');
+          state.search = chip.dataset.dest;
+          whereInput.value = chip.querySelector('h4').textContent;
+        }
+        state.expanded = false;
+        render();
+      });
+    });
+
+    // text search
+    function runSearch(){
+      state.search = whereInput.value.trim().toLowerCase();
+      state.expanded = false;
+      destChips.forEach(c => c.classList.remove('is-active'));
+      render();
+      document.getElementById('listings').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    searchSubmitBtn.addEventListener('click', runSearch);
+    whereInput.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); runSearch(); } });
+
+    // sort dropdown
+    const sortWrap = document.getElementById('sortWrap');
+    const sortTrigger = document.getElementById('sortTrigger');
+    const sortLabel = document.getElementById('sortLabel');
+    sortTrigger.addEventListener('click', (e) => { e.stopPropagation(); sortWrap.classList.toggle('is-open'); });
+    document.querySelectorAll('.sort-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.sort-option').forEach(o => o.classList.remove('is-active'));
+        opt.classList.add('is-active');
+        state.sort = opt.dataset.sort;
+        sortLabel.textContent = opt.textContent;
+        sortWrap.classList.remove('is-open');
+        render();
+      });
+    });
+    document.addEventListener('click', (e) => { if (!sortWrap.contains(e.target)) sortWrap.classList.remove('is-open'); });
+
+    // load more
+    loadMoreBtn.addEventListener('click', () => { state.expanded = true; render(); });
+
+    // filter drawer
+    const filtersBtn = document.getElementById('filtersBtn');
+    const drawer = document.getElementById('filterDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerClose = document.getElementById('drawerClose');
+    function openDrawer(){ drawer.classList.add('is-open'); drawerOverlay.classList.add('is-open'); }
+    function closeDrawer(){ drawer.classList.remove('is-open'); drawerOverlay.classList.remove('is-open'); }
+    filtersBtn.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+
+    document.getElementById('applyFilters').addEventListener('click', () => {
+      state.types = [...document.querySelectorAll('.js-type:checked')].map(i => i.value);
+      state.amenities = [...document.querySelectorAll('.js-amenity:checked')].map(i => i.value);
+      const min = document.getElementById('minPriceInput').value;
+      const max = document.getElementById('maxPriceInput').value;
+      state.minPrice = min ? parseInt(min, 10) : null;
+      state.maxPrice = max ? parseInt(max, 10) : null;
+      state.expanded = false;
+      closeDrawer();
+      render();
+    });
+    document.getElementById('clearFilters').addEventListener('click', () => {
+      document.querySelectorAll('.js-type, .js-amenity').forEach(i => i.checked = false);
+      document.getElementById('minPriceInput').value = '';
+      document.getElementById('maxPriceInput').value = '';
+      state.types = []; state.amenities = []; state.minPrice = null; state.maxPrice = null;
+      state.expanded = false;
+      render();
+    });
+
+    render();
+  })();
+</script>
+
+<script>
+  (function(){
+    const whenSeg = document.getElementById('whenSeg');
+    const whoSeg = document.getElementById('whoSeg');
+    if (!whenSeg || !whoSeg) return;
+    const dateDropdown = document.getElementById('dateDropdown');
+    const guestDropdown = document.getElementById('guestDropdown');
+    const whenValue = document.getElementById('whenValue');
+    const whoValue = document.getElementById('whoValue');
+    const calMonthLabel = document.getElementById('calMonthLabel');
+    const calGrid = document.getElementById('calGrid');
+    const calPrev = document.getElementById('calPrev');
+    const calNext = document.getElementById('calNext');
+    const calClear = document.getElementById('calClear');
+
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const dowNames = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+    let viewDate = new Date(); viewDate.setDate(1); viewDate.setHours(0,0,0,0);
+    let rangeStart = null, rangeEnd = null;
+
+    function fmt(d){ return monthNames[d.getMonth()].slice(0,3) + ' ' + d.getDate(); }
+
+    function renderCalendar(){
+      calMonthLabel.textContent = monthNames[viewDate.getMonth()] + ' ' + viewDate.getFullYear();
+      const year = viewDate.getFullYear(), month = viewDate.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date(); today.setHours(0,0,0,0);
+      let html = dowNames.map(d => '<div class="cal-dow">' + d + '</div>').join('');
+      for (let i = 0; i < firstDay; i++) html += '<div class="cal-day is-empty"></div>';
+      for (let day = 1; day <= daysInMonth; day++){
+        const d = new Date(year, month, day);
+        let cls = 'cal-day';
+        if (d < today) cls += ' is-disabled';
+        if (rangeStart && d.getTime() === rangeStart.getTime()) cls += ' is-start';
+        if (rangeEnd && d.getTime() === rangeEnd.getTime()) cls += ' is-end';
+        if (rangeStart && rangeEnd && d > rangeStart && d < rangeEnd) cls += ' is-range';
+        html += '<div class="' + cls + '" data-time="' + d.getTime() + '">' + day + '</div>';
+      }
+      calGrid.innerHTML = html;
+      calPrev.disabled = (year === today.getFullYear() && month === today.getMonth());
+      updateDateSummary();
+    }
+    function updateDateSummary(){
+      if (rangeStart && rangeEnd) whenValue.textContent = fmt(rangeStart) + ' \u2013 ' + fmt(rangeEnd);
+      else if (rangeStart) whenValue.textContent = fmt(rangeStart) + ' \u2013 Add end date';
+      else whenValue.textContent = 'Add dates';
+    }
+    calGrid.addEventListener('click', (e) => {
+      const cell = e.target.closest('.cal-day');
+      if (!cell || cell.classList.contains('is-disabled') || cell.classList.contains('is-empty')) return;
+      const clicked = new Date(parseInt(cell.dataset.time, 10));
+      if (!rangeStart || rangeEnd) { rangeStart = clicked; rangeEnd = null; }
+      else if (clicked.getTime() > rangeStart.getTime()) { rangeEnd = clicked; }
+      else { rangeStart = clicked; rangeEnd = null; }
+      renderCalendar();
+      if (rangeStart && rangeEnd) setTimeout(closeDropdowns, 400);
+    });
+    calPrev.addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth() - 1); renderCalendar(); });
+    calNext.addEventListener('click', () => { viewDate.setMonth(viewDate.getMonth() + 1); renderCalendar(); });
+    calClear.addEventListener('click', () => { rangeStart = null; rangeEnd = null; renderCalendar(); });
+
+    function closeDropdowns(){
+      whenSeg.classList.remove('dd-open');
+      whoSeg.classList.remove('dd-open');
+    }
+    function toggleDropdown(seg){
+      const wasOpen = seg.classList.contains('dd-open');
+      closeDropdowns();
+      if (!wasOpen){
+        seg.classList.add('dd-open');
+        document.querySelectorAll('.search-seg').forEach(s => s.classList.remove('is-active'));
+        seg.classList.add('is-active');
+      }
+    }
+    whenSeg.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(whenSeg); });
+    whoSeg.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(whoSeg); });
+    whenSeg.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); whenSeg.click(); } });
+    whoSeg.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); whoSeg.click(); } });
+    dateDropdown.addEventListener('click', (e) => e.stopPropagation());
+    guestDropdown.addEventListener('click', (e) => e.stopPropagation());
+    document.addEventListener('click', closeDropdowns);
+    renderCalendar();
+
+    // guest stepper
+    const counts = { adults: 1, children: 0, infants: 0, pets: 0 };
+    const bounds = { adults: [1, 16], children: [0, 10], infants: [0, 5], pets: [0, 5] };
+    function updateGuestUI(){
+      Object.keys(counts).forEach(k => {
+        const countEl = document.getElementById('gd-' + k);
+        if (countEl) countEl.textContent = counts[k];
+        const decBtn = document.querySelector('.gd-btn[data-type="' + k + '"][data-action="dec"]');
+        const incBtn = document.querySelector('.gd-btn[data-type="' + k + '"][data-action="inc"]');
+        if (decBtn) decBtn.disabled = counts[k] <= bounds[k][0];
+        if (incBtn) incBtn.disabled = counts[k] >= bounds[k][1];
+      });
+      const totalGuests = counts.adults + counts.children;
+      const parts = [totalGuests + (totalGuests === 1 ? ' guest' : ' guests')];
+      if (counts.infants) parts.push(counts.infants + (counts.infants === 1 ? ' infant' : ' infants'));
+      if (counts.pets) parts.push(counts.pets + (counts.pets === 1 ? ' pet' : ' pets'));
+      whoValue.textContent = parts.join(', ');
+    }
+    document.querySelectorAll('.gd-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.dataset.type, action = btn.dataset.action;
+        const [min, max] = bounds[type];
+        if (action === 'inc' && counts[type] < max) counts[type]++;
+        if (action === 'dec' && counts[type] > min) counts[type]--;
+        updateGuestUI();
+      });
+    });
+    const guestDoneBtn = document.getElementById('guestDone');
+    if (guestDoneBtn) guestDoneBtn.addEventListener('click', closeDropdowns);
+  })();
+</script>
+
+</body></html>

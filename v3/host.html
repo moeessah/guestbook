@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>guestbook for hosts · keep your guests, keep your margins</title>
+<meta name="description" content="A flat-fee home for boutique hotels, surf camps, and retreats. No commission on any booking, on any tier, ever.">
+<meta name="theme-color" content="#faf9f8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2714%27%20fill%3D%27%23ff5151%27/%3E%3Ctext%20x%3D%2732%27%20y%3D%2745%27%20font-family%3D%27Instrument%20Sans%2C%20-apple-system%2C%20sans-serif%27%20font-weight%3D%27700%27%20font-size%3D%2734%27%20text-anchor%3D%27middle%27%20fill%3D%27%23ffffff%27%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --peach:#faf9f8;--peach-deep:#E7E0D2;--card:#FFFFFF;--panel:#0F3D5E;--ink:#232323;--ink-soft:#7A7267;--ink-faint:#9C9284;
+  --line:rgba(35,35,35,.09);--line-soft:rgba(35,35,35,.06);
+  --coral:#ff5151;--coral-deep:#e64545;--navy:var(--ink);--navy-mid:#165A5A;--amber:#C89B3C;--nav-blue:#068ec1;
+  --f-display:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-ui:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-mono:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  --f-hand:'Caveat','Segoe Script','Bradley Hand',cursive;
+  --shadow-sm:0 1px 2px rgba(35,30,20,.08);
+  --shadow-md:0 16px 32px -14px rgba(35,30,20,.18),0 3px 8px -3px rgba(35,30,20,.1);
+  --shadow-lg:0 30px 60px -20px rgba(35,30,20,.22),0 8px 18px -6px rgba(35,30,20,.12);
+  --shadow-md-hover:0 16px 32px -14px rgba(35,30,20,.24),0 3px 8px -3px rgba(35,30,20,.14);
+  --shadow-lg-hover:0 30px 60px -20px rgba(35,30,20,.28),0 8px 18px -6px rgba(35,30,20,.16);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --noise-fine:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  --coral-wash:linear-gradient(160deg,rgba(255,81,81,.16),rgba(35,35,35,.05));
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--peach);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px;}
+.wrap{max-width:1230px;margin:0 auto;padding:0 24px;}
+section.wrap{margin-bottom:118px;}
+section{position:relative;}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;}
+.ph{position:relative;overflow:hidden;background:var(--peach-deep);}
+.ph img{width:100%;height:100%;object-fit:cover;}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;z-index:2;min-height:60vh;display:flex;align-items:flex-end;background:var(--peach);overflow:hidden;isolation:isolate;}
+.hero .wrap{width:100%;position:relative;padding-bottom:7vh;padding-top:40px;}
+.hero-grid3{display:grid;grid-template-columns:1fr 2fr;gap:40px;align-items:end;}
+.hero-claim{display:flex;flex-direction:column;gap:8px;padding-bottom:6px;}
+.hero-claim-num{font-family:var(--f-display);font-size:clamp(5.85rem,9.9vw,9rem);line-height:1;color:var(--coral);}
+.hero-claim-txt{white-space:nowrap;font-family:var(--f-mono);font-size:.76rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);line-height:1.45;}
+.hero-top{display:flex;justify-content:flex-end;}
+.hero-text{max-width:900px;}
+.hero-text h1{font-family:var(--f-display);font-weight:700;font-size:clamp(2.4rem,5.1vw,4.4rem);line-height:.98;letter-spacing:-.02em;color:var(--navy);text-align:right;}
+.hero-text h1 .h1-light{font-weight:500;}
+.hero-text h1 .hw-em{color:var(--coral-deep);}
+.hero-whisper{font-family:var(--f-hand);font-weight:600;font-size:1.2rem;color:var(--coral);text-align:right;margin-top:10px;}
+.hero-bottom{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:44px;flex-wrap:wrap;}
+.hero-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:var(--peach);font-weight:700;font-size:.88rem;padding:15px 26px;border-radius:12px;transition:background .2s ease,transform .2s var(--ease),color .2s ease;}
+.btn-primary:hover{background:var(--coral);color:#fff;transform:translateY(-2px);}
+.btn-coral{display:inline-flex;align-items:center;gap:8px;background:var(--coral);color:#fff;font-weight:700;font-size:.88rem;padding:15px 26px;border-radius:12px;transition:background .2s ease,transform .2s var(--ease);}
+.btn-coral:hover{background:var(--coral-deep);transform:translateY(-2px);}
+@media (max-width:900px){
+  .hero{min-height:auto;}
+  .hero-grid3{grid-template-columns:1fr;gap:28px;}
+  .hero-claim{padding-bottom:0;}
+  .hero-top{justify-content:flex-start;}
+  .hero-text h1{text-align:left;}
+  .hero-bottom{flex-direction:column;align-items:flex-start;}
+}
+
+/* ---------- STATS ---------- */
+.stat-strip{display:flex;flex-wrap:wrap;column-gap:64px;row-gap:28px;}
+.stat-num{font-family:var(--f-display);font-size:clamp(2rem,3.4vw,2.8rem);color:var(--navy);line-height:1;}
+.stat-lbl{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-faint);margin-top:8px;}
+
+/* ---------- SEC HEAD ---------- */
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:26px;}
+.sec-whisper{font-family:var(--f-hand);font-weight:600;font-size:1.15rem;color:var(--coral);}
+.sec-head h2{--fill:0%;font-family:var(--f-display);font-weight:600;font-size:clamp(1.1875rem,2.6vw,1.7875rem);letter-spacing:-.02em;max-width:820px;white-space:nowrap;background-image:linear-gradient(90deg,var(--navy) var(--fill),rgba(35,35,35,.16) var(--fill));-webkit-background-clip:text;background-clip:text;color:transparent;}
+@media (max-width:640px){.sec-head h2{white-space:normal;}}
+[data-h2scrub] .hw-light{background-image:inherit;-webkit-background-clip:inherit;background-clip:inherit;color:inherit;}
+@media (prefers-reduced-motion:reduce){[data-h2scrub]{background-image:none;color:var(--navy);}}
+.sec-head p{color:var(--ink-soft);font-size:.92rem;max-width:280px;}
+.sec-head--stack{flex-direction:column;align-items:flex-start;gap:16px;}
+
+/* ---------- ROW NAV (used by field notes carousel) ---------- */
+.row-nav{display:flex;gap:8px;flex-shrink:0;}
+.row-nav button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--ink);box-shadow:var(--shadow-sm);transition:border-color .2s ease,transform .15s ease,opacity .2s ease;}
+.row-nav button:hover{border-color:var(--ink-faint);transform:translateY(-1px);}
+.row-nav button:disabled{opacity:.35;pointer-events:none;}
+.row-nav button svg{width:15px;height:15px;}
+
+/* ---------- SCROLL-SCRUB EDITORIAL ---------- */
+.scroll-note-section{margin-bottom:120px;}
+.scroll-note-grid{display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;}
+.scroll-note-spacer{display:block;}
+.scroll-note-text--half{max-width:70%;margin:0;}
+.scroll-note-text p{font-family:var(--f-display);font-weight:400;font-size:clamp(2rem,3.4vw,2.9rem);line-height:1.16;margin:0 0 20px;}
+.stw-w{color:var(--ink-faint);transition:color .3s ease;}
+.stw-w.is-lit{color:var(--navy);}
+.stw-w--coral.is-lit{color:var(--coral);}
+@media (max-width:900px){.scroll-note-grid{grid-template-columns:1fr;gap:20px;}.scroll-note-spacer{display:none;}.scroll-note-text--half{max-width:100%;}}
+
+.arith-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch;margin-top:60px;}
+.compare-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 32px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;}
+.compare-card-head{margin-bottom:22px;}
+.compare-card-head h3{font-family:var(--f-display);font-weight:400;font-size:1.6rem;color:var(--navy);margin-bottom:6px;}
+.compare-card-head p{color:var(--ink-soft);font-size:.85rem;}
+.compare-table{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);flex:1;}
+.compare-row{display:grid;grid-template-columns:1fr 1.1fr 1.1fr;}
+.compare-row + .compare-row{border-top:1px solid var(--line-soft);}
+.compare-row > div{padding:16px 18px;font-size:.85rem;}
+.compare-row.head{background:var(--navy);}
+.compare-row.head > div{color:var(--peach);font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;padding:14px 18px;}
+.compare-row.head > div:first-child{opacity:.6;}
+.compare-row:not(.head) > div:first-child{font-weight:700;color:var(--ink);}
+.compare-row:not(.head) > div:nth-child(2){color:var(--ink-soft);}
+.compare-row:not(.head) > div:nth-child(3){color:var(--navy);font-weight:600;background:rgba(255,92,85,.06);}
+.compare-foot{display:flex;gap:16px;margin-top:22px;}
+.compare-foot-stat{flex:1;background:var(--peach);border-radius:12px;padding:16px 18px;text-align:center;}
+.compare-foot-stat b{display:block;font-family:var(--f-display);font-size:1.9rem;line-height:1;color:var(--ink-faint);}
+.compare-foot-stat.is-good b{color:var(--coral);}
+.compare-foot-stat span{font-family:var(--f-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);display:block;margin-top:6px;}
+.calc-card{background:var(--navy);border-radius:20px;padding:34px 32px;color:var(--peach);position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;}
+.calc-card::before{content:'';position:absolute;inset:0;z-index:0;opacity:.4;mix-blend-mode:overlay;background-image:var(--noise-fine);}
+.calc-card > *{position:relative;z-index:1;}
+.calc-card h3{font-family:var(--f-display);font-weight:400;font-size:1.6rem;margin-bottom:6px;}
+.calc-card p.sub{color:rgba(250,249,248,.7);font-size:.85rem;margin-bottom:26px;}
+.calc-field{margin-bottom:22px;}
+.calc-field label{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:rgba(250,249,248,.72);margin-bottom:10px;}
+.calc-field label b{color:var(--peach);font-size:.85rem;font-family:var(--f-ui);letter-spacing:0;text-transform:none;}
+.calc-field input[type=range]{width:100%;accent-color:var(--coral);}
+.calc-result{margin-top:6px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:22px;text-align:center;}
+.calc-result .cr-num{font-family:var(--f-display);font-size:clamp(4.8rem,8vw,6rem);color:#ff8a7a;}
+.calc-result .cr-lbl{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:rgba(250,249,248,.65);margin-top:4px;}
+.calc-note{margin-top:auto;padding-top:14px;font-size:.72rem;color:rgba(250,249,248,.55);line-height:1.5;}
+@media (max-width:900px){.arith-grid{grid-template-columns:1fr;gap:34px;}.compare-row > div{padding:13px 12px;font-size:.78rem;}}
+
+/* ---------- STICKY FEATURE WALKTHROUGH (destination-style) ---------- */
+.feature-section{margin-top:10px;}
+.feat-grid{display:grid;grid-template-columns:300px 1fr;gap:64px;align-items:start;margin-top:44px;}
+.feat-sticky{position:sticky;top:120px;display:flex;flex-direction:column;gap:44px;align-self:start;}
+.feat-intro h2{--fill:0%;font-family:var(--f-display);font-weight:600;font-size:clamp(2.2rem,3.6vw,3rem);line-height:.95;letter-spacing:-.02em;margin-bottom:14px;background-image:linear-gradient(90deg,var(--navy) var(--fill),rgba(35,35,35,.16) var(--fill));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.feat-intro p{font-family:var(--f-ui);font-size:.95rem;line-height:1.55;color:var(--ink-soft);max-width:280px;}
+.feat-index{position:relative;display:flex;flex-direction:column;padding-left:24px;}
+.feat-index-line{position:absolute;left:3px;top:8px;bottom:8px;width:2px;background:var(--line);border-radius:2px;overflow:hidden;}
+.feat-index-fill{position:absolute;top:0;left:0;width:100%;height:33.3%;background:var(--coral);border-radius:2px;transition:height .4s var(--ease);}
+.feat-index-item{position:relative;display:flex;align-items:baseline;gap:10px;padding:10px 0;color:var(--ink-faint);transition:color .35s ease;cursor:pointer;}
+.feat-index-item::before{content:'';position:absolute;left:-24px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--card);border:2px solid var(--ink-faint);transition:border-color .35s ease,background .35s ease,transform .35s ease;}
+.feat-index-item .fin-num{font-family:var(--f-ui);font-weight:620;font-size:.7rem;}
+.feat-index-item .fin-name{font-family:var(--f-display);font-size:1.15rem;line-height:1;}
+.feat-index-item.is-active{color:var(--navy);}
+.feat-index-item.is-active::before{border-color:var(--coral);background:var(--coral);transform:scale(1.2);}
+.feat-index-item.is-active .fin-num{color:var(--coral);}
+
+.feat-track{display:flex;flex-direction:column;max-width:52%;}
+.feat-trigger{height:100vh;}
+.feat-sticky-media-wrap{position:sticky;top:120px;}
+.feat-media{position:relative;width:50%;height:26vh;min-height:170px;max-height:250px;border-radius:14px;overflow:hidden;isolation:isolate;}
+.feat-media::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.4) 100%);pointer-events:none;z-index:1;}
+.feat-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease;}
+.feat-media img.is-active{opacity:1;z-index:1;}
+.feat-copy{max-width:560px;margin-top:34px;}
+.feat-copy-item{display:none;}
+.feat-copy-item.is-active{display:block;}
+.feat-num{display:block;font-family:var(--f-ui);font-weight:700;font-size:.72rem;letter-spacing:.08em;color:var(--coral);margin-bottom:10px;}
+.feat-copy h3{font-family:var(--f-display);font-weight:400;font-size:clamp(2rem,3.6vw,2.75rem);line-height:.95;color:var(--navy);margin-bottom:12px;}
+.feat-copy p{font-family:var(--f-ui);font-size:1rem;line-height:1.6;color:var(--ink-soft);max-width:460px;}
+@media (max-width:900px){
+  .feat-grid{grid-template-columns:1fr;gap:36px;}
+  .feat-sticky{position:relative;top:0;}
+  .feat-index{flex-direction:row;flex-wrap:wrap;gap:8px 18px;padding-left:0;}
+  .feat-index-line{display:none;}.feat-index-item::before{display:none;}
+  .feat-track{max-width:100%;}
+  .feat-trigger{height:0;}
+  .feat-sticky-media-wrap{position:relative;top:0;}
+  .feat-media{display:none;}
+  .feat-copy{margin-top:0;max-width:100%;}
+  .feat-copy-item{display:block !important;padding:26px 0;border-top:1px solid var(--line);}
+  .feat-copy-item:first-child{border-top:none;padding-top:0;}
+  .feat-copy p{max-width:100%;}
+}
+
+/* ---------- PERSONAL / PAYOUT CAROUSEL ---------- */
+.personal-section{margin-top:0;margin-bottom:110px;}
+.personal-row{display:grid;grid-template-columns:1.15fr .95fr;gap:44px;align-items:center;}
+.personal-copy p{color:var(--ink-soft);font-size:.98rem;line-height:1.7;margin:0 0 16px;max-width:460px;}
+.personal-card{position:relative;aspect-ratio:16/11;border-radius:14px;overflow:hidden;isolation:isolate;transition:transform .3s var(--ease);}
+.personal-card:hover{transform:translateY(-4px);}
+.pc-photos{position:absolute;inset:0;}
+.pc-photos img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease;}
+.pc-photos img.is-active{opacity:1;z-index:1;}
+.pc-shade{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(15,20,40,0) 42%,rgba(15,20,40,.78) 100%);pointer-events:none;}
+.pc-dots{position:absolute;top:16px;right:16px;z-index:3;display:flex;gap:4px;}
+.pc-dots span{width:5px;height:5px;border-radius:100px;background:rgba(255,255,255,.4);transition:width .3s ease,background .3s ease;}
+.pc-dots span.is-active{width:13px;background:#fff;}
+.pc-payout{position:absolute;left:18px;right:18px;bottom:18px;z-index:3;}
+.pc-num{font-family:var(--f-mono);font-weight:700;font-size:1.5rem;color:#fff;font-variant-numeric:tabular-nums;}
+.pc-lbl{font-family:var(--f-mono);font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.7);margin-top:2px;}
+@media (max-width:900px){.personal-row{grid-template-columns:1fr;gap:26px;}}
+@media (max-width:520px){.personal-card{aspect-ratio:4/5;}}
+
+/* ---------- COLLECTIONS (host personas) ---------- */
+.coll-layout{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;align-items:start;}
+.coll-grid-wrap{grid-column:1/3;}
+.coll-sticky{grid-column:3/4;position:sticky;top:120px;}
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.coll-card{position:relative;border-radius:14px;overflow:hidden;isolation:isolate;aspect-ratio:4/5;box-shadow:var(--shadow-sm);transition:box-shadow .3s ease;background:var(--peach-deep);display:block;}
+.coll-card:hover{box-shadow:var(--shadow-md-hover);}
+.coll-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1);transition:transform 4s cubic-bezier(.19,1,.22,1);}
+.coll-card:hover img{transform:scale(1.06);}
+.coll-card::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(30,35,64,0) 40%,rgba(30,35,64,.7) 100%);}
+.coll-card .cc-body{position:absolute;left:14px;right:14px;bottom:10px;z-index:2;color:#fff;}
+.coll-card .cc-body h3{font-family:var(--f-display);font-weight:500;font-size:1rem;margin-bottom:2px;line-height:1.15;}
+.coll-card .cc-body p{font-size:.72rem;color:rgba(255,255,255,.78);line-height:1.3;}
+@media (max-width:900px){.coll-layout{grid-template-columns:1fr;gap:24px;}.coll-grid-wrap{grid-column:1/2;}.coll-sticky{grid-column:1/2;position:relative;top:0;}.coll-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ---------- HOW IT WORKS ---------- */
+.steps-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.steps-row::before{content:'';position:absolute;top:26px;left:6%;right:6%;height:1px;background:var(--line);z-index:0;}
+.step-item{position:relative;z-index:1;padding-right:20px;}
+.step-num{width:52px;height:52px;border-radius:50%;background:var(--card);border:1.5px solid var(--navy);color:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:1.3rem;margin-bottom:20px;}
+.step-item.is-last .step-num{background:var(--navy);color:var(--peach);}
+.step-item h4{font-family:var(--f-display);font-weight:400;font-size:1.3rem;color:var(--navy);margin-bottom:8px;}
+.step-item p{color:var(--ink-soft);font-size:.86rem;line-height:1.55;max-width:220px;}
+@media (max-width:900px){.steps-row{grid-template-columns:1fr;gap:30px;}.steps-row::before{display:none;}}
+
+/* ---------- HOST SPOTLIGHT ---------- */
+.stay{border-radius:20px;position:relative;overflow:hidden;isolation:isolate;margin-bottom:110px;min-height:600px;display:flex;align-items:flex-end;padding:44px;}
+.stay-photo{position:absolute;inset:0;z-index:0;}
+.stay-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.stay-photo::after{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,.22) 0%,rgba(10,10,10,.06) 45%,rgba(10,10,10,.06) 100%);}
+.stay-stamp{position:absolute;top:24px;right:24px;z-index:2;width:76px;height:76px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.7);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--f-mono);font-size:.56rem;line-height:1.3;transform:rotate(-6deg);padding:6px;}
+.stay-body{position:relative;z-index:2;width:100%;max-width:460px;background:rgba(30,30,30,.8);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:1px solid rgba(255,255,255,.14);border-radius:24px;padding:38px 42px;box-shadow:0 30px 70px rgba(5,7,18,.45);color:#fff;}
+.stay-body span.eyebrow{margin-bottom:10px;}
+.stay-body h3{font-family:var(--f-display);font-weight:400;font-size:clamp(1.75rem,3vw,2.25rem);line-height:1;margin-bottom:14px;color:#fff;}
+.stay-quote{border-left:3px solid var(--coral);padding-left:18px;font-family:var(--f-display);font-style:italic;font-size:1.05rem;margin-bottom:22px;line-height:1.35;color:rgba(255,255,255,.92);}
+.stay-host{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.stay-host img{width:40px;height:40px;border-radius:50%;object-fit:cover;}
+.stay-host div{font-size:.82rem;color:rgba(255,255,255,.6);}
+.stay-host strong{display:block;color:#fff;font-size:.9rem;}
+.stay-foot{display:flex;align-items:center;justify-content:space-between;}
+.stay-price strong{font-family:var(--f-mono);font-size:1.2rem;color:#fff;}
+.stay-price span{font-family:var(--f-mono);font-size:.68rem;color:rgba(255,255,255,.55);display:block;}
+.stay-cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--peach);font-size:.86rem;font-weight:700;padding:13px 22px;border-radius:11px;transition:background .2s ease;}
+.stay-cta:hover{background:var(--coral);}
+@media (max-width:820px){.stay{padding:20px;min-height:560px;}.stay-body{max-width:100%;padding:28px 26px;}}
+
+/* ---------- PRICING ---------- */
+.pricing-banner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:rgba(255,92,85,.08);border:1px solid rgba(255,92,85,.25);border-radius:14px;padding:16px 22px;margin-bottom:34px;}
+.pricing-banner strong{color:var(--navy);}
+.pricing-banner span.pill{font-family:var(--f-mono);font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--coral);color:#fff;padding:6px 12px;border-radius:100px;}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:start;margin-top:14px;}
+.price-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 30px;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s ease;position:relative;}
+.price-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md-hover);}
+.price-card.is-feat{border:2px solid var(--coral);box-shadow:var(--shadow-md);}
+.price-badge{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:var(--coral);color:#fff;font-family:var(--f-mono);font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:8px 18px;border-radius:100px;white-space:nowrap;box-shadow:var(--shadow-sm);}
+.price-card h3{font-family:var(--f-display);font-weight:400;font-size:1.6rem;margin-bottom:6px;color:var(--navy);}
+.price-card .price-sub{font-size:.78rem;color:var(--ink-soft);margin-bottom:22px;}
+.price-amt{font-family:var(--f-display);font-size:2.6rem;line-height:1;margin-bottom:4px;color:var(--navy);}
+.price-amt span{font-family:var(--f-ui);font-size:.85rem;font-weight:400;color:var(--ink-soft);}
+.price-list{list-style:none;margin:22px 0 28px;flex:1;}
+.price-list li{font-size:.85rem;padding:9px 0;border-top:1px solid var(--line-soft);color:var(--ink-soft);display:flex;gap:10px;align-items:flex-start;}
+.price-list li:first-child{border-top:none;}
+.price-list li::before{content:'✓';color:var(--coral);font-weight:700;flex-shrink:0;}
+.price-cta{display:block;text-align:center;padding:13px;border-radius:11px;font-weight:700;font-size:.86rem;border:1.5px solid var(--navy);color:var(--navy);background:transparent;transition:background .2s ease,color .2s ease;}
+.price-cta:hover{background:var(--navy);color:var(--peach);}
+.price-card.is-feat .price-cta{background:var(--coral);border-color:var(--coral);color:#fff;}
+.price-card.is-feat .price-cta:hover{background:var(--coral-deep);border-color:var(--coral-deep);}
+@media (max-width:900px){.price-grid{grid-template-columns:1fr;}.price-card.is-feat{margin-top:14px;}}
+
+/* ---------- FIELD NOTES (draggable center-scale carousel) ---------- */
+.jcarousel{position:relative;overflow:hidden;padding:34px 0 12px;cursor:grab;touch-action:pan-y;}
+.jcarousel.is-dragging{cursor:grabbing;}
+.jtrack{display:flex;align-items:center;gap:28px;will-change:transform;transition:transform .6s var(--ease);}
+.jcarousel.is-dragging .jtrack{transition:none;}
+.jcard{position:relative;flex:0 0 272px;display:flex;flex-direction:column;opacity:.45;transform:scale(.82);transition:transform .55s var(--ease),opacity .55s var(--ease);cursor:pointer;user-select:none;}
+.jcard.is-active{opacity:1;transform:scale(1);cursor:default;z-index:2;}
+.jentry-photo{width:100%;aspect-ratio:4/3;border-radius:8px;isolation:isolate;margin-bottom:16px;box-shadow:var(--shadow-sm);transition:box-shadow .4s ease;position:relative;overflow:hidden;}
+.jcard.is-active .jentry-photo{box-shadow:var(--shadow-md);}
+.jentry-photo::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.4;mix-blend-mode:multiply;background-image:var(--noise-fine);}
+.jentry-photo::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--coral-wash);opacity:0;transition:opacity .4s ease;}
+.jcard.is-active:hover .jentry-photo::before{opacity:1;}
+.jentry-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.jentry-body h4{font-family:var(--f-display);font-weight:600;font-size:1.02rem;margin-bottom:4px;}
+.jentry-tag{font-family:var(--f-mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.05em;color:var(--navy);margin-bottom:6px;display:block;}
+.jentry-body p{color:var(--ink-soft);font-size:.9rem;line-height:1.6;}
+@media (max-width:640px){.jcard{flex:0 0 220px;}}
+
+/* ---------- HOST WALL ---------- */
+.notes-layout{display:grid;grid-template-columns:1fr 6fr;gap:40px;align-items:start;}
+.notes-aside{position:sticky;top:120px;}
+.notes-aside p{font-size:.92rem;line-height:1.65;color:var(--ink-soft);}
+.wall{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.wall-note{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .3s var(--ease),box-shadow .3s ease;}
+.wall-note:hover{transform:translateY(-3px);box-shadow:var(--shadow-md-hover);}
+.wall-photo{height:200px;position:relative;isolation:isolate;}
+.wall-photo::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.35;mix-blend-mode:multiply;background-image:var(--noise-fine);}
+.wall-body{padding:20px;}
+.wall-quote{font-family:var(--f-display);font-style:italic;font-size:.98rem;line-height:1.45;margin-bottom:16px;}
+.wall-who{display:flex;align-items:center;gap:10px;}
+.wall-who img{width:30px;height:30px;border-radius:50%;object-fit:cover;}
+.wall-who div{font-size:.78rem;color:var(--ink-soft);}
+.wall-who strong{color:var(--coral);font-family:var(--f-hand);font-weight:700;font-size:1.15rem;display:block;}
+@media (max-width:1100px){.notes-layout{grid-template-columns:1fr;}.notes-aside{position:relative;top:0;}}
+@media (max-width:900px){.wall{grid-template-columns:1fr;}}
+
+/* ---------- FAQ ---------- */
+.faq-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px;}
+.faq-chip{font-family:var(--f-mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);padding:10px 18px;border-radius:100px;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s var(--ease);}
+.faq-chip:hover{border-color:var(--ink-faint);transform:translateY(-1px);}
+.faq-chip.is-active{background:var(--navy);border-color:var(--navy);color:var(--peach);}
+.faq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start;}
+.faq-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow .3s ease,transform .3s var(--ease),opacity .25s ease;}
+.faq-card:hover{box-shadow:var(--shadow-md-hover);}
+.faq-card.is-hidden{display:none;}
+.faq-card-q{width:100%;display:flex;align-items:flex-start;gap:14px;padding:22px;text-align:left;}
+.faq-card-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--peach);color:var(--ink-faint);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:1rem;transition:background .3s ease,color .3s ease;}
+.faq-card.is-open .faq-card-num{background:var(--coral);color:#fff;}
+.faq-card-body{flex:1;}
+.faq-card-tag{display:block;font-family:var(--f-mono);font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--coral);margin-bottom:6px;}
+.faq-card-q h4{font-family:var(--f-ui);font-weight:600;font-size:.98rem;color:var(--navy);line-height:1.35;}
+.faq-card-plus{flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);position:relative;transition:border-color .3s ease,background .3s ease,transform .3s var(--ease);margin-top:2px;}
+.faq-card-plus::before,.faq-card-plus::after{content:'';position:absolute;top:50%;left:50%;background:var(--navy);transition:transform .3s ease,opacity .3s ease,background .3s ease;}
+.faq-card-plus::before{width:10px;height:1.4px;transform:translate(-50%,-50%);}
+.faq-card-plus::after{width:1.4px;height:10px;transform:translate(-50%,-50%);}
+.faq-card.is-open .faq-card-plus{background:var(--coral);border-color:var(--coral);transform:rotate(180deg);}
+.faq-card.is-open .faq-card-plus::before,.faq-card.is-open .faq-card-plus::after{background:#fff;}
+.faq-card.is-open .faq-card-plus::after{opacity:0;}
+.faq-card-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease);}
+.faq-card-a p{padding:0 22px 22px 70px;color:var(--ink-soft);font-size:.9rem;line-height:1.6;}
+@media (max-width:900px){.faq-grid{grid-template-columns:1fr;}}
+
+/* ---------- FINAL CTA / APPLY FORM ---------- */
+.insider-cta{position:relative;max-width:1180px;width:calc(100% - 48px);margin:0 auto 24px;padding:44px 48px;border-radius:28px;overflow:hidden;isolation:isolate;background:var(--coral);box-shadow:var(--shadow-lg);}
+.insider-cta::before{content:'';position:absolute;inset:0;z-index:0;opacity:.5;mix-blend-mode:overlay;background-image:var(--noise-fine);}
+.insider-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.15fr .95fr;gap:56px;align-items:center;}
+.insider-left .eyebrow{margin-bottom:14px;color:rgba(255,255,255,.85)!important;}
+.insider-left h2{font-family:var(--f-display);font-weight:500;font-size:2.1rem;line-height:1.18;letter-spacing:-.01em;color:#fff;max-width:460px;}
+.insider-left h2 .ip-coral{color:var(--ink);font-style:italic;}
+.insider-left p{color:rgba(255,255,255,.75);font-size:.95rem;line-height:1.65;margin-top:18px;max-width:420px;}
+.insider-right{display:flex;flex-direction:column;gap:14px;}
+.insider-form{display:flex;align-items:center;gap:8px;}
+.insider-form input{flex:1;min-width:0;background:#fff;border:none;outline:none;color:var(--ink);font-family:var(--f-ui);font-size:.88rem;padding:14px 20px;border-radius:999px;}
+.insider-form input::placeholder{color:var(--ink-soft);}
+.insider-form button{flex-shrink:0;background:var(--ink);color:#fff;font-weight:700;font-size:.85rem;padding:14px 24px;border-radius:999px;white-space:nowrap;transition:background .2s ease,transform .15s var(--ease);}
+.insider-form button:hover{background:#3a3a3a;transform:translateY(-1px);}
+.insider-note{font-size:.76rem;color:rgba(255,255,255,.75);padding-left:8px;}
+.insider-stats{display:flex;flex-wrap:wrap;gap:9px 22px;margin-top:8px;}
+.insider-stats span{display:flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.01em;color:rgba(255,255,255,.8);}
+.insider-stats i{width:5px;height:5px;border-radius:50%;background:var(--ink);flex-shrink:0;}
+@media (max-width:820px){.insider-cta{width:calc(100% - 32px);margin:0 auto 20px;padding:44px 28px;}.insider-inner{grid-template-columns:1fr;gap:32px;}}
+
+/* ---------- LIGHTBOX ---------- */
+.lightbox-overlay{position:fixed;inset:0;z-index:1000;background:rgba(18,18,16,.84);display:flex;align-items:center;justify-content:center;padding:40px;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.lightbox-overlay.is-open{opacity:1;pointer-events:auto;}
+.lightbox-overlay img{max-width:min(90vw,820px);max-height:82vh;border-radius:14px;box-shadow:var(--shadow-lg);transform:scale(.96);transition:transform .3s var(--ease);}
+.lightbox-overlay.is-open img{transform:scale(1);}
+.lightbox-close{position:absolute;top:26px;right:30px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:background .2s ease;}
+.lightbox-close:hover{background:rgba(255,255,255,.22);}
+
+
+@media (max-width:760px){section.wrap{margin-bottom:66px;}.wrap{padding:0 24px;}}
+@media (max-width:480px){.wrap{padding:0 20px;}.insider-cta{width:calc(100% - 24px);padding:36px 20px;}}
+
+/* ============================================================
+   SHARED NAV + FOOTER (kept identical across index/explore/host)
+   Source of truth: master.html — edit there, then re-sync.
+   ============================================================ */
+
+/* ---------- NAV (matches index.html header exactly) ---------- */
+header{position:sticky;top:16px;z-index:100;background:transparent;border-bottom:none;padding:0 24px;}
+.header-row{display:flex;align-items:center;gap:32px;max-width:1230px;margin:0 auto;padding:12px 26px;background:rgba(255,255,255,.6);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.7);border-radius:999px;transition:border-color .35s ease,background .35s ease,padding .3s ease;position:relative;}
+header.is-scrolled .header-row{background:rgba(255,255,255,.82);border-color:rgba(23,38,43,.08);}
+.logo{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-ui);font-weight:700;font-size:1.1625rem;letter-spacing:-.01em;white-space:nowrap;color:var(--ink);}
+.logo .logo-pina{font-weight:600;background-image:linear-gradient(to right,var(--ink) 0%,var(--ink) 50%,var(--coral) 50%,var(--coral) 100%);background-size:200% 100%;background-position:0% 0;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:pinaDrip 1.15s cubic-bezier(.22,.68,.35,1) .35s 1 both;}
+.logo:hover .logo-pina{animation:pinaDrip 1s cubic-bezier(.22,.68,.35,1) 1 both;}
+@keyframes pinaDrip{from{background-position:0% 0;}to{background-position:100% 0;}}
+.header-search{display:flex;align-items:center;gap:8px;background:rgba(35,35,35,.05);border:1px solid rgba(35,35,35,.08);border-radius:999px;padding:8px 14px 8px 12px;min-width:190px;}
+.header-search svg{width:15px;height:15px;color:var(--ink-soft);flex-shrink:0;}
+.header-search input{border:none;background:none;outline:none;font-family:var(--f-ui);font-size:.82rem;color:var(--ink);width:100%;}
+.header-search input::placeholder{color:var(--ink-soft);}
+.header-links{display:flex;gap:4px;font-family:var(--f-ui);font-size:.85rem;color:var(--ink-soft);font-weight:500;}
+.header-links a{position:relative;padding:7px 14px;border-radius:999px;background:rgba(35,35,35,0);transition:color .2s ease,background .2s ease;}
+.header-links a:hover{color:var(--ink);background:rgba(35,35,35,.06);}
+.header-links a.is-current{color:var(--ink);background:rgba(35,35,35,.07);font-weight:700;}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:22px;}
+.header-right .list-link{font-family:var(--f-ui);font-size:calc(.85rem - 2px);font-weight:700;color:#fff;white-space:nowrap;background:var(--nav-blue);padding:9px 18px;border-radius:999px;transition:background .2s ease,transform .15s ease;}
+.header-right .list-link:hover{background:#057aa8;}
+.mobile-nav-toggle{display:none;width:36px;height:36px;border-radius:50%;border:1px solid rgba(35,35,35,.12);background:rgba(35,35,35,.04);align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .2s ease,transform .15s ease;margin-left:6px;}
+.mobile-nav-toggle:hover{background:rgba(35,35,35,.08);}
+.mobile-nav-toggle svg{width:16px;height:16px;color:var(--ink);}
+.mobile-nav-panel{display:none;flex-direction:column;gap:2px;position:absolute;top:calc(100% + 10px);left:0;right:0;background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(23,38,43,.08);border-radius:20px;padding:10px;z-index:99;}
+.mobile-nav-panel.is-open{display:flex;}
+.mobile-nav-panel a{font-family:var(--f-ui);font-size:.95rem;font-weight:500;color:var(--ink);padding:12px 14px;border-radius:12px;transition:background .2s ease;}
+.mobile-nav-panel a:hover{background:rgba(35,35,35,.06);}
+.mobile-nav-panel .mnp-divider{height:1px;background:rgba(35,35,35,.08);margin:6px 6px;}
+.mobile-nav-panel .mnp-list-link{color:var(--nav-blue);font-weight:700;}
+
+/* version pills: inline in header, visible only over the hero */
+.version-pills{display:flex;align-items:center;gap:6px;margin-left:6px;transition:opacity .3s ease,visibility .3s ease;}
+.version-pills.is-hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.version-pill{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:rgba(35,35,35,.05);border:1px solid rgba(35,35,35,.1);font-family:var(--f-ui);font-size:.66rem;font-weight:600;letter-spacing:.02em;color:var(--ink-soft);opacity:.7;transition:opacity .25s ease,transform .25s ease,color .25s ease,background .25s ease;}
+.version-pill:hover{opacity:1;color:var(--coral);background:rgba(255,81,81,.1);transform:translateY(-1px);}
+.version-pill.is-current{opacity:1;color:var(--coral);background:rgba(255,81,81,.13);border-color:rgba(255,81,81,.3);}
+
+@media (max-width:900px){
+  .header-search{display:none;}
+}
+@media (max-width:720px){
+  .header-links{display:none;}
+  .header-right .list-link{display:none;}
+  .version-pills{display:none;}
+  .mobile-nav-toggle{display:flex;}
+}
+@media (max-width:640px){
+  header{padding:0 14px;top:10px;}
+  .header-row{padding:10px 18px;gap:16px;}
+}
+
+/* ---------- FOOTER ---------- */
+.footer-min{padding:56px 0 40px;}
+.footer-grid{max-width:1180px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1fr 1fr 1fr 1.4fr;gap:30px;box-sizing:border-box;}
+.footer-brand-col{text-align:right;}
+.footer-brand-mark{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-family:var(--f-display);font-weight:600;font-size:1.1rem;letter-spacing:-.02em;color:var(--navy);margin-bottom:12px;}
+.footer-brand-mark .hw-light{font-weight:300;}
+.footer-brand-mark .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 3px rgba(255,92,85,.15);flex-shrink:0;}
+.footer-grid p{color:var(--ink-soft);font-size:.86rem;max-width:260px;line-height:1.6;margin-left:auto;}
+.footer-col h5{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);margin-bottom:14px;}
+.footer-col a{display:block;font-size:.86rem;color:var(--ink-soft);padding:6px 0;transition:color .2s ease;}
+.footer-col a:hover{color:var(--ink);}
+.footer-col a.is-current{color:var(--coral);}
+.footer-bottom{max-width:1180px;margin:36px auto 0;padding:24px 40px 0;box-sizing:border-box;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.footer-bottom span{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-faint);}
+@media (max-width:820px){
+  .footer-brand-col{text-align:left;}
+  .footer-brand-mark{justify-content:flex-start;}
+  .footer-grid p{margin-left:0;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:480px){
+  .footer-grid{grid-template-columns:1fr;padding:0 20px;gap:24px;}
+  .footer-bottom{padding:20px 20px 0;}
+}
+
+</style>
+</head>
+<body>
+<!-- ============ SHARED HEADER (identical on every page — matches index.html) ============ -->
+<header>
+  <div class="wrap header-row">
+    <div class="logo"><span class="logo-word">Guest<span class="logo-pina">book</span></span></div>
+    <label class="header-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" placeholder="Country, island, vibe...">
+    </label>
+    <div class="header-right">
+      <nav class="header-links">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="host.html" class="is-current">For Hosts</a>
+      </nav>
+      <div class="version-pills" aria-label="Other versions of this site">
+        <a class="version-pill" href="../v1/index.html" title="guestbook · stays worth the flight">V1</a>
+        <a class="version-pill" href="../v2/index.html" title="guestbook · stays worth the flight">V2</a>
+        <a class="version-pill is-current" href="../v3/index.html" title="Guestbook: some places wait">V3</a>
+      </div>
+      <a href="#apply" class="list-link">List your place</a>
+      <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavPanel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <nav class="mobile-nav-panel" id="mobileNavPanel">
+      <a href="index.html">Home</a>
+      <a href="explore.html">Explore</a>
+      <a href="host.html">For Hosts</a>
+      <div class="mnp-divider"></div>
+      <a href="#apply" class="mnp-list-link">List your place</a>
+    </nav>
+  </div>
+</header>
+<!-- ============ /SHARED HEADER ============ -->
+
+
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid3">
+        <div class="hero-claim">
+          <div class="hero-claim-num">0%</div>
+          <div class="hero-claim-txt">Commission on every booking, every tier, ever</div>
+        </div>
+        <div class="hero-top">
+          <div class="hero-text">
+            <h1><span class="h1-light">Keep your guests.</span><br>Keep your <span class="hw-em">margins.</span></h1>
+            <p class="hero-whisper">No catch. We checked, twice.</p>
+          </div>
+        </div>
+      </div>
+      <div class="hero-bottom">
+        <div class="hero-actions">
+          <a href="#apply" class="btn-primary">Apply to list your property</a>
+          <a href="#how" class="btn-coral">See how it works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="wrap">
+    <div class="stat-strip">
+      <div><div class="stat-num">1,400+</div><div class="stat-lbl">Properties listed</div></div>
+      <div><div class="stat-num">62</div><div class="stat-lbl">Countries</div></div>
+      <div><div class="stat-num">$22.6M</div><div class="stat-lbl">Kept by hosts this year</div></div>
+    </div>
+  </section>
+
+  <!-- SCROLL-SCRUB EDITORIAL + ARITHMETIC -->
+  <section class="wrap scroll-note-section" id="arithmetic">
+    <div class="scroll-note-grid">
+      <div class="scroll-note-spacer"></div>
+      <div class="scroll-note-text scroll-note-text--half">
+        <p id="stwP1"></p>
+      </div>
+    </div>
+    <div class="arith-grid">
+      <div class="compare-card reveal">
+        <div class="compare-card-head">
+          <h3>The old way vs. guestbook</h3>
+          <p class="sub">Same booking, two very different outcomes.</p>
+        </div>
+        <div class="compare-table">
+          <div class="compare-row head"><div>&nbsp;</div><div>Booking &amp; Expedia</div><div>guestbook</div></div>
+          <div class="compare-row"><div>Commission</div><div>15–25% of every booking</div><div>A flat monthly membership</div></div>
+          <div class="compare-row"><div>Visibility</div><div>Buried beside thousands of near-identical listings</div><div>Curated, story-led discovery</div></div>
+          <div class="compare-row"><div>The guest</div><div>Owned by the platform</div><div>Yours, with their contact details</div></div>
+          <div class="compare-row"><div>Your brand</div><div>Flattened into a template</div><div>Your photos, your voice, your layout</div></div>
+        </div>
+        <div class="compare-foot">
+          <div class="compare-foot-stat"><b>15–25%</b><span>Typical OTA commission</span></div>
+          <div class="compare-foot-stat is-good"><b>0%</b><span>guestbook commission, every tier</span></div>
+        </div>
+      </div>
+      <div class="calc-card reveal">
+        <h3>See what you'd keep</h3>
+        <p class="sub">Move the sliders to match your property. The number updates as you go.</p>
+        <div class="calc-field"><label>Average nightly rate <b id="rateOut">$105</b></label><input type="range" id="rateSlider" min="40" max="500" step="5" value="105"></div>
+        <div class="calc-field"><label>Booked nights per month <b id="nightsOut">25</b></label><input type="range" id="nightsSlider" min="1" max="30" step="1" value="25"></div>
+        <div class="calc-result"><div class="cr-num" id="calcResult">$4,512</div><div class="cr-lbl">Kept back from OTA commission, per year</div></div>
+        <p class="calc-note">Assumes a 20% average OTA commission versus guestbook's Growth plan at $149/mo. Your own numbers will vary by tier and season.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY FEATURE WALKTHROUGH -->
+  <section class="wrap feature-section" id="feature">
+    <div class="feat-grid">
+      <div class="feat-sticky">
+        <div class="feat-intro">
+          <h2 data-h2scrub>Your night manager, minus the payroll.</h2>
+          <p>Most hosts spend an hour a day on guest messages. This gets it down to ten minutes.</p>
+        </div>
+        <div class="feat-index" id="featIndex">
+          <div class="feat-index-line"><div class="feat-index-fill" id="featFill"></div></div>
+          <div class="feat-index-item is-active" data-target="0"><span class="fin-num">01</span><span class="fin-name">Messaging</span></div>
+          <div class="feat-index-item" data-target="1"><span class="fin-num">02</span><span class="fin-name">Listings</span></div>
+          <div class="feat-index-item" data-target="2"><span class="fin-num">03</span><span class="fin-name">Pricing</span></div>
+        </div>
+      </div>
+      <div class="feat-track">
+        <div class="feat-sticky-media-wrap">
+          <div class="feat-media" id="featMedia">
+            <img class="is-active" src="../destination/1.webp" alt="Messaging feature">
+            <img src="../destination/2.webp" alt="Listings feature">
+            <img src="../destination/3.webp" alt="Pricing feature">
+          </div>
+          <div class="feat-copy">
+            <div class="feat-copy-item is-active">
+              <span class="feat-num">01 · MESSAGING</span>
+              <h3>Answers at 2am, in your voice</h3>
+              <p>A guest asks about check-in at 2am. guestbook answers, grounded in your actual property details, house rules, and past conversations. Routine questions get answered instantly; anything unusual waits for you, flagged and ready.</p>
+            </div>
+            <div class="feat-copy-item">
+              <span class="feat-num">02 · LISTINGS</span>
+              <h3>Draft once, approve every word</h3>
+              <p>Describe your place once. Photos, a walkthrough, and a few voice notes are enough to generate a first draft in your language and tone. Nothing publishes without your sign-off.</p>
+            </div>
+            <div class="feat-copy-item">
+              <span class="feat-num">03 · PRICING</span>
+              <h3>Suggested rates, reasoning attached</h3>
+              <p>See a suggested rate for next weekend, and the demand behind it, before you set the price yourself. Suggestions cite nearby events, past booking pace, and seasonal patterns. You keep the final call every time.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feat-trigger" data-idx="0"></div>
+        <div class="feat-trigger" data-idx="1"></div>
+        <div class="feat-trigger" data-idx="2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONAL / PAYOUT -->
+  <section class="wrap personal-section">
+    <div class="sec-head sec-head--stack">
+      <div class="eyebrow">Ownership</div>
+      <h2 data-h2scrub>Hosting should feel like yours again.</h2>
+      <p class="sec-whisper">Your place, your rules, your calendar.</p>
+    </div>
+    <div class="personal-row">
+      <div class="personal-copy">
+        <p>On a big platform, the guest relationship, the pricing lever, and the brand all belong to someone else's template. guestbook hands them back: your contact list, your voice in every message, your rate on every room.</p>
+        <p>The number in that card isn't a projection. It's the shape of what a flat fee looks like against a percentage, month after month, for real hosts already on the platform.</p>
+        <a href="#apply" class="btn-primary" style="background:var(--navy);color:var(--peach);">Start keeping yours</a>
+      </div>
+      <div class="personal-card reveal">
+        <div class="pc-photos" id="pcPhotos">
+          <img class="is-active" src="../listings/1.webp" alt="Property one">
+          <img src="../listings/2.webp" alt="Property two">
+          <img src="../listings/3.webp" alt="Property three">
+        </div>
+        <div class="pc-shade"></div>
+        <div class="pc-dots" id="pcDots"><span class="is-active"></span><span></span><span></span></div>
+        <div class="pc-payout">
+          <div class="pc-num" id="pcNum">$4,512</div>
+          <div class="pc-lbl" id="pcLbl">Kept from commission, Casa Paloma</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTIONS: host personas -->
+  <section class="wrap" id="collections">
+    <div class="coll-layout">
+      <div class="coll-grid-wrap">
+        <div class="coll-grid">
+          <a class="coll-card reveal" href="#apply"><img src="../listings/7.webp" alt="Glamping & eco-lodges"><div class="cc-body"><h3>Glamping &amp; eco-lodges</h3><p>Photography-first listings for spaces that don't fit a template.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/8.webp" alt="Boutique hotels"><div class="cc-body"><h3>Boutique hotels</h3><p>Your brand, your layout, not a flattened template.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/9.webp" alt="Surf camps"><div class="cc-body"><h3>Surf camps</h3><p>Bookings that hold up on spotty wifi.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/10.webp" alt="Retreat centres"><div class="cc-body"><h3>Retreat centres</h3><p>Story-led pages that sell the experience.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/11.webp" alt="Guesthouses"><div class="cc-body"><h3>Guesthouses</h3><p>Full listing tools without the enterprise price tag.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/12.webp" alt="Vineyard stays"><div class="cc-body"><h3>Vineyard stays</h3><p>Seasonal pricing that follows the harvest.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/13.webp" alt="Ski chalets"><div class="cc-body"><h3>Ski chalets</h3><p>Demand-based pricing for peak and shoulder weeks.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/14.webp" alt="Heritage homes"><div class="cc-body"><h3>Heritage homes</h3><p>Keep the story your family built.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/15.webp" alt=""><div class="cc-body"><h3>First-time hosts</h3><p>Launch a listing without learning code.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/16.webp" alt=""><div class="cc-body"><h3>Multi-property groups</h3><p>One dashboard for every unit you run.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/17.webp" alt=""><div class="cc-body"><h3>Family-run businesses</h3><p>Keep it personal, without doing it all by hand.</p></div></a>
+          <a class="coll-card reveal" href="#apply"><img src="../listings/18.webp" alt=""><div class="cc-body"><h3>Always-on hosts</h3><p>Messaging that keeps working while you're offline or traveling.</p></div></a>
+        </div>
+      </div>
+      <div class="coll-sticky">
+        <div class="sec-head sec-head--stack" style="margin-bottom:0;">
+          <div class="eyebrow">Who it's for</div>
+          <h2 data-h2scrub>Not sure where you fit?</h2>
+          <p>guestbook hosts range from a single spare room to hospitality groups running a dozen properties. Every tier still charges the same thing: nothing per booking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="wrap" id="how">
+    <div class="sec-head"><h2 data-h2scrub>Four steps. Most hosts are live within two weeks.</h2><p class="sec-whisper">Slower than that? We'll chase it for you.</p></div>
+    <div class="steps-row">
+      <div class="step-item"><div class="step-num">01</div><h4>Apply</h4><p>Tell us about your property. Five minutes, no essay required.</p></div>
+      <div class="step-item"><div class="step-num">02</div><h4>Review</h4><p>A member of our team looks at your listing personally, usually within three business days.</p></div>
+      <div class="step-item"><div class="step-num">03</div><h4>Onboard</h4><p>We help you write your first listing, load your calendar, and set up guest messaging.</p></div>
+      <div class="step-item is-last"><div class="step-num">04</div><h4>Live</h4><p>Your property goes live and starts appearing in the collections it actually belongs in.</p></div>
+    </div>
+  </section>
+
+  <!-- HOST SPOTLIGHT -->
+  <section class="wrap">
+    <div class="stay reveal">
+      <div class="stay-photo ph"><img src="../hero/3.webp" alt="Casa Paloma, Oaxaca"></div>
+      <div class="stay-stamp">HOST OF<br>THE MONTH</div>
+      <div class="stay-body">
+        <span class="eyebrow">Host spotlight</span>
+        <h3>Casa Paloma, Oaxaca</h3>
+        <p class="stay-quote">"I spent a decade making Casa Paloma feel like Casa Paloma. This is the first platform that didn't flatten it into nine photos and a star rating."</p>
+        <div class="stay-host">
+          <img src="../review pics/1.webp" alt="Marisol Ortega">
+          <div><strong>Marisol Ortega</strong>Founding host · Growth plan</div>
+        </div>
+        <div class="stay-foot">
+          <div class="stay-price"><strong>$18,400</strong><span>kept back this year</span></div>
+          <a href="#apply" class="stay-cta">Apply like Marisol</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="wrap" id="pricing">
+    <div class="sec-head"><h2 data-h2scrub>One flat fee. Zero commission. No exceptions.</h2><p>No card fees. No hidden cut.</p></div>
+    <div class="pricing-banner">
+      <div><strong>Founding member pricing locks in for good.</strong> The first 1,500 properties keep their original rate permanently, even as prices rise for everyone who joins after.</div>
+      <span class="pill">~100 spots left</span>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <h3>Starter</h3><div class="price-sub">1 property, up to 10 units</div><div class="price-amt">$59<span>/mo</span></div>
+        <ul class="price-list"><li>Full listing &amp; storytelling</li><li>AI guest messaging</li><li>Standard discovery placement</li></ul>
+        <a href="#apply" class="price-cta">Apply as Starter</a>
+      </div>
+      <div class="price-card is-feat reveal">
+        <span class="price-badge">Most hosts choose this</span>
+        <h3>Growth</h3><div class="price-sub">Multi-unit or multi-property hosts</div><div class="price-amt">$149<span>/mo</span></div>
+        <ul class="price-list"><li>Everything in Starter</li><li>Demand-based pricing suggestions</li><li>Priority discovery placement</li><li>Multi-property dashboard</li></ul>
+        <a href="#apply" class="price-cta">Apply as Growth</a>
+      </div>
+      <div class="price-card reveal">
+        <h3>Collective</h3><div class="price-sub">Hospitality groups, 3+ properties</div><div class="price-amt">Custom</div>
+        <ul class="price-list"><li>API access</li><li>Dedicated support</li><li>Bulk onboarding</li></ul>
+        <a href="#apply" class="price-cta">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIELD NOTES CAROUSEL -->
+  <section class="wrap" id="journal">
+    <div class="sec-head">
+      <h2 data-h2scrub>Field notes for hosts.</h2>
+      <p>Notes from running a property on guestbook.</p>
+      <div class="row-nav" id="jNav">
+        <button id="jPrev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button id="jNext" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </div>
+    <div class="jcarousel" id="jcarousel">
+      <div class="jtrack" id="jtrack">
+        <div class="jcard" data-i="0">
+          <div class="jentry-photo"><img src="../journal/1.webp" alt=""></div>
+          <div class="jentry-body"><span class="jentry-tag">Pricing</span><h4>Pricing during shoulder season</h4><p>How to nudge rates down before demand drops off, without racing to the bottom.</p></div>
+        </div>
+        <div class="jcard is-active" data-i="1">
+          <div class="jentry-photo"><img src="../journal/2.webp" alt=""></div>
+          <div class="jentry-body"><span class="jentry-tag">Messaging</span><h4>The same five questions</h4><p>What one surf camp automated first, and the hour a day it gave back.</p></div>
+        </div>
+        <div class="jcard" data-i="2">
+          <div class="jentry-photo"><img src="../journal/3.webp" alt=""></div>
+          <div class="jentry-body"><span class="jentry-tag">Listings</span><h4>What guests read first</h4><p>The listing sections that actually get attention, and the ones that don't.</p></div>
+        </div>
+        <div class="jcard" data-i="3">
+          <div class="jentry-photo"><img src="../journal/4.webp" alt=""></div>
+          <div class="jentry-body"><span class="jentry-tag">Membership</span><h4>Founding member math</h4><p>Why locking in early pricing compounds more than it looks like on day one.</p></div>
+        </div>
+        <div class="jcard" data-i="4">
+          <div class="jentry-photo"><img src="../journal/5.webp" alt=""></div>
+          <div class="jentry-body"><span class="jentry-tag">Ownership</span><h4>Losing a guest to a platform</h4><p>What actually happens to the relationship when a booking site owns it.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOST WALL -->
+  <section class="wrap">
+    <div class="notes-layout">
+      <div class="notes-aside"><p>Three hosts, three very different properties, on the same flat fee.</p></div>
+      <div class="wall">
+        <div class="wall-note reveal">
+          <div class="wall-photo ph"><img src="../listings/4.webp" alt=""></div>
+          <div class="wall-body"><p class="wall-quote">"Every other platform flattened Casa Paloma into the same nine photos and a star rating. This is the first one that didn't."</p><div class="wall-who"><img src="../review pics/1.webp" alt=""><div><strong>Marisol Ortega</strong>Casa Paloma · Oaxaca, Mexico</div></div></div>
+        </div>
+        <div class="wall-note reveal">
+          <div class="wall-photo ph"><img src="../listings/5.webp" alt=""></div>
+          <div class="wall-body"><p class="wall-quote">"I run the boards, the boat, and the booking calendar. The messaging tool gave me back an hour a day I used to lose to the same five questions."</p><div class="wall-who"><img src="../review pics/2.webp" alt=""><div><strong>Théo Marchand</strong>Salt Line Surf Camp · Hossegor, France</div></div></div>
+        </div>
+        <div class="wall-note reveal">
+          <div class="wall-photo ph"><img src="../listings/6.webp" alt=""></div>
+          <div class="wall-body"><p class="wall-quote">"We manage four properties with a two-person office. The Collective dashboard is the only reason that's still true a year later."</p><div class="wall-who"><img src="../review pics/3.webp" alt=""><div><strong>Priya Nair</strong>Nair Hospitality Group · Goa, India</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap" id="faq">
+    <div class="sec-head sec-head--stack">
+      <div class="eyebrow">FAQ</div>
+      <h2 data-h2scrub>Before you apply</h2>
+      <p class="sec-whisper">The questions everyone asks by message three.</p>
+    </div>
+    <div class="faq-filters" id="faqFilters">
+      <button class="faq-chip is-active" data-cat="all">All</button>
+      <button class="faq-chip" data-cat="commission">Commission</button>
+      <button class="faq-chip" data-cat="onboarding">Onboarding</button>
+      <button class="faq-chip" data-cat="discovery">Discovery</button>
+      <button class="faq-chip" data-cat="data">Data &amp; trust</button>
+      <button class="faq-chip" data-cat="membership">Membership</button>
+    </div>
+    <div class="faq-grid" id="faqGrid">
+      <div class="faq-card" data-cat="commission">
+        <button class="faq-card-q">
+          <span class="faq-card-num">01</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Commission</span><h4>Is guestbook really commission-free?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>Yes. Every tier is a flat monthly membership. We never take a percentage of any booking, no matter how many nights you sell.</p></div>
+      </div>
+      <div class="faq-card" data-cat="commission">
+        <button class="faq-card-q">
+          <span class="faq-card-num">02</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Commission</span><h4>What if I don't get bookings? Do I still pay?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>Yes. The fee is fixed. It doesn't move with your booking count. Run the math on a $105 booking at a 20% OTA cut: that's $21 gone. Cover the Growth plan's $149 a month and it takes about seven bookings like that. After the seventh, every booking is yours, no cut taken. Slow month, same fee. Good month, no cut. That's the trade.</p></div>
+      </div>
+      <div class="faq-card" data-cat="commission">
+        <button class="faq-card-q">
+          <span class="faq-card-num">03</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Commission</span><h4>What happens if I raise my rates mid-season?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>Nothing changes on our end. Your membership fee stays flat no matter how much you charge or how many nights you sell.</p></div>
+      </div>
+      <div class="faq-card" data-cat="onboarding">
+        <button class="faq-card-q">
+          <span class="faq-card-num">04</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Onboarding</span><h4>How long does onboarding actually take?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>Most hosts go from application to a live listing within two weeks, including calendar setup and your first AI-assisted messaging configuration.</p></div>
+      </div>
+      <div class="faq-card" data-cat="onboarding">
+        <button class="faq-card-q">
+          <span class="faq-card-num">05</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Onboarding</span><h4>Do I need professional photos to apply?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>No. Many hosts start with phone photos, and our team can help you plan a shoot once you're live if you want one.</p></div>
+      </div>
+      <div class="faq-card" data-cat="discovery">
+        <button class="faq-card-q">
+          <span class="faq-card-num">06</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Discovery</span><h4>What does "curated" mean in practice?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>A person on our team reviews every listing before it goes live, and places it in the collections and searches where it genuinely belongs, rather than one undifferentiated feed.</p></div>
+      </div>
+      <div class="faq-card" data-cat="data">
+        <button class="faq-card-q">
+          <span class="faq-card-num">07</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Data &amp; trust</span><h4>Who owns my guest data?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>You do. Guest contact details and booking history stay with your account, and they travel with you if you ever leave.</p></div>
+      </div>
+      <div class="faq-card" data-cat="data">
+        <button class="faq-card-q">
+          <span class="faq-card-num">08</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Data &amp; trust</span><h4>What happens to my data if I leave?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>You keep it. Guest contact details and booking history export with you, and nothing is held hostage.</p></div>
+      </div>
+      <div class="faq-card" data-cat="membership">
+        <button class="faq-card-q">
+          <span class="faq-card-num">09</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Membership</span><h4>Can I cancel anytime?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>Yes, membership is month-to-month with no lock-in contract. Founding member pricing is preserved for as long as your membership stays active.</p></div>
+      </div>
+      <div class="faq-card" data-cat="membership">
+        <button class="faq-card-q">
+          <span class="faq-card-num">10</span>
+          <span class="faq-card-body"><span class="faq-card-tag">Membership</span><h4>Is there a setup fee to join?</h4></span>
+          <span class="faq-card-plus"></span>
+        </button>
+        <div class="faq-card-a"><p>No. You only start paying your monthly membership once you're live. There's no separate setup or listing fee.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="wrap" id="apply">
+    <div class="insider-cta">
+      <div class="insider-inner">
+        <div class="insider-left">
+          <div class="eyebrow">~100 founding spots left</div>
+          <h2>Ready to keep what <span class="ip-coral">you</span> earn?</h2>
+          <p>Apply in five minutes. A member of our team reviews every property personally, usually within three business days.</p>
+        </div>
+        <div class="insider-right">
+          <form class="insider-form" onsubmit="return false;">
+            <input type="text" placeholder="Property name">
+            <button type="submit">Apply</button>
+          </form>
+          <span class="insider-note">No essay required. We'll follow up by email.</span>
+          <div class="insider-stats">
+            <span><i></i>1,400+ properties</span>
+            <span><i></i>62 countries</span>
+            <span><i></i>0% commission, always</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<div class="lightbox-overlay" id="lightbox"><button class="lightbox-close" id="lightboxClose">✕</button><img id="lightboxImg" src="" alt=""></div>
+
+<script>
+/* ---------- reveal on scroll ---------- */
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');});},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- scroll-scrub editorial words ---------- */
+(function(){
+  const text="The arithmetic isn't close. A big platform takes fifteen to twenty five percent before you see a cent. guestbook takes one flat fee, once a month, and stops there.";
+  const p=document.getElementById('stwP1');
+  const coralWords=['guestbook','flat','fee.'];
+  p.innerHTML=text.split(' ').map(w=>{
+    const cls=coralWords.some(c=>w.toLowerCase().includes(c.toLowerCase().replace('.','')))?'stw-w stw-w--coral':'stw-w';
+    return '<span class="'+cls+'">'+w+'</span>';
+  }).join(' ');
+  const words=p.querySelectorAll('.stw-w');
+  function lightWords(){
+    const vh=window.innerHeight;
+    words.forEach(w=>{
+      const r=w.getBoundingClientRect();
+      if(r.top < vh*0.7) w.classList.add('is-lit'); else w.classList.remove('is-lit');
+    });
+  }
+  window.addEventListener('scroll',lightWords,{passive:true});
+  lightWords();
+})();
+
+/* ---------- sticky feature walkthrough ---------- */
+(function(){
+  const triggers=document.querySelectorAll('.feat-trigger');
+  const media=document.querySelectorAll('#featMedia img');
+  const copies=document.querySelectorAll('.feat-copy-item');
+  const indexItems=document.querySelectorAll('.feat-index-item');
+  const fill=document.getElementById('featFill');
+  function setActive(i){
+    media.forEach((m,mi)=>m.classList.toggle('is-active',mi===i));
+    copies.forEach((c,ci)=>c.classList.toggle('is-active',ci===i));
+    indexItems.forEach((it,ii)=>it.classList.toggle('is-active',ii===i));
+    fill.style.height=((i+1)/media.length*100)+'%';
+  }
+  const fio=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) setActive(parseInt(e.target.dataset.idx,10)); });
+  },{threshold:0,rootMargin:'-45% 0px -45% 0px'});
+  triggers.forEach(t=>fio.observe(t));
+  indexItems.forEach(it=>it.addEventListener('click',()=>{
+    const idx=parseInt(it.dataset.target,10);
+    triggers[idx].scrollIntoView({behavior:'smooth',block:'center'});
+  }));
+})();
+
+/* ---------- personal card cycling ---------- */
+(function(){
+  const imgs=document.querySelectorAll('#pcPhotos img');
+  const dots=document.querySelectorAll('#pcDots span');
+  const data=[
+    {num:'$4,512',lbl:'Kept from commission, Casa Paloma'},
+    {num:'$2,860',lbl:'Kept from commission, Salt Line Surf Camp'},
+    {num:'$7,940',lbl:'Kept from commission, Nair Hospitality Group'}
+  ];
+  const numEl=document.getElementById('pcNum'),lblEl=document.getElementById('pcLbl');
+  let idx=0;
+  setInterval(()=>{
+    imgs[idx].classList.remove('is-active'); dots[idx].classList.remove('is-active');
+    idx=(idx+1)%imgs.length;
+    imgs[idx].classList.add('is-active'); dots[idx].classList.add('is-active');
+    numEl.textContent=data[idx].num; lblEl.textContent=data[idx].lbl;
+  },4200);
+})();
+
+/* ---------- calculator ---------- */
+(function(){
+  const rateSlider=document.getElementById('rateSlider'),nightsSlider=document.getElementById('nightsSlider');
+  const rateOut=document.getElementById('rateOut'),nightsOut=document.getElementById('nightsOut'),calcResult=document.getElementById('calcResult');
+  const GROWTH_ANNUAL=149*12, OTA_COMMISSION=0.20;
+  function updateCalc(){
+    const rate=parseFloat(rateSlider.value),nights=parseFloat(nightsSlider.value);
+    rateOut.textContent='$'+rate.toLocaleString(); nightsOut.textContent=nights;
+    const annualRevenue=rate*nights*12, otaCommission=annualRevenue*OTA_COMMISSION;
+    calcResult.textContent='$'+Math.max(0,Math.round(otaCommission-GROWTH_ANNUAL)).toLocaleString();
+  }
+  rateSlider.addEventListener('input',updateCalc); nightsSlider.addEventListener('input',updateCalc); updateCalc();
+})();
+
+/* ---------- FAQ: category filter + expanding cards ---------- */
+(function(){
+  const chips=document.querySelectorAll('.faq-chip');
+  const cards=document.querySelectorAll('.faq-card');
+  chips.forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      chips.forEach(c=>c.classList.remove('is-active'));
+      chip.classList.add('is-active');
+      const cat=chip.dataset.cat;
+      cards.forEach(card=>{
+        const match = cat==='all' || card.dataset.cat===cat;
+        card.classList.toggle('is-hidden', !match);
+      });
+    });
+  });
+  cards.forEach(card=>{
+    const q=card.querySelector('.faq-card-q'),a=card.querySelector('.faq-card-a');
+    q.addEventListener('click',()=>{
+      const isOpen=card.classList.contains('is-open');
+      cards.forEach(o=>{o.classList.remove('is-open');o.querySelector('.faq-card-a').style.maxHeight=null;});
+      if(!isOpen){ card.classList.add('is-open'); a.style.maxHeight=a.scrollHeight+'px'; }
+    });
+  });
+})();
+
+/* ---------- field notes draggable carousel ---------- */
+(function(){
+  const carousel=document.getElementById('jcarousel'),track=document.getElementById('jtrack');
+  const cards=Array.from(track.querySelectorAll('.jcard'));
+  const prevBtn=document.getElementById('jPrev'),nextBtn=document.getElementById('jNext');
+  let active=1, isDown=false, startX=0, startTranslate=0, currentTranslate=0;
+
+  function cardOffset(i){
+    const card=cards[i], w=card.getBoundingClientRect().width;
+    return card.offsetLeft + w/2;
+  }
+  function center(){
+    const wrapW=carousel.getBoundingClientRect().width;
+    const target = wrapW/2 - cardOffset(active);
+    currentTranslate=target;
+    track.style.transform='translateX('+target+'px)';
+    if(prevBtn) prevBtn.disabled = active<=0;
+    if(nextBtn) nextBtn.disabled = active>=cards.length-1;
+  }
+  function setActive(i){
+    active=Math.max(0,Math.min(cards.length-1,i));
+    cards.forEach((c,ci)=>c.classList.toggle('is-active',ci===active));
+    center();
+  }
+  cards.forEach((c,ci)=>c.addEventListener('click',()=>{ if(ci!==active) setActive(ci); }));
+
+  prevBtn && prevBtn.addEventListener('click',()=>setActive(active-1));
+  nextBtn && nextBtn.addEventListener('click',()=>setActive(active+1));
+
+  carousel.addEventListener('wheel',(e)=>{
+    if(Math.abs(e.deltaX) < Math.abs(e.deltaY) && Math.abs(e.deltaY) < 4) return;
+    e.preventDefault();
+    const delta = e.deltaX || e.deltaY;
+    if(Math.abs(delta) < 8) return;
+    setActive(active + (delta > 0 ? 1 : -1));
+  },{passive:false});
+
+  carousel.addEventListener('pointerdown',(e)=>{ isDown=true; carousel.classList.add('is-dragging'); startX=e.clientX; startTranslate=currentTranslate; });
+  window.addEventListener('pointermove',(e)=>{ if(!isDown)return; const dx=e.clientX-startX; track.style.transform='translateX('+(startTranslate+dx)+'px)'; });
+  window.addEventListener('pointerup',(e)=>{
+    if(!isDown)return; isDown=false; carousel.classList.remove('is-dragging');
+    const dx=e.clientX-startX;
+    if(Math.abs(dx)>60){ setActive(active-Math.sign(dx)); } else { center(); }
+  });
+  window.addEventListener('resize',center);
+  setTimeout(()=>setActive(1),50);
+})();
+
+/* ---------- lightbox for host wall / collection photos ---------- */
+(function(){
+  const overlay=document.getElementById('lightbox'),img=document.getElementById('lightboxImg'),close=document.getElementById('lightboxClose');
+  document.querySelectorAll('.wall-photo img, .stay-photo img').forEach(el=>{
+    el.style.cursor='zoom-in';
+    el.addEventListener('click',()=>{ img.src=el.src; img.alt=el.alt; overlay.classList.add('is-open'); });
+  });
+  close.addEventListener('click',()=>overlay.classList.remove('is-open'));
+  overlay.addEventListener('click',(e)=>{ if(e.target===overlay) overlay.classList.remove('is-open'); });
+  window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') overlay.classList.remove('is-open'); });
+})();
+</script>
+
+
+<!-- ============ SHARED FOOTER (identical on every page — synced from master.html) ============ -->
+<footer class="footer-min">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a href="index.html#destinations">Locations</a>
+      <a href="explore.html">Stays</a>
+      <a href="#">Themes</a>
+    </div>
+    <div class="footer-col">
+      <h5>guestbook</h5>
+      <a href="#">About</a>
+      <a href="index.html#journal">Journal</a>
+      <a href="host.html">For Hosts</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <a href="#">hello@guestbook.com</a>
+      <a href="#">Instagram</a>
+      <a href="#">Newsletter</a>
+    </div>
+    <div class="footer-brand-col">
+      <a class="footer-brand-mark" href="index.html"><span class="word"><span class="hw-light">Guest</span>book</span><span class="dot"></span></a>
+      <p>A short, scouted list of stays worth the flight.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 guestbook</span>
+    <span>Terms &middot; Privacy</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- highlight the current page in the mobile nav + footer ---------- */
+(function(){
+  const path=location.pathname.split('/').pop()||'index.html';
+  document.querySelectorAll('.mobile-nav-panel a, .footer-col a').forEach(a=>{
+    if(a.getAttribute('href')===path) a.classList.add('is-current');
+  });
+})();
+
+/* ---------- header scroll state ---------- */
+(function(){
+  const siteHeader=document.querySelector('header');
+  if(!siteHeader)return;
+  const paintHeader=()=>siteHeader.classList.toggle('is-scrolled',window.scrollY>24);
+  paintHeader();
+  window.addEventListener('scroll',paintHeader,{passive:true});
+})();
+
+/* ---------- mobile nav: hamburger opens/closes the dropdown ---------- */
+(function(){
+  const toggle=document.getElementById('mobileNavToggle'),panel=document.getElementById('mobileNavPanel');
+  if(!toggle||!panel)return;
+  const closePanel=()=>{panel.classList.remove('is-open');toggle.setAttribute('aria-expanded','false');};
+  toggle.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    const isOpen=panel.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded',String(isOpen));
+  });
+  panel.querySelectorAll('a').forEach(a=>a.addEventListener('click',closePanel));
+  document.addEventListener('click',(e)=>{if(!panel.contains(e.target)&&!toggle.contains(e.target))closePanel();});
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closePanel();});
+})();
+</script>
+<!-- ============ /SHARED FOOTER ============ -->
+
+<script>
+/* ---- version pills: only visible while the hero section is in view ---- */
+(function(){
+  const heroEl = document.querySelector('.hero');
+  const pills = document.querySelector('.version-pills');
+  if(!heroEl || !pills) return;
+  const heroIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ pills.classList.toggle('is-hidden', !e.isIntersecting); });
+  },{threshold:0});
+  heroIo.observe(heroEl);
+})();
+
+/* ---- section headings: each fills with its main color as you scroll past it (matches index) ---- */
+const scrubHeads = document.querySelectorAll('[data-h2scrub]');
+if(scrubHeads.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  let ticking = false;
+  const updateHeadingFills = () => {
+    const vh = window.innerHeight;
+    const start = vh * 0.85;
+    const end = vh * 0.35;
+    scrubHeads.forEach(h => {
+      const rect = h.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
+      h.style.setProperty('--fill', (progress * 100) + '%');
+    });
+    ticking = false;
+  };
+  const onScroll = () => { if(!ticking){ requestAnimationFrame(updateHeadingFills); ticking = true; } };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', updateHeadingFills);
+  updateHeadingFills();
+}
+</script>
+
+</body>
+</html>
