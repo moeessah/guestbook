@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Maureen Essah | Guestbook Homepage Directions</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,900;1,9..40,300;1,9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060f1d;
+  --bg2:#081527;
+  --panel:#081527;
+  --ink:#ffffff;
+  --muted:rgba(255,255,255,.7);
+  --soft:rgba(255,255,255,.3);
+  --line:rgba(255,255,255,.1);
+  --sky:#3aa0ff;
+  --navy:#0a183d;
+  --coral:#ff4343;
+  --lime:#c8f135;
+  --w:#ffffff;
+  --w70:rgba(255,255,255,.7);
+  --w30:rgba(255,255,255,.3);
+  --w10:rgba(255,255,255,.1);
+  --w05:rgba(255,255,255,.05);
+  --w02:rgba(255,255,255,.025);
+  --serif:"DM Serif Display",Georgia,serif;
+  --sans:"DM Sans",system-ui,sans-serif;
+  --mono:"DM Mono",monospace;
+  --ease:cubic-bezier(.16,1,.3,1)
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{max-width:1160px;margin:0 auto;padding:0 3rem}
+::selection{background:var(--lime);color:var(--bg)}
+#bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--lime);z-index:999;transition:width .06s linear}
+.w{max-width:1160px;margin:0 auto;padding:0 3rem}
+nav{position:sticky;top:0;z-index:200;background:rgba(6,15,29,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--w05)}
+.nav-inner{position:relative;display:flex;align-items:center;justify-content:center;height:58px;gap:1rem}
+.nav-logo{position:absolute;left:-40px;top:50%;transform:translateY(-50%);flex-shrink:0;display:inline-flex;align-items:center;gap:4px;min-height:58px;padding-right:16px;text-decoration:none;color:rgba(255,255,255,.92)}
+.nav-logo-dot{width:8px;height:8px;border-radius:999px;background:var(--coral);box-shadow:0 0 10px rgba(255,92,85,.35)}
+.nav-logo-label{display:inline-flex;align-items:center;font:700 9.5px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.nav-links{display:flex;align-items:center;gap:.15rem;flex:0 0 auto;justify-content:center}
+.nav-link{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;padding:.4rem .85rem;border-radius:3px;transition:color .15s,background .15s}
+.nav-link:hover{color:var(--w);background:rgba(255,255,255,.07)}
+.hero{padding:2.5rem 0 2rem;border-bottom:1px solid var(--line)}
+.hero-kicker{display:flex;align-items:center;gap:10px;margin-bottom:.6rem}
+.hero-kicker-text{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--lime)}
+.hero-chip{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--coral);color:var(--w);padding:3px 10px;border-radius:3px;transform:rotate(-1.5deg)}
+h1{max-width:780px;font-family:var(--sans);font-size:clamp(2.6rem,5.5vw,4.6rem);font-weight:700;line-height:.98;letter-spacing:-.02em}
+#designs{padding-top:2.6rem}
+.design-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:2px;padding:2px;background:rgba(255,255,255,.045);margin-bottom:54px}
+.design-card{position:relative;min-height:195px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;background:var(--panel);border:1px solid rgba(255,255,255,.045);isolation:isolate;transition:transform .28s var(--ease),border-color .28s var(--ease)}
+.design-card:hover{transform:translateY(-3px)}
+.design-card.featured{min-height:280px;grid-row:span 2}
+.card-top{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px}
+.badge{font-family:var(--mono);font-size:.5rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fff;padding:7px 9px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.card-num{font-family:var(--sans);font-size:5rem;font-weight:700;font-style:normal;line-height:1;color:var(--w);opacity:.1}
+.card-body{position:relative;z-index:2;padding:22px}
+.card-body h3{max-width:580px;font-family:var(--sans);font-size:clamp(1.4rem,2.4vw,2.1rem);font-weight:700;line-height:1.05;letter-spacing:-.01em;margin-bottom:.6rem}
+.card-body p{max-width:420px;color:var(--w70);font-size:.78rem;font-weight:400;font-style:italic;line-height:1.6;margin-bottom:1.35rem}
+.card-cta{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.card-cta span{display:grid;place-items:center;width:28px;height:28px;border:1px solid color-mix(in srgb,var(--accent) 54%,transparent);border-radius:50%;color:var(--accent);background:rgba(0,0,0,.22)}
+footer{background:var(--bg2);border-top:1px solid var(--w05);padding:1.5rem 0}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--w30);font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;position:relative}
+.foot span:first-child{transform:translateX(-40px)}
+@media(max-width:860px){.nav-links{display:none}.hero{padding-top:48px}.design-grid{grid-template-columns:1fr}.design-card.featured{min-height:240px}.design-card{min-height:205px}}
+@media(max-width:560px){.wrap,.w{padding:0 1.5rem}.foot span:first-child{transform:none}h1{font-size:clamp(2.8rem,16vw,4.5rem)}.card-top,.card-body{padding:18px}}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<nav>
+  <div class="w">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#"><span class="nav-logo-dot" aria-hidden="true"></span><span class="nav-logo-label">Essah</span></a>
+      <div class="nav-links">
+        <a class="nav-link" href="#designs">Projects</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <div class="hero-kicker">
+        <span class="hero-chip">2026</span>
+      </div>
+      <h1>Three web pieces for Guestbook.</h1>
+    </div>
+  </section>
+  <section id="designs" aria-label="Homepage designs">
+    <div class="design-grid">
+      <a class="design-card featured" id="cardSky" href="v1/index.html" target="_blank" rel="noopener noreferrer" style="--accent:var(--sky)">
+        <div class="card-top"><span class="badge">Prose-led route</span><span class="card-num">01</span></div>
+        <div class="card-body">
+          <h3>Sky Blue</h3>
+          <p>Long paragraphs, ferry schedules, goat bells. Slow, prose-led pacing that trades listings for a lived-in sense of place.</p>
+          <span class="card-cta">View page <span>-></span></span>
+        </div>
+      </a>
+      <a class="design-card" id="cardNavy" href="v2/index.html" target="_blank" rel="noopener noreferrer" style="--accent:var(--sky)">
+        <div class="card-top"><span class="badge">Promise-first route</span><span class="card-num">02</span></div>
+        <div class="card-body">
+          <h3>Navy / Dark mode</h3>
+          <p>Dark and bold, with the zero-commission pitch put right up front, direct and confident from the first fold.</p>
+          <span class="card-cta">View page <span>-></span></span>
+        </div>
+      </a>
+      <a class="design-card" id="cardCoral" href="v3/index.html" target="_blank" rel="noopener noreferrer" style="--accent:var(--coral);background:#ff4343">
+        <div class="card-top"><span class="badge">Boutique route</span><span class="card-num">03</span></div>
+        <div class="card-body">
+          <h3>Bright Coral</h3>
+          <p>Curator credits and voice-note reviews, warm and editorial, built around curator voice and traveller trust.</p>
+          <span class="card-cta">View page <span>-></span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="w">
+    <div class="foot">
+      <span>Essah</span>
+      <span>Guestbook · 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll',function(){
+    const b=document.getElementById('bar');
+    const s=document.body.scrollHeight-window.innerHeight;
+    b.style.width=(s>0?(window.scrollY/s)*100:0)+'%';
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+<script>
+  VANTA.FOG({
+    el: "#cardSky",
+    mouseControls: true,
+    touchControls: true,
+    gyroControls: false,
+    minHeight: 200.00,
+    minWidth: 200.00,
+    highlightColor: 0x3f90a8,
+    midtoneColor: 0x42a0dd,
+    lowlightColor: 0x2273bc,
+    baseColor: 0x95c4d0,
+    speed: 2.70,
+    zoom: 0.50
+  });
+</script>
+</body>
+</html>
